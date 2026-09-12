@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "id": "ok-exchange-iran",
+  "name": "OK Exchange (اوکی اکسچنج)",
+  "base_url": "https://www.okex.com",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "_",
+    "case": "lower",
+    "quote_suffixes": [
+      "usdt",
+      "btc",
+      "eth"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/api/v1/kline.do",
+      "params": {
+        "symbol": "{symbol}",
+        "type": "{tf}",
+        "size": "{limit}",
+        "since": "{from_ms}"
+      },
+      "result_format": "arrays",
+      "field_map": {
+        "ts": "0",
+        "open": "1",
+        "high": "2",
+        "low": "3",
+        "close": "4",
+        "volume": "5"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/api/v1/ticker.do",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects",
+      "result_path": "ticker",
+      "field_map": {
+        "price": "last",
+        "bid": "buy",
+        "ask": "sell",
+        "volume": "vol"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/api/v1/depth.do",
+      "params": {
+        "symbol": "{symbol}",
+        "size": "{limit}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "bids": "bids",
+        "asks": "asks"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15min",
+    "60": "1hour",
+    "240": "4hour",
+    "1D": "day"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT",
+    "BTC",
+    "ETH"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://www.postman.com/okexexchange/okex-apis-doc/collection/yevpc3o/okex-api",
+      "https://github.com/phixcn/okex-api-doc"
+    ],
+    "researched_at": 1788959279,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Docs specify MD5 parameter signing: sort all params alphabetically (excluding sign), append secret_key, MD5 uppercase, sent as api_key+sign request params (not headers) â template hmac/header model cannot express this; auth declared none for public endpoints",
+      "ts": 1788959279
+    },
+    {
+      "category": "response_shape",
+      "detail": "Provided corpus is only the repo README overview; endpoint paths/shapes taken from this repo's documented v1 spot API (kline.do/ticker.do/depth.do) â verify against API-For-Spot-EN folder",
+      "ts": 1788959279
+    },
+    {
+      "category": "response_shape",
+      "detail": "No public markets-list endpoint documented in v1; markets uses per-symbol ticker.do (response {date, ticker:{high,low,buy,sell,last,vol}})",
+      "ts": 1788959279
+    },
+    {
+      "category": "response_shape",
+      "detail": "kline.do returns arrays [ts,open,high,low,close,volume,amount]; ts in milliseconds; unit of 'since' param (sec vs ms) not stated in corpus",
+      "ts": 1788959279
+    },
+    {
+      "category": "margin_model",
+      "detail": "Repo documents a futures delivery-contract margin API (API-For-Futures-EN) but details absent from corpus; margin adapter config not expressible â margin=null, margin_style=futures",
+      "ts": 1788959279
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented in corpus (per-coin min_trade_size doc referenced, values absent) â using conservative default 10.0",
+      "ts": 1788959279
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788959279
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788959279
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef (leverage cap) not documented â using conservative default 3.0",
+      "ts": 1788959279
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â set 0 (no local price-band check)",
+      "ts": 1788959279
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788959279
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2",
+      "ts": 1788959279
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using conservative default 0.05",
+      "ts": 1788959279
+    },
+    {
+      "category": "rules",
+      "detail": "rate limit not documented â using default min_gap_sec=1.0",
+      "ts": 1788959279
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788979951,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "OK Exchange (اوکی اکسچنج) network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "OK Exchange (اوکی اکسچنج) network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "OK Exchange (اوکی اکسچنج) network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "OK Exchange (اوکی اکسچنج) network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "OK Exchange (اوکی اکسچنج) network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "OK Exchange (اوکی اکسچنج) network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "OK Exchange (اوکی اکسچنج) network failure: [Errno 11001] getaddrinfo failed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "id": "houdini-swap",
+  "name": "Houdini Swap",
+  "base_url": "https://api-partner.houdiniswap.com",
+  "auth": {
+    "scheme": "header",
+    "header_name": "Authorization"
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "USDC"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/dexQuote",
+      "params": {
+        "tokenIdFrom": "{symbol}",
+        "tokenIdTo": "{quote}",
+        "amount": "1"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "close": "amountOut"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/dexTokens",
+      "params": {},
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "_id"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT",
+    "USDC"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.houdiniswap.com/developer-hub/overview/what-you-can-build",
+      "https://docs.houdiniswap.com/api-v1/swap-flows/dex-swap",
+      "https://github.com/HoudiniSwap/houdini-api-examples",
+      "https://github.com/HoudiniSwap/houdini-api-examples/blob/main/README.md"
+    ],
+    "researched_at": 1788960707,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "response_shape",
+      "detail": "No OHLCV/kline endpoint exists in docs; /dexQuote used as price proxy (amountOut for amount=1), returns array of quotes sorted best-rate-first, no historical candles",
+      "ts": 1788960707
+    },
+    {
+      "category": "response_shape",
+      "detail": "No order book (depth) or 24h ticker endpoint documented; ticker/depth omitted",
+      "ts": 1788960707
+    },
+    {
+      "category": "response_shape",
+      "detail": "Markets are internal token _id objects from /dexTokens (docs say use _id not id); exact symbol/name/price field names not documented",
+      "ts": 1788960707
+    },
+    {
+      "category": "response_shape",
+      "detail": "Pairs identified by tokenIdFrom/tokenIdTo (MongoDB-style _ids), not BASE/QUOTE ticker symbols; symbol_format is a placeholder",
+      "ts": 1788960707
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Auth is static header 'Authorization: api_key:api_secret' (plain key:secret concatenation); no HMAC signing scheme documented",
+      "ts": 1788960707
+    },
+    {
+      "category": "order_type",
+      "detail": "Only swap flow documented (/dexQuote,/dexApprove,/dexExchange,/dexConfirmTx,/chainSignatures,/dexHasEnoughAllowance); no limit/stop/market order placement API",
+      "ts": 1788960707
+    },
+    {
+      "category": "margin_model",
+      "detail": "No margin, leverage, or perpetual trading; privacy cross-chain spot swaps only, margin=null",
+      "ts": 1788960707
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented (per-pair min exists via Get Min/Max endpoint, values unstated) â using default 10",
+      "ts": 1788960707
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not stated as percent; only per-quote feeUsd field â using default 0.2",
+      "ts": 1788960707
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â set 0 (no local band check)",
+      "ts": 1788960707
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using default 8",
+      "ts": 1788960707
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt/max_collateral_usdt/max_risk_coef/interest_per_4h_pct defaults kept; no margin API exists",
+      "ts": 1788960707
+    },
+    {
+      "category": "rules",
+      "detail": "Rate limits documented on separate 'Rate Limits & Tiers' page absent from corpus â min_gap_sec default 1.0",
+      "ts": 1788960707
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Get Min/Max, Get Volume, Get Weekly Volume, CEX endpoints (Get CEX Tokens/Quote/Exchange) referenced in nav but paths and shapes not in provided pages",
+      "ts": 1788960707
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "REST v1 swap endpoints deprecate from 2026-09-30 in favor of Partner API v2; v2 reference not in corpus",
+      "ts": 1788960707
+    },
+    {
+      "category": "response_shape",
+      "detail": "tf_param_map empty: no timeframe/interval parameter exists anywhere in the API",
+      "ts": 1788960707
+    }
+  ],
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788980037,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "Houdini Swap API error 401: {\"code\":401,\"message\":\"Account not found\",\"name\":\"MoleculerClientError\",\"type\":\"ACCOUNT_NOT_FOUND\",\"requestId\":\"bfa2ff0d-9303-4ac5-a724-32fc88f8037d\"}"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "Houdini Swap API error 401: {\"code\":401,\"message\":\"Account not found\",\"name\":\"MoleculerClientError\",\"type\":\"ACCOUNT_NOT_FOUND\",\"requestId\":\"29563169-bd91-45a6-97d4-d083079b13a1\"}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'houdini-swap'"
+      }
+    ]
+  }
+}

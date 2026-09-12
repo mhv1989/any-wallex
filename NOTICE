@@ -1,0 +1,20 @@
+Any WALLEX — Multi-Exchange Algorithmic Trading Platform
+Copyright 2026 Any WALLEX contributors
+
+This product includes software developed as part of the Any WALLEX project.
+
+Third-party components (Apache License 2.0 compatible, per their own licenses):
+  - FastAPI (MIT), Uvicorn (BSD-3), httpx (BSD-3), python-dotenv (BSD-3)
+  - Cryptography (Apache-2.0 / BSD dual), SQLite (public domain)
+  - The web dashboard uses Lightweight Charts by TradingView (Apache-2.0)
+
+Exchange names and trademarks (Wallex, MEXC, KuCoin, Bybit, Kraken, Binance,
+Nobitex, Bitpin, Ramzinex, …) belong to their respective owners and are used
+here solely to describe connectivity. This project is not affiliated with,
+endorsed by, or sponsored by any exchange.
+
+Project contact (bugs, security, general): mrdeveloper.outlast170@passinbox.com
+
+DISCLAIMER: This software is a trading tool, not financial advice. It does NOT
+guarantee profit. Crypto trading is high-risk; you can lose your entire
+capital. Live trading is disabled by default and requires explicit opt-in.

@@ -1,0 +1,80 @@
+# ── secrets & local state (never commit) ─────────────────────────
+.key_password
+secrets.enc
+*.key
+.env
+
+# ── per-profile runtime data (DB, caches, keys, logs) ────────────
+data/
+Logs/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.corrupt
+
+# ── python ───────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.py.orig
+*.bak
+.venv/
+venv/
+.pytest_cache/
+
+# ── scratch / debug leftovers ────────────────────────────────────
+_*.py
+_*.js
+_*.json
+.chk*
+.shim*
+.tmp*
+.tmp_*
+*.tmp
+
+# ── OS / editor noise ────────────────────────────────────────────
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+Logs_verify/
+.hermes/
+*.hermes-tmp.*
+bot/.hermes-tmp.*
+
+# ── portable edition: ship CLEAN exchange configs, never runtime data ──
+!Portable version/Any-WALLEX-Portable/data/
+Portable version/Any-WALLEX-Portable/data/**
+!Portable version/Any-WALLEX-Portable/data/exchange_catalog.json
+!Portable version/Any-WALLEX-Portable/data/strategies/
+Portable version/Any-WALLEX-Portable/data/strategies/**
+!Portable version/Any-WALLEX-Portable/data/strategies/legacy.json
+!Portable version/Any-WALLEX-Portable/data/strategies/dcr-dynamic-convergence-reentry.json
+!Portable version/Any-WALLEX-Portable/data/profiles/
+Portable version/Any-WALLEX-Portable/data/profiles/**
+!Portable version/Any-WALLEX-Portable/data/profiles/registry.json
+!Portable version/Any-WALLEX-Portable/data/profiles/exchange_knowledge.json
+!Portable version/Any-WALLEX-Portable/data/profiles/batch_setup_results.json
+!Portable version/Any-WALLEX-Portable/data/profiles/_reference/
+Portable version/Any-WALLEX-Portable/data/profiles/_reference/**
+!Portable version/Any-WALLEX-Portable/data/profiles/_reference/okx.profile.json
+!Portable version/Any-WALLEX-Portable/data/profiles/*/
+Portable version/Any-WALLEX-Portable/data/profiles/*/*
+!Portable version/Any-WALLEX-Portable/data/profiles/*/profile.json
+# release artifacts (attached to GitHub Releases, not git)
+*.zip
+*.zip.sha256
+# bundled runtime is a release artifact (zip), not source
+Portable version/Any-WALLEX-Portable/runtime/
+# never publish local scratch guides
+Ship Any WALLEX to GitHub.md
+Ship*.md
+
+# local-only release files (never publish)
+Portable version/SHIP_TO_GITHUB_GUIDE.md
+Portable version/RELEASE_GUIDE.md
+Portable version/RELEASE_NOTES_*.md
+# internal planning notes (private)
+IDEA.md
+docs/ai-strategy-plan.md
+Portable version/Any-WALLEX-Portable/IDEA.md

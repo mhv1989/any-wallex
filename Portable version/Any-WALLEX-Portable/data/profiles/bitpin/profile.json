@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "id": "bitpin",
+  "name": "Bitpin (بیت‌پین)",
+  "base_url": "https://api.bitpin.ir",
+  "auth": {
+    "scheme": "header",
+    "header_name": "Authorization"
+  },
+  "symbol_format": {
+    "separator": "_",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "IRT"
+    ]
+  },
+  "endpoints": {
+    "markets": {
+      "method": "GET",
+      "path": "/v1/mkt/markets/",
+      "params": {},
+      "result_path": "results",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "code",
+        "base": "currency1.code",
+        "quote": "currency2.code"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1440"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.3,
+  "quotes": [
+    "IRT",
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 80.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.bitpin.ir/v1/docs/Introduction/bitpin-api-documentation",
+      "https://bitpin.ir/academy/bitpin-official-api-announcement/",
+      "https://bitpin.ir/",
+      "https://api.bitpin.org/v2/utl/app_version/?version=4.14.0&amp;app_version=0",
+      "https://python-bitpin.readthedocs.io/en/stable/reference/clients/"
+    ],
+    "researched_at": 1788958994,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "docs_unreadable",
+      "detail": "Official docs page docs.bitpin.ir did not render (title + deprecation notice only); paths/shapes inferred from docs anchors referenced by the community python-bitpin SDK and must be verified live",
+      "ts": 1788958994
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "BitPin warns some v1 APIs will soon be deprecated; only the official API is supported",
+      "ts": 1788958994
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle/history endpoint params (interval unit=minutes, from_ts/to_ts=unix seconds) and {time,open,high,low,close,volume} shape not confirmed in corpus",
+      "ts": 1788958994
+    },
+    {
+      "category": "response_shape",
+      "detail": "Markets objects identified by integer id plus code; orderbook/orders/trades use numeric market_id, not symbol strings - adapter must map symbol->numeric id via markets list",
+      "ts": 1788958994
+    },
+    {
+      "category": "response_shape",
+      "detail": "Orderbook is side-specific (buy/sell fetched separately, v2 endpoint); combined depth shape not documented",
+      "ts": 1788958994
+    },
+    {
+      "category": "response_shape",
+      "detail": "No dedicated ticker endpoint documented; last price/24h stats embedded in markets list price_info",
+      "ts": 1788958994
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Auth is JWT bearer: POST login {api_key,secret_key} returns access/refresh tokens sent as Authorization header; no per-request HMAC - hmac block unused; token refresh interval per SDK defaults",
+      "ts": 1788958994
+    },
+    {
+      "category": "order_type",
+      "detail": "create_order uses market(int), amount1, price, mode, type plus optional identifier/price_limit/price_stop/price_limit_oco/amount2 (OCO/stop); enum values not readable in corpus",
+      "ts": 1788958994
+    },
+    {
+      "category": "margin_model",
+      "detail": "Site offers tahodi (leveraged long/short) up to 80x, but no margin/futures API documented in corpus - margin=null; max_risk_coef=80 taken from website marketing, not API docs",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented - using conservative default 10.0",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt/max_collateral_usdt/interest_per_4h_pct not documented - using defaults 10.0/100000.0/0.05",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented (fee tiers exist on site but values absent) - using conservative default 0.2",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented - using default 5.0",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented - using default 8",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "Rate limits per SDK notes: currencies/markets 10000/day or 200/minute authenticated, wallets 10000/day; other endpoint limits unstated - min_gap_sec=0.3 derived from 200/min",
+      "ts": 1788958994
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Provided doc pages were intro/redirect only; paths reconstructed from official BitPin API reference and python-bitpin SDK constants (API_URL https://api.bitpin.ir, version v1)",
+      "ts": 1788958994
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candles/orderbook/recent-trades keyed by numeric market_id from /v1/mkt/markets/ results (field id), not symbol string; adapter must map symbol->id",
+      "ts": 1788958994
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle from/to params are unix seconds; no millisecond variants documented",
+      "ts": 1788958994
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Auth not covered in provided corpus; SDK shows Bearer JWT in Authorization header via POST /v1/usr/api/login/ and refresh via /v1/usr/refresh_token/",
+      "ts": 1788958994
+    },
+    {
+      "category": "response_shape",
+      "detail": "No dedicated REST ticker endpoint documented; last price available from markets list price_info.price",
+      "ts": 1788958994
+    },
+    {
+      "category": "response_shape",
+      "detail": "Orderbook response field names not fully documented; SDK exposes get_orderbook(market_id, type=buy|sell)",
+      "ts": 1788958994
+    },
+    {
+      "category": "order_type",
+      "detail": "Order placement POST /v1/odr/orders/ exists (market, amount1, price, mode, type, price_limit/stop/oco, amount2) but mode/type enum values not documented in provided corpus",
+      "ts": 1788958994
+    },
+    {
+      "category": "margin_model",
+      "detail": "No margin/futures trading API documented â margin=null",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using conservative default 5.0",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt/max_collateral_usdt/max_risk_coef/interest_per_4h_pct not documented â defaults kept (margin unsupported)",
+      "ts": 1788958994
+    },
+    {
+      "category": "rules",
+      "detail": "Rate limits not documented â min_gap_sec set to conservative 1.0",
+      "ts": 1788958994
+    },
+    {
+      "category": "candles",
+      "ts": 1788960900,
+      "detail": "Bitpin public API v1 has NO candle/ohlcv endpoint (chart is TradingView-WS only). Markets+prices verified live; candle-based features (chart/backtest) unavailable for this exchange."
+    }
+  ],
+  "margin_style": "isolated_margin",
+  "_warnings": [],
+  "_note_prev_probe": "پروفایل قبلاً probe شده — پس از ذخیره، تست زنده دوباره اجرا شود",
+  "last_probe": {
+    "checked_at": 1788979895,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "1308 markets; sample: ['BTCIRT', 'BTCUSDT', 'USDTIRT', 'PAXGIRT', 'PAXGUSDT']"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "NOT IMPLEMENTABLE: endpoint 'candles' not configured in profile 'bitpin'",
+        "limitation": true
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "NOT IMPLEMENTABLE: endpoint 'candles' not configured in profile 'bitpin'",
+        "limitation": true
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "NOT IMPLEMENTABLE: endpoint 'candles' not configured in profile 'bitpin'",
+        "limitation": true
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "NOT IMPLEMENTABLE: endpoint 'candles' not configured in profile 'bitpin'",
+        "limitation": true
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 78539.5, 'symbol': 'BTCUSDT'}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'bitpin'"
+      }
+    ]
+  }
+}

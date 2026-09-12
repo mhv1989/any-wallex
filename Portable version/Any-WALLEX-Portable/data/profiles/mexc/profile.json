@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "id": "mexc",
+  "name": "MEXC",
+  "base_url": "https://api.mexc.com",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "apiKey",
+        "timestamp",
+        "params"
+      ],
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "query_params": {
+        "apiKey": "{api_key}",
+        "timestamp": "{timestamp}",
+        "signature": "{signature}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "ETH"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/api/v3/klines",
+      "params": {
+        "symbol": "{symbol}",
+        "interval": "{tf}",
+        "startTime": "{from}",
+        "limit": "{limit}"
+      },
+      "result_format": "arrays",
+      "field_map": {
+        "ts": "0",
+        "open": "1",
+        "high": "2",
+        "low": "3",
+        "close": "4",
+        "volume": "5"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/api/v3/exchangeInfo",
+      "params": {},
+      "result_format": "objects",
+      "result_path": "symbols",
+      "field_map": {
+        "symbol": "symbol",
+        "base": "baseAsset",
+        "quote": "quoteAsset",
+        "state": "status",
+        "is_spot": "isSpotTradingAllowed",
+        "price_scale": "quotePrecision",
+        "quantity_scale": "baseAssetPrecision",
+        "maker_fee_rate": "makerCommission",
+        "taker_fee_rate": "takerCommission"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/api/v3/ticker/price",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "symbol",
+        "price": "price"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/api/v3/depth",
+      "params": {
+        "symbol": "{symbol}",
+        "limit": "{limit}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "bids": "bids",
+        "asks": "asks"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "1": "1m",
+    "5": "5m",
+    "15": "15m",
+    "30": "30m",
+    "60": "60m",
+    "240": "4h",
+    "1D": "1d",
+    "1M": "1M"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.05,
+  "quotes": [
+    "USDT",
+    "ETH"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://mexcdevelop.github.io/apidocs/spot_v3_en/"
+    ],
+    "researched_at": 1788900535,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "api_version",
+      "detail": "Corrected 2026-09-09: live public API is api.mexc.com/api/v3 (verified: 2080 markets via /api/v3/exchangeInfo, /api/v3/klines, /api/v3/ticker/price, /api/v3/depth). The previously-extracted spot_v2 endpoints (www.mexc.com/open/api/v2/market/*) are deprecated and 404 — that is why every probe returned 'Expecting value: line 1 column 1' (404 HTML parsed as JSON).",
+      "ts": 1788906000
+    },
+    {
+      "category": "response_shape",
+      "detail": "Kline rows are [openTime_ms, open, high, low, close, volume, closeTime_ms, ...] so open=1, high=2, low=3, close=4, volume=5 (Binance-compatible). startTime is milliseconds.",
+      "ts": 1788906000
+    },
+    {
+      "category": "response_shape",
+      "detail": "exchangeInfo returns {symbols:[...]} at the top level (no data wrapper). Rows carry baseAsset/quoteAsset/status/isSpotTradingAllowed but NO lastPrice — price comes from /api/v3/ticker/price.",
+      "ts": 1788906000
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "v3 SIGNED endpoints require query params apiKey, timestamp (ms), signature = HMAC-SHA256 hex of the canonicalized request string. Public market endpoints need no auth.",
+      "ts": 1788906000
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt set to 10.0 (MEXC spot min-notional for USDT pairs); other rules are conservative defaults (fee_pct 0.2% taker).",
+      "ts": 1788906000
+    }
+  ],
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788904855,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "2080 markets; sample: ['METALUSDT', 'NEXUSDT', 'PYTHUSDT', 'AOUSDT', 'BNTUSDT']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "500 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "500 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "500 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "500 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 0.05355, 'symbol': 'BTCBAMUSDT', 'raw': {'symbol': 'BTCBAMUSDT', 'price': '0.05355'}}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'lastUpdateId': 83362461, 'bids': [['0.05350', '373.05'], ['0.05349', '142.38'], ['0.05337', '166.11'], ['0.05323', '12"
+      }
+    ]
+  }
+}

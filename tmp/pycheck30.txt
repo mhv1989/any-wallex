@@ -1,0 +1,4 @@
+  File "web/index.html", line 6
+    <title>ربات معامله‌گر والکس</title>
+                      ^
+SyntaxError: invalid non-printable character U+200C

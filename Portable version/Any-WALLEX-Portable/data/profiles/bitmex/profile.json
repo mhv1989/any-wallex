@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "id": "bitmex",
+  "name": "BitMEX",
+  "base_url": "https://www.bitmex.com/api/v1",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "method",
+        "path",
+        "expires",
+        "body"
+      ],
+      "headers": {
+        "api-key": "{key}",
+        "api-signature": "{sig}",
+        "api-expires": "{expires}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USD"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/trade/bucketed",
+      "params": {
+        "symbol": "{symbol}",
+        "binSize": "{tf}",
+        "count": "{limit}",
+        "reverse": "true"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "ts": "timestamp",
+        "open": "open",
+        "high": "high",
+        "low": "low",
+        "close": "close",
+        "volume": "volume"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/instrument/active",
+      "params": {},
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "symbol",
+        "base": "underlying",
+        "price": "lastPrice"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/quote",
+      "params": {
+        "symbol": "{symbol}",
+        "count": "1"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "bid": "bidPrice",
+        "ask": "askPrice",
+        "last": "lastPrice"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "1m",
+    "60": "1h",
+    "240": "1h",
+    "1D": "1d"
+  },
+  "true_res_map": {
+    "15": "1",
+    "240": "60",
+    "60": "60",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USD",
+    "USDT",
+    "BTC"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://testnet.bitmex.com/app/restAPI",
+      "https://bitmex.hexdocs.pm/api-reference.html"
+    ],
+    "researched_at": 1788957336,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "docs_unreadable",
+      "detail": "Official REST API page is JS-rendered and unreadable; endpoint paths taken from well-known BitMEX /api/v1 convention and hexdocs module index (Rest.Trade, Rest.Quote, Rest.OrderBook, Rest.Instrument)",
+      "ts": 1788957336
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle/tick timestamps are ISO8601 strings, not ms epoch; bucketed response is an array of objects",
+      "ts": 1788957336
+    },
+    {
+      "category": "margin_model",
+      "detail": "BitMEX is derivatives-only (hexdocs lists Position, Funding, Liquidation, Settlement modules, no spot); margin=null so bot trades perp symbols as spot-like, leverage/liquidation not modeled",
+      "ts": 1788957336
+    },
+    {
+      "category": "order_type",
+      "detail": "Order placement not verified from provided docs; hexdocs lists Rest.Order module only",
+      "ts": 1788957336
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788957336
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2",
+      "ts": 1788957336
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788957336
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not documented â using conservative default 3.0",
+      "ts": 1788957336
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â set to 0 (no local check)",
+      "ts": 1788957336
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using conservative default 0.05",
+      "ts": 1788957336
+    },
+    {
+      "category": "response_shape",
+      "detail": "binSize supports 1m/5m/1h/1d only; 15m and 4h timeframes not natively available (tf_param_map omits 15 and 240)",
+      "ts": 1788957336
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788964754,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "27 markets; sample: ['XRPUSDT', 'SOLUSDT', 'RLUSDUSDT', 'XAUTUSDT', 'BMEXUSDT']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "1000 bars; RETURNS FINER GRANULARITY (60s) → true_res_map[15]='1' (auto-corrected, normalizer aggregates)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "1000 bars; RETURNS FINER GRANULARITY (3600s) → true_res_map[240]='60' (auto-corrected, normalizer aggregates)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 1.1621, 'symbol': 'XRPUSDT'}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'bitmex'"
+      }
+    ]
+  }
+}

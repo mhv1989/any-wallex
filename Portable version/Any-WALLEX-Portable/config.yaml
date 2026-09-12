@@ -1,0 +1,97 @@
+# ═══════════════════════════════════════════════════════════════
+# تنظیمات ربات والکس — تمام آستانه‌های استراتژی قابل‌تنظیم هستند
+# ═══════════════════════════════════════════════════════════════
+
+symbols:
+  - BTCUSDT
+  - ETHUSDT
+  - SOLUSDT
+  - XRPUSDT
+  - BNBUSDT
+  - DOGEUSDT
+  - ADAUSDT
+  - LINKUSDT
+
+strategy:
+  timeframes:
+    trend: "240"      # ۴ ساعته: ساختار بازار
+    entry: "60"       # ۱ ساعته: الگوی ورود و سطوح
+    filter: "15"      # ۱۵ دقیقه: فیلتر مومنتوم
+  swing_left: 2       # قدرت شناسایی پیوت (کندل چپ)
+  swing_right: 2      # قدرت شناسایی پیوت (کندل راست)
+  min_confirmations: 6   # حداقل تأیید از ۸ معیار
+  min_rr: 1.5            # حداقل Risk/Reward
+  rsi_period: 14
+  rsi_min: 40            # محدوده سالم RSI برای ورود خرید
+  rsi_max: 70
+  atr_period: 14
+  volume_ma_period: 10
+  volume_min_ratio: 1.2  # حجم کندل ≥ ۱.۲× میانگین ۱۰ دوره
+  stop_atr_mult: 1.5     # فاصله پیش‌فرض استاپ = ۱.۵×ATR
+  stop_min_atr: 0.8      # استاپ معتبر: حداقل ۰.۸×ATR
+  stop_max_atr: 4.0      # استاپ معتبر: حداکثر ۴×ATR
+  level_atr_tolerance: 0.5  # تحمل فاصله از سطح (×ATR)
+  sr_lookback: 120       # تعداد کندل ۱ساعته برای سطوح
+  momentum:
+    rsi_min: 50          # فیلتر مومنتوم ۱۵ دقیقه
+    ema_period: 20
+  patterns:
+    pinbar_wick_ratio: 2.0    # سایه ≥ ۲× بدنه
+    pinbar_max_opp: 0.5       # سایه مخالف ≤ ۰.۵× بدنه
+    morning_star_mid: 0.3     # بدنه کندل میانی ≤ ۰.۳× بدنه اول
+    hammer_lookback: 5        # کندل بررسی روند نزولی قبل از چکش
+
+grid:
+  levels: 25              # ۲۵ سطح بین حمایت و مقاومت اصلی
+  lookback_days: 30       # S/R اصلی ۳۰ روز اخیر
+  min_range_pct: 4.0      # فاصله < ۴٪ → Grid غیرفعال
+  bands_per_position: 3   # سهم هر پوزیشن از سرمایه Grid
+
+risk:
+  risk_per_trade_pct: 1.0     # ریسک هر معامله ۱٪ سرمایه
+  max_positions: 4            # حداکثر ۴ پوزیشن همزمان
+  max_exposure_pct: 40.0      # حداکثر ۴۰٪ سرمایه درگیر (به‌صورت وثیقه در حالت مارجین؛ ~۸۰٪ ناتینال)
+  max_exposure_spot_pct: 12.0 # سقف اسپات (۱۲٪ ناتینال) — برای Paper Spot
+  breakeven_rr: 1.5           # انتقال استاپ به ورود در RR=1.5
+  trailing_atr_mult: 1.2      # فاصله Trailing = ۱.۲×ATR
+  partial_rr: 2.5             # بستن ۵۰٪ در RR=2.5
+  partial_close_pct: 50.0
+  drawdown_half_pct: 8.0      # DD=8% → نصف‌شدن سایز
+  drawdown_stop_pct: 12.0     # DD=12% → توقف ورود جدید
+
+engine:
+  scan_interval_minutes: 15   # بررسی هر ۱۵ دقیقه
+  candle_close_delay_sec: 10  # صبر پس از بسته‌شدن کندل
+  api_min_gap_sec: 12         # حداقل فاصله بین درخواست‌های API
+  api_max_retries: 3          # حداکثر ۳ تلاش مجدد
+  api_retry_pause_sec: 30     # مکث بین تلاش‌ها
+  candle_cache_limit: 600
+
+backtest:
+  fee_pct: 0.2                # کارمزد هر طرف معامله (درصد)
+  slippage_pct: 0.05          # لغزش قیمت (درصد)
+  starting_capital: 10000.0
+
+margin:
+  # ── شبیهسازی مارجین (Paper Margin) ─────────────────────────────
+  starting_capital: 10000.0   # سرمایه اولیه حساب مارجین مجازی
+  risk_coef: 2.0              # اهرم پیشفرض (۲×)
+  max_risk_coef: 3.0          # سقف اهرم
+  mmr_pct: 1.0                # حاشیه نگهداری (٪) — زیر این سطح = لیکوئید
+  interest_per_4h_pct: 0.05   # کارمزد تمدید هر ۴ ساعت (٪ از وام)
+  max_age_days: 21.0          # حداکثر عمر پوزیشن مارجین والکس (روز)
+  # ── محدودیتهای والکس (آینه محلی قوانین صرافی) ──────────────────
+  min_collateral_usdt: 10.0   # حداقل وثیقه هر پوزیشن مارجین
+  max_collateral_usdt: 100000.0
+  price_band_pct: 5.0         # قیمت باز کردن باید داخل ±۵٪ قیمت بازار باشد
+
+paper:
+  # ── قوانین سفارش اسپات والکس (آینه محلی) ────────────────────────
+  min_order_usdt: 10.0        # حداقل ارزش سفارش اسپات
+  qty_step: 8                 # دقت اعشار حجم
+  # market_overrides:         # محدودیت اختصاصی هر بازار:
+  #   BTCUSDT: {min_order_usdt: 20}
+
+server:
+  host: 127.0.0.1
+  port: 8787

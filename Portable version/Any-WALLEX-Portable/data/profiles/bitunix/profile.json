@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "id": "bitunix",
+  "name": "Bitunix",
+  "base_url": "https://fapi.bitunix.com",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "method",
+        "path",
+        "query",
+        "body",
+        "timestamp",
+        "nonce",
+        "api_key"
+      ],
+      "headers": {
+        "api-key": "{{api_key}}",
+        "nonce": "{{nonce}}",
+        "timestamp": "{{timestamp}}",
+        "sign": "{{sign}}"
+      },
+      "algo": "double_sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "markets": {
+      "method": "GET",
+      "path": "/api/v1/futures/market/trading_pairs",
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "symbol",
+        "base": "base",
+        "quote": "quote",
+        "price": "markPrice"
+      }
+    },
+    "candles": {
+      "method": "GET",
+      "path": "/api/v1/futures/market/kline",
+      "params": {
+        "symbol": "{{symbol}}",
+        "interval": "{{tf}}",
+        "start": "{{from_ms}}",
+        "end": "{{to_ms}}"
+      },
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "ts": "time",
+        "open": "open",
+        "high": "high",
+        "low": "low",
+        "close": "close",
+        "volume": "quoteVol"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/api/v1/futures/market/depth",
+      "params": {
+        "symbol": "{{symbol}}",
+        "level": "5"
+      },
+      "result_path": "data"
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/api/v1/futures/market/tickers",
+      "result_path": "data",
+      "field_map": {
+        "symbol": "symbol",
+        "price": "lastPrice"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15min",
+    "60": "60min",
+    "240": "4h",
+    "1D": "1day"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 200.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://www.bitunix.com/api-docs/",
+      "https://www.bitunix.com/api-docs/futures/common/introduction.html",
+      "https://www.bitunix.com/api-docs/spots/en_us/",
+      "https://github.com/BitunixOfficial/open-api",
+      "https://www.bitunix.com/hub/academy/operation-guide/bitunix-product-guide/bitunix-api-guide",
+      "https://github.com/BitunixOfficial/open-api/blob/main/README.md"
+    ],
+    "researched_at": 1788951217,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Exact signature canonical form (param order) not documented â sign.md referenced but not provided; param_order assumed standard",
+      "ts": 1788951217
+    },
+    {
+      "category": "response_shape",
+      "detail": "Exact response structure for candles and markets endpoints not documented in provided corpus â using standard formats from official docs",
+      "ts": 1788951217
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788951217
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788951217
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788951217
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using conservative default 5.0",
+      "ts": 1788951217
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788951217
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2",
+      "ts": 1788951217
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using conservative default 0.05",
+      "ts": 1788951217
+    },
+    {
+      "category": "response_shape",
+      "detail": "Market endpoint field mapping not documented â using standard field names as placeholder",
+      "ts": 1788951217
+    },
+    {
+      "category": "symbol_format",
+      "detail": "Some futures symbols (e.g. CLUSDT, EWYUSDT) use no separator per docs examples, while spot pairs use '/' separator",
+      "ts": 1788951217
+    },
+    {
+      "category": "endpoints",
+      "ts": 1788951892,
+      "detail": "Live-verified 2026-09-09: spot market-data endpoints absent from public API; futures endpoints fapi.bitunix.com verified (trading_pairs/kline/tickers/depth). Bitunix spot trading via API not available — profile runs FUTURES market data."
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788953475,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "751 markets; sample: ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'XRPUSDT', 'ADAUSDT']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "100 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "100 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "100 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "100 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 78970.1, 'symbol': 'BTCUSDT', 'raw': {'symbol': 'BTCUSDT', 'markPrice': '78974.2', 'lastPrice': '78970.1', 'op"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'asks': [['78974.1', '1.5997'], ['78974.2', '1.5869'], ['78974.3', '2.3821'], ['78974.4', '1.9741'], ['78974.5', '1.295"
+      }
+    ]
+  }
+}

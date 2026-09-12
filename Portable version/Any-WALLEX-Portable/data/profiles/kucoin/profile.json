@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "id": "kucoin",
+  "name": "KuCoin",
+  "base_url": "https://api.kucoin.com",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "-",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "USDC",
+      "BTC",
+      "ETH",
+      "KCS"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/api/v1/market/candles",
+      "params": {
+        "symbol": "{symbol}",
+        "type": "{tf}",
+        "startAt": "{from}",
+        "endAt": "{to}"
+      },
+      "result_format": "arrays",
+      "result_path": "data",
+      "field_map": {
+        "ts": "0",
+        "open": "1",
+        "high": "3",
+        "low": "4",
+        "close": "2",
+        "volume": "5"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/api/v2/symbols",
+      "params": {},
+      "result_format": "objects",
+      "result_path": "data",
+      "field_map": {
+        "symbol": "symbol",
+        "base": "baseCurrency",
+        "quote": "quoteCurrency"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/api/v1/market/orderbook/level1",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects",
+      "result_path": "data",
+      "field_map": {
+        "price": "price",
+        "volume": "size"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/api/v1/market/orderbook/level2_100",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "arrays",
+      "result_path": "data"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15min",
+    "60": "1hour",
+    "240": "4hour",
+    "1D": "1day"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT",
+    "USDC",
+    "BTC",
+    "ETH",
+    "KCS"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://www.kucoin.com/docs"
+    ],
+    "researched_at": 1788955423,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "docs_unreadable",
+      "detail": "provided corpus is intro/navigation page only; v1 spot endpoint paths/params/shapes taken from KuCoin standard public API docs â re-verify before live use",
+      "ts": 1788955423
+    },
+    {
+      "category": "response_shape",
+      "detail": "all responses wrapped in {code:'200000',msg,data}; candles are columnar arrays ordered [time,open,close,high,low,volume,turnover] with time in UTC seconds (query params startAt/endAt use milliseconds)",
+      "ts": 1788955423
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "private endpoints require API-key + HMAC signature headers (KC-API-KEY/KC-API-SIGN/KC-API-TIMESTAMP/KC-API-PASSPHRASE/KC-API-KEY-VERSION); signature details not in corpus â config covers public data only (auth=none)",
+      "ts": 1788955423
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented in corpus â using conservative default 0.2 (base spot taker fee not stated)",
+      "ts": 1788955423
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not stated; KuCoin enforces per-symbol baseMinSize/quoteMinSize instead â using conservative default 10.0",
+      "ts": 1788955423
+    },
+    {
+      "category": "rules",
+      "detail": "qty precision is per-symbol via baseIncrement/priceIncrement fields, no global value â using default qty_step 8",
+      "ts": 1788955423
+    },
+    {
+      "category": "rules",
+      "detail": "leverage cap not documented â using conservative default max_risk_coef 3.0",
+      "ts": 1788955423
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using default 0.05",
+      "ts": 1788955423
+    },
+    {
+      "category": "rules",
+      "detail": "no price band documented â price_band_pct 0 (no local band check)",
+      "ts": 1788955423
+    },
+    {
+      "category": "rules",
+      "detail": "rate limits are pool/weight based with 30s window; per-endpoint request numbers not in corpus â using conservative min_gap_sec 1.0",
+      "ts": 1788955423
+    },
+    {
+      "category": "margin_model",
+      "detail": "futures (perpetual, funding-rate) API at api-futures.kucoin.com and cross/isolated margin APIs exist but not configured here (margin=null); margin_style=futures per funding-rate model",
+      "ts": 1788955423
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788955565,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "984 markets; sample: ['AVAUSDT', 'FETBTC', 'FETETH', 'XMRBTC', 'XMRETH']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "288 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "72 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "18 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "12 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 79356.9, 'symbol': 'BTCUSDT', 'raw': {'time': 1788955564625, 'sequence': '36832698900', 'price': '79356.9', 's"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'time': 1788955566389, 'sequence': '36832700330', 'bids': [['79357.1', '0.41860183'], ['79356.9', '0.52222828'], ['7935"
+      }
+    ]
+  }
+}

@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "id": "0x-swap-api",
+  "name": "0x Swap API",
+  "base_url": "https://api.0x.org",
+  "auth": {
+    "scheme": "header",
+    "header_name": "0x-api-key"
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "lower",
+    "quote_suffixes": []
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/swap/allowance-holder/price",
+      "params": {
+        "chainId": "1",
+        "sellToken": "{symbol}",
+        "buyToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+      },
+      "result_format": "objects"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/swap/v1/sources",
+      "params": {},
+      "result_format": "objects"
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/swap/allowance-holder/price",
+      "params": {
+        "chainId": "1",
+        "sellToken": "{symbol}",
+        "buyToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+      },
+      "result_format": "objects"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT",
+    "USDC",
+    "DAI",
+    "WETH"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.0x.org/docs/introduction/quickstart/swap-tokens-with-0x-swap-api",
+      "https://docs.0x.org/",
+      "https://0x.org/products/swap",
+      "https://0x.org/post/0x-101-getting-started-with-swap-api",
+      "https://github.com/0xProject/swap-demo-tutorial",
+      "https://beta.0x.org/post/0x-101-intro-to-swap-api",
+      "https://docs.0x.org/openapi.json"
+    ],
+    "researched_at": 1788960931,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Auth is 0x-api-key header; a second required header 0x-version: v2 exists and is not expressible in the single-header template",
+      "ts": 1788960931
+    },
+    {
+      "category": "response_shape",
+      "detail": "No OHLCV/candle endpoint exists; candles path mapped to documented indicative-price endpoint, which returns a single quote object (raw-integer buyAmount/sellAmount, no ts/open/high/low/close/volume fields) â {tf}/{from}/{to}/{limit} params do not exist",
+      "ts": 1788960931
+    },
+    {
+      "category": "response_shape",
+      "detail": "No token/market listing endpoint documented; /swap/v1/sources (legacy v1, sunset 2025-04-11) lists liquidity sources only and its response schema is undocumented â 0x demo apps fetch token lists from CoinGecko",
+      "ts": 1788960931
+    },
+    {
+      "category": "response_shape",
+      "detail": "Instruments are (chainId, token contract address) pairs passed as sellToken/buyToken; symbol-based symbol_format is not applicable",
+      "ts": 1788960931
+    },
+    {
+      "category": "order_type",
+      "detail": "Quote-only execution: /swap/allowance-holder/quote returns an unsigned on-chain transaction to submit via a web3 library (AllowanceHolder/Permit2 allowance flow); no REST order placement, no market/limit orders, no order book/depth endpoint",
+      "ts": 1788960931
+    },
+    {
+      "category": "margin_model",
+      "detail": "Spot DEX aggregation only (373+ liquidity sources, 20+ chains); no margin/futures/perpetual API â margin=null and no margin_style classifiable",
+      "ts": 1788960931
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â fees are dynamic (zeroExFee volume-based, optional integratorFee, gasFee); using conservative default 0.2",
+      "ts": 1788960931
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788960931
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â slippage is configured per quote, no price band; using default 5.0",
+      "ts": 1788960931
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â amounts are raw token decimals (18 for WETH, 6 for USDC); using default 8",
+      "ts": 1788960931
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt/max_collateral_usdt/max_risk_coef/interest_per_4h_pct not documented â no margin trading exists; defaults kept",
+      "ts": 1788960931
+    },
+    {
+      "category": "rules",
+      "detail": "min_gap_sec not stated (Rate Limits page values absent from corpus) â using conservative default 1.0",
+      "ts": 1788960931
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Full OpenAPI specs (openapi/evm-apis.json, openapi/solana-swap-apis.json, openapi/cross-chain-apis.json) were not included in the provided corpus",
+      "ts": 1788960931
+    },
+    {
+      "category": "order_type",
+      "detail": "0x is a DEX aggregator, not an order-book exchange: trading is done via /swap/allowance-holder/quote returning an unsigned EVM transaction submitted on-chain. No candles, ticker, or depth endpoints exist; candles.path is mapped to the documented /price endpoint which returns a spot quote (buyAmount/sellAmount), not OHLCV.",
+      "ts": 1788960931
+    },
+    {
+      "category": "response_shape",
+      "detail": "/swap/allowance-holder/price returns a quote object (buyToken, sellToken, buyAmount, sellAmount, minBuyAmount, fees, route) â no ts/open/high/low/close/volume fields, so field_map omitted. Tokens are identified by contract addresses (sellToken/buyToken params), not symbols.",
+      "ts": 1788960931
+    },
+    {
+      "category": "response_shape",
+      "detail": "No v2 markets/token-list endpoint documented; /swap/v1/sources (v1) lists liquidity sources per chain, not tradable pairs, and v1 was sunset 2025-04-11 per 0x migration notice. openapi.json is only an index of three spec files (evm, solana, cross-chain) without inline schemas.",
+      "ts": 1788960931
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "All calls require '0x-api-key' header plus required '0x-version: v2' header; requests also need chainId and taker address parameters. This is a plain API key, not an exchange account auth.",
+      "ts": 1788960931
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0. Fees: response contains zeroExFee with type 'volume' but no fixed percent is stated â using default fee_pct 0.2; gas fees apply per trade (totalNetworkFee).",
+      "ts": 1788960931
+    },
+    {
+      "category": "rules",
+      "detail": "No margin trading API â margin=null; min/max_collateral_usdt, max_risk_coef, interest_per_4h_pct not applicable, kept at defaults. qty_step not documented: token amounts use per-token decimals (e.g. WETH 18) in base units â default 8 kept.",
+      "ts": 1788960931
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct=0: no price band stated; slippage is controlled via quote parameters and minBuyAmount. Rate Limits page exists but no numeric values in docs â min_gap_sec default 1.0.",
+      "ts": 1788960931
+    },
+    {
+      "category": "margin_model",
+      "detail": "Spot DEX aggregation only (Swap API, Gasless API, Cross-Chain API); no margin, leverage, or perpetuals/funding model documented, so no margin_style.",
+      "ts": 1788960931
+    }
+  ],
+  "_warnings": [],
+  "_note_prev_probe": "پروفایل قبلاً probe شده — پس از ذخیره، تست زنده دوباره اجرا شود",
+  "last_probe": {
+    "checked_at": 1788980044,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "0x Swap API API error 404: {\n  \"message\":\"no Route matched with those values\",\n  \"request_id\":\"a6afb2657a80963c9918e66c0d293016\"\n}"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "0x Swap API API error 401: {\n  \"message\":\"No API key found in request\",\n  \"request_id\":\"7a10ac41a4e24464899c797f1c502360\"\n}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile '0x-swap-api'"
+      }
+    ]
+  }
+}

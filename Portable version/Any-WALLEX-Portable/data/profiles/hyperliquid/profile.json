@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "id": "hyperliquid",
+  "name": "Hyperliquid",
+  "base_url": "https://api.hyperliquid.xyz",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": []
+  },
+  "endpoints": {
+    "markets": {
+      "method": "POST",
+      "path": "/info",
+      "body_json": {
+        "type": "meta"
+      },
+      "result_path": "universe",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "name"
+      }
+    },
+    "candles": {
+      "method": "POST",
+      "path": "/info",
+      "params": {},
+      "body_json": {
+        "type": "candleSnapshot",
+        "req": {
+          "coin": "{symbol}",
+          "interval": "{tf}",
+          "startTime": "{from_ms}",
+          "endTime": "{to_ms}"
+        }
+      },
+      "result_format": "objects",
+      "field_map": {
+        "ts": "t",
+        "open": "o",
+        "high": "h",
+        "low": "l",
+        "close": "c",
+        "volume": "v"
+      }
+    },
+    "ticker": {
+      "method": "POST",
+      "path": "/info",
+      "body_json": {
+        "type": "allMids"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "coin",
+        "price": "price"
+      }
+    },
+    "depth": {
+      "method": "POST",
+      "path": "/info",
+      "body_json": {
+        "type": "l2Book",
+        "coin": "{symbol}"
+      },
+      "result_path": "levels"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15m",
+    "60": "1h",
+    "240": "4h",
+    "1D": "1d"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.1,
+  "quotes": [
+    "USDC"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api"
+    ],
+    "researched_at": 1788957821,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Public market data needs no auth; private endpoints (POST /exchange) use EIP-712 Ethereum wallet/API-wallet signatures â not expressible as header/hmac in template",
+      "ts": 1788957821
+    },
+    {
+      "category": "response_shape",
+      "detail": "Provided corpus is only the API index page; all market-data calls are POST /info with type-based JSON body (not GET query params), per official info-endpoint docs",
+      "ts": 1788957821
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candles return array of objects with string fields t(open ms),T,o,h,l,c,v,n; timestamps in milliseconds",
+      "ts": 1788957821
+    },
+    {
+      "category": "response_shape",
+      "detail": "allMids returns flat map coin->mid-price string; l2Book levels is [bids,asks] arrays of {px,sz,n}",
+      "ts": 1788957821
+    },
+    {
+      "category": "response_shape",
+      "detail": "Perp symbols are bare base tickers (e.g. BTC) with no quote suffix; spot uses PURR/USDC or @{index} format â suffix model not applicable",
+      "ts": 1788957821
+    },
+    {
+      "category": "order_type",
+      "detail": "Order place/cancel are signed actions via POST /exchange; not configurable here â adapter limited to public data + paper trading",
+      "ts": 1788957821
+    },
+    {
+      "category": "margin_model",
+      "detail": "All markets are USD/USDC-collateralized perpetual futures (cross margin with per-asset isolated leverage option); no separate spot margin API, hence margin=null",
+      "ts": 1788957821
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788957821
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788957821
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788957821
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not documented; per-asset maxLeverage (e.g. BTC 40x) returned by info meta â using conservative default 3.0",
+      "ts": 1788957821
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented in provided corpus â using conservative default 0.2",
+      "ts": 1788957821
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented; perps pay hourly funding â using default 0.05",
+      "ts": 1788957821
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not global; per-asset szDecimals from info meta â using default 8",
+      "ts": 1788957821
+    },
+    {
+      "category": "rules",
+      "detail": "No price band documented â price_band_pct=0 (no local check)",
+      "ts": 1788957821
+    },
+    {
+      "category": "rules",
+      "detail": "Rate limits not in provided corpus; official docs allow 1200 info weight/min -> 0.1s gap assumed",
+      "ts": 1788957821
+    }
+  ],
+  "margin_style": "dex_perp",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788973584,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "234 markets; sample: ['BTC', 'ETH', 'ATOM', 'MATIC', 'DYDX']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "289 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "73 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "19 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "13 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 78784.5, 'symbol': 'BTC', 'raw': {'BTC': '78784.5'}}"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "{}"
+      }
+    ]
+  }
+}

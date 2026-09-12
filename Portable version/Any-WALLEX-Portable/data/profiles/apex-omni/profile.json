@@ -1,0 +1,259 @@
+{
+  "schema_version": 1,
+  "id": "apex-omni",
+  "name": "Apex Omni",
+  "base_url": "https://omni.apex.exchange",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "timestamp",
+        "method",
+        "path",
+        "query",
+        "body"
+      ],
+      "headers": {
+        "APEX-API-KEY": "{key}",
+        "APEX-PASSPHRASE": "{passphrase}",
+        "APEX-TIMESTAMP": "{timestamp}",
+        "APEX-SIGNATURE": "{sig}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/api/v3/klines",
+      "params": {
+        "symbol": "{symbol}",
+        "interval": "{tf}",
+        "startTime": "{from_ms}",
+        "endTime": "{to_ms}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "ts": "t",
+        "open": "o",
+        "high": "h",
+        "low": "l",
+        "close": "c",
+        "volume": "v"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/api/v3/symbols",
+      "result_path": "data.contractConfig.perpetualContract",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "crossSymbolName"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/v3/depth",
+      "params": {
+        "symbol": "{symbol}",
+        "limit": "{limit}"
+      },
+      "result_format": "objects"
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/api/v3/ticker",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "symbol",
+        "price": "indexPrice"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.1,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.05,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://api-docs.pro.apex.exchange/practice/index.html",
+      "https://api-docs.pro.apex.exchange/",
+      "https://github.com/ApeX-Protocol/apexpro-openapi",
+      "https://github.com/ApeX-Protocol/apexpro-openapi/blob/main/README_V3.md",
+      "https://pypi.org/project/apexomni/",
+      "https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/omnistudio_apis.htm"
+    ],
+    "researched_at": 1788957922,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Dual signing required: HMAC-SHA256 API-key headers (secret is base64-encoded before HMAC, signature output base64) PLUS a zkLink L2 payload signature (seeds/l2Key) inside the request body for orders, transfers and withdrawals â template cannot express L2 body signing",
+      "ts": 1788957922
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Signature message = APEX-TIMESTAMP + HTTP method + request path (query appended for GET) + alphabetically sorted body string; timestamp is ISO/current unix per docs",
+      "ts": 1788957922
+    },
+    {
+      "category": "response_shape",
+      "detail": "Public REST paths (/v3/klines, /v3/depth, /v3/ticker, /v3/symbols) not printed verbatim in corpus; derived from SDK method names klines_v3/depth_v3/ticker_v3/configs_v3 and nav entries 'GET Candlestick Chart Data', 'GET Market Depth', 'GET Ticker Data', 'GET All Config Data' â verify at runtime",
+      "ts": 1788957922
+    },
+    {
+      "category": "response_shape",
+      "detail": "Kline/depth/ticker response envelope and field names not documented in provided pages; field_map t/o/h/l/c/v follows ApeX convention â verify at runtime",
+      "ts": 1788957922
+    },
+    {
+      "category": "response_shape",
+      "detail": "Symbol format inconsistent: public REST SDK examples use 'BTCUSDT' (no separator) while WebSocket topics, order placement and positions use 'BTC-USDT'",
+      "ts": 1788957922
+    },
+    {
+      "category": "response_shape",
+      "detail": "Kline start/end params are unix seconds per SDK example (1718358480); response timestamps (createdAt etc.) are milliseconds",
+      "ts": 1788957922
+    },
+    {
+      "category": "order_type",
+      "detail": "MARKET orders require an explicit price field (zkLink signing); obtain via GET /v3/get-worst-price or top-of-book",
+      "ts": 1788957922
+    },
+    {
+      "category": "order_type",
+      "detail": "Types: LIMIT, MARKET, STOP_LIMIT, STOP_MARKET, TAKE_PROFIT_LIMIT, TAKE_PROFIT_MARKET; timeInForce GOOD_TIL_CANCEL/FILL_OR_KILL/IMMEDIATE_OR_CANCEL/POST_ONLY; required body includes limitFee and expiration (recommend 28 days); clientOrderId required",
+      "ts": 1788957922
+    },
+    {
+      "category": "margin_model",
+      "detail": "USDT-settled perpetual futures: per-contract initialMarginRate/maintenanceMarginRate, customInitialMarginRate, liquidation engine; funding exchanged every 1 hour with real-time fluctuating rate â interest_per_4h_pct not applicable",
+      "ts": 1788957922
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788957922
+    },
+    {
+      "category": "rules",
+      "detail": "max leverage not documented (initial margin rate user-configurable per contract) â using default max_risk_coef 3.0",
+      "ts": 1788957922
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented globally; per-symbol stepSize/tickSize available from config endpoint (USDT tick size 6 decimals) â using default 8",
+      "ts": 1788957922
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using default 5.0",
+      "ts": 1788957922
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt/max_collateral_usdt not documented â using defaults 10.0/100000.0",
+      "ts": 1788957922
+    },
+    {
+      "category": "rules",
+      "detail": "Fees are account-level: takerFeeRate 0.00050 / makerFeeRate 0.00020 shown in docs examples; fee_pct set to taker 0.05% per side",
+      "ts": 1788957922
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Rate limits: 600 req/60s per IP, 300 POST and 600 GET per 60s per account, 200 open orders per user; per-endpoint limits referenced but not detailed in corpus",
+      "ts": 1788957922
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788975534,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "138 markets; sample: ['BTCUSDT', 'ETHUSDT', 'APEXUSDT', 'TAOUSDT', 'CHZUSDT']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "1500 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "1500 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "1500 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "817 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 78759.83, 'symbol': 'BTCUSDT', 'raw': {'fundingRate': '0.00000639', 'highPrice24h': '79734.9', 'indexPrice': '"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "Apex Omni API returned HTTP 200 with a non-JSON body for GET /v3/depth (body[:120]='<!doctype html><html lang=\"en\"><head><title>ApeX Omni</title><meta charset=\"UTF-8\"><meta name=\"theme-color\" content="
+      }
+    ]
+  }
+}

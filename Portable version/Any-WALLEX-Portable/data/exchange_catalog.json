@@ -1,0 +1,549 @@
+{
+  "metadata": {
+    "generatedDate": "2026-09-06",
+    "description": "Exchanges and trading services with REST API support, UDF compatibility, and KYC requirements. Feeds the setup wizard."
+  },
+  "exchanges": [
+    {
+      "id": "bitmex",
+      "name": "BitMEX",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Native",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Perpetual Futures"
+      ],
+      "apiManagementNotes": "API Key + HMAC Signature authentication. Full REST and WebSocket support. Offers a testnet environment for safe testing.",
+      "officialDocs": "https://www.bitmex.com/app/apiOverview"
+    },
+    {
+      "id": "binance",
+      "name": "Binance",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Community implementations",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot",
+        "Margin",
+        "Futures",
+        "Options"
+      ],
+      "apiManagementNotes": "API Key + HMAC Signature + IP whitelisting. Extensive SDK support in multiple languages. Testnet available.",
+      "officialDocs": "https://developers.binance.com"
+    },
+    {
+      "id": "kucoin",
+      "name": "KuCoin",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Via SDKs",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot",
+        "Margin",
+        "Futures"
+      ],
+      "apiManagementNotes": "API Key + HMAC Signature + API Passphrase. Unified account trading supported.",
+      "officialDocs": "https://www.kucoin.com/docs"
+    },
+    {
+      "id": "okx",
+      "name": "OKX",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot",
+        "Margin",
+        "Futures",
+        "Perpetuals"
+      ],
+      "apiManagementNotes": "Unified V5 API. REST + WebSocket support. Highly structured documentation.",
+      "officialDocs": "https://www.okx.com/docs-v5/en/",
+      "officialDocsNote": "previous URL (https://www.okx.com/docs-v5) was 404/dead — corrected 2026-09-07"
+    },
+    {
+      "id": "bybit",
+      "name": "Bybit",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot",
+        "Futures",
+        "Perpetuals"
+      ],
+      "apiManagementNotes": "REST + WebSocket. USDT and USDC perpetuals supported.",
+      "officialDocs": "https://bybit-exchange.github.io/docs/",
+      "officialDocsNote": "previous URL (https://bybit-exchange.github.io/docs/v5/) was 404/dead — corrected 2026-09-07"
+    },
+    {
+      "id": "kraken",
+      "name": "Kraken",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot",
+        "Margin",
+        "Futures"
+      ],
+      "apiManagementNotes": "API Key + HMAC Signature. FIX protocol support available for institutional traders.",
+      "officialDocs": "https://docs.kraken.com/",
+      "officialDocsNote": "previous URL (https://docs.kraken.com/rest/) was 404/dead — corrected 2026-09-07"
+    },
+    {
+      "id": "mexc",
+      "name": "MEXC",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": "Tiered (No-KYC with tight limits)",
+      "tradingTypes": [
+        "Spot",
+        "Futures"
+      ],
+      "apiManagementNotes": "No-KYC access is available but with strict withdrawal and trading limits for unverified users.",
+      "officialDocs": "https://mexcdevelop.github.io/apidocs/spot_v3_en/",
+      "officialDocsNote": "spot_v3_en = LIVE api.mexc.com/api/v3 (verified 2026-09-09: 2080 markets, klines, ticker, depth). spot_v2_en describes the DEPRECATED /open/api/v2/* API (404 on live) — do not use; it made the AI extract dead endpoints (2026-09-09 MEXC wizard bug)."
+    },
+    {
+      "id": "coinex",
+      "name": "CoinEx",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot"
+      ],
+      "apiManagementNotes": "Client library available for both REST and WebSocket integration.",
+      "officialDocs": "https://docs.coinex.com/"
+    },
+    {
+      "id": "digifinex",
+      "name": "DigiFinex",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot",
+        "Margin",
+        "Derivatives"
+      ],
+      "apiManagementNotes": "Open API access with a tiered VIP system affecting rate limits.",
+      "officialDocs": "https://docs.digifinex.com/"
+    },
+    {
+      "id": "ethereal",
+      "name": "Ethereal",
+      "type": "DEX",
+      "region": "Global",
+      "udfSupport": "Native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Perpetual Futures"
+      ],
+      "apiManagementNotes": "Built-in TradingView UDF-compatible API for OHLCV data. Fully on-chain and permissionless.",
+      "officialDocs": null
+    },
+    {
+      "id": "hyperliquid",
+      "name": "Hyperliquid",
+      "type": "DEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Perpetual Futures"
+      ],
+      "apiManagementNotes": "No account creation needed (connect wallet). No withdrawal limits. Handles ~44% of all DEX perpetual volume.",
+      "officialDocs": "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api"
+    },
+    {
+      "id": "apex-omni",
+      "name": "Apex Omni",
+      "type": "DEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Futures",
+        "RWA",
+        "Copy Trading"
+      ],
+      "apiManagementNotes": "CEX-like trading speed combined with on-chain settlement. Offers copy trading via API.",
+      "officialDocs": null
+    },
+    {
+      "id": "asterdex",
+      "name": "AsterDEX",
+      "type": "DEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Futures",
+        "RWA",
+        "Copy Trading"
+      ],
+      "apiManagementNotes": "Supports extremely high leverage. Multichain DEX architecture.",
+      "officialDocs": null
+    },
+    {
+      "id": "dydx",
+      "name": "dYdX",
+      "type": "DEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Spot",
+        "Futures"
+      ],
+      "apiManagementNotes": "Low fees and moderate liquidity. Operates on an on-chain order book with off-chain matching.",
+      "officialDocs": "https://docs.dydx.exchange/"
+    },
+    {
+      "id": "lighter",
+      "name": "Lighter",
+      "type": "DEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Perpetual Futures"
+      ],
+      "apiManagementNotes": "Focuses on permissionless trading volume.",
+      "officialDocs": null
+    },
+    {
+      "id": "edgex",
+      "name": "edgeX",
+      "type": "DEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Perpetual Futures"
+      ],
+      "apiManagementNotes": "Designed for permissionless, high-volume perpetual trading.",
+      "officialDocs": null
+    },
+    {
+      "id": "nobitex",
+      "name": "Nobitex (نوبیتکس)",
+      "type": "CEX",
+      "region": "Iran",
+      "udfSupport": "Native",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot",
+        "Margin"
+      ],
+      "apiManagementNotes": "Public UDF endpoint: /market/udf/history (no token needed). Rate limit: 60 req/min. Official Python wrapper available.",
+      "officialDocs": "https://apidocs.nobitex.ir/"
+    },
+    {
+      "id": "wallex",
+      "name": "Wallex (والکس)",
+      "type": "CEX",
+      "region": "Iran",
+      "udfSupport": "Native",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot"
+      ],
+      "apiManagementNotes": "Official UDF endpoint: /v1/udf/history for OHLCV. Python, .NET, and Go SDKs available.",
+      "officialDocs": "https://developers.wallex.ir"
+    },
+    {
+      "id": "exir",
+      "name": "Exir (اکسیر)",
+      "type": "CEX",
+      "region": "Iran",
+      "udfSupport": "Not documented",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot"
+      ],
+      "apiManagementNotes": "Uses HMAC-SHA256 authentication with headers: api-key, api-signature, api-expires. Node.js and Python libs available.",
+      "officialDocs": "https://apidocs.exir.io/"
+    },
+    {
+      "id": "tabdeal",
+      "name": "Tabdeal (تبدیل)",
+      "type": "CEX",
+      "region": "Iran",
+      "udfSupport": "Not documented",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot"
+      ],
+      "apiManagementNotes": "Official Python and Go SDKs provided. Unofficial Python wrapper also available.",
+      "officialDocs": "https://docs.tabdeal.org/"
+    },
+    {
+      "id": "bitpin",
+      "name": "Bitpin (بیت‌پین)",
+      "type": "CEX",
+      "region": "Iran",
+      "udfSupport": "Not documented",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot"
+      ],
+      "apiManagementNotes": "Base URL: https://api.bitpin.market. Community-developed Go SDK exists.",
+      "officialDocs": "https://api.bitpin.market"
+    },
+    {
+      "id": "ramzinex",
+      "name": "Ramzinex (رمزینکس)",
+      "type": "CEX",
+      "region": "Iran",
+      "udfSupport": "Not documented",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot"
+      ],
+      "apiManagementNotes": "Two API bases: publicapi.ramzinex.com (public) and ramzinex.com (authenticated with headers). Python implementation available.",
+      "officialDocs": "https://ramzinex.com/exchange/apidocs"
+    },
+    {
+      "id": "ok-exchange-iran",
+      "name": "OK Exchange (اوکی اکسچنج)",
+      "type": "CEX",
+      "region": "Iran",
+      "udfSupport": "Not documented",
+      "restApiTrading": true,
+      "kycRequired": true,
+      "tradingTypes": [
+        "Spot"
+      ],
+      "apiManagementNotes": "Iranian CEX founded in 2017. Offers REST API and WebSocket data feeds. Supports 700+ cryptocurrencies.",
+      "officialDocs": null
+    },
+    {
+      "id": "blofin",
+      "name": "BloFin",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": "No (with limits)",
+      "tradingTypes": [
+        "Spot",
+        "Futures",
+        "Copy Trading"
+      ],
+      "apiManagementNotes": "No-KYC with a daily withdrawal limit of 20,000 USDT.",
+      "officialDocs": "https://blofin.com/docs"
+    },
+    {
+      "id": "bydfi",
+      "name": "BYDFi",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": "No (with limits)",
+      "tradingTypes": [
+        "Spot",
+        "Futures",
+        "Copy Trading",
+        "RWA"
+      ],
+      "apiManagementNotes": "No-KYC with a daily withdrawal limit of 50,000 USDT.",
+      "officialDocs": "https://www.bydfi.com/api"
+    },
+    {
+      "id": "weex",
+      "name": "WEEX",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": "No (with limits)",
+      "tradingTypes": [
+        "Spot",
+        "Futures",
+        "Copy Trading"
+      ],
+      "apiManagementNotes": "No-KYC with a daily withdrawal limit of 50,000 USDT.",
+      "officialDocs": "https://weex.com/api"
+    },
+    {
+      "id": "bitunix",
+      "name": "Bitunix",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": "No (with limits)",
+      "tradingTypes": [
+        "Spot",
+        "Futures",
+        "Copy Trading"
+      ],
+      "apiManagementNotes": "High no-KYC limit: daily withdrawal up to 500,000 USDT.",
+      "officialDocs": "https://bitunix.com/api"
+    },
+    {
+      "id": "kcex",
+      "name": "KCEX",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": "No (with limits)",
+      "tradingTypes": [
+        "Spot",
+        "Futures"
+      ],
+      "apiManagementNotes": "No-KYC with a daily withdrawal limit of 15 BTC.",
+      "officialDocs": "https://www.kcex.com/api"
+    },
+    {
+      "id": "indoex",
+      "name": "IndoEx",
+      "type": "CEX",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": "No (with limits)",
+      "tradingTypes": [
+        "Spot"
+      ],
+      "apiManagementNotes": "No-KYC for spot trading. Withdrawal limit: 100 BTC daily. Supports 160+ cryptocurrencies.",
+      "officialDocs": "https://www.indoex.io/api"
+    },
+    {
+      "id": "houdini-swap",
+      "name": "Houdini Swap",
+      "type": "DEX Aggregator",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Cross-chain Swaps"
+      ],
+      "apiManagementNotes": "Privacy-enhanced swaps. Supports 100+ chains with no blockchain trace.",
+      "officialDocs": "https://docs.houdiniswap.com/api"
+    },
+    {
+      "id": "0x-swap-api",
+      "name": "0x Swap API",
+      "type": "DEX Aggregator",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "On-chain Swaps"
+      ],
+      "apiManagementNotes": "Accesses 9M+ tokens across 16 EVM-compatible chains and 130+ exchanges.",
+      "officialDocs": "https://0x.org/api"
+    },
+    {
+      "id": "quickex",
+      "name": "Quickex",
+      "type": "Swap Service",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Crypto Swaps"
+      ],
+      "apiManagementNotes": "Supports 200+ cryptocurrencies. No registration required.",
+      "officialDocs": "https://quickex.io/api"
+    },
+    {
+      "id": "godex",
+      "name": "Godex",
+      "type": "Swap Service",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Crypto Swaps"
+      ],
+      "apiManagementNotes": "Supports 929+ cryptocurrencies. Non-custodial swap service.",
+      "officialDocs": "https://godex.io/api"
+    },
+    {
+      "id": "eterna-mcp",
+      "name": "Eterna MCP",
+      "type": "Hybrid",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Perpetual Futures"
+      ],
+      "apiManagementNotes": "Built specifically for AI agents. Sandboxed TypeScript SDK with isolated sub-accounts.",
+      "officialDocs": null
+    },
+    {
+      "id": "southxchange",
+      "name": "Southxchange",
+      "type": "Broker",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Crypto Trading"
+      ],
+      "apiManagementNotes": "Cryptocurrency broker that does not require KYC. Accepts Lightning payments.",
+      "officialDocs": null
+    },
+    {
+      "id": "vdex",
+      "name": "VDEX",
+      "type": "Hybrid",
+      "region": "Global",
+      "udfSupport": "Not native",
+      "restApiTrading": true,
+      "kycRequired": false,
+      "tradingTypes": [
+        "Stocks",
+        "Commodities",
+        "FX"
+      ],
+      "apiManagementNotes": "Omnichain hybrid exchange. Features a darkpool and full self-custody.",
+      "officialDocs": null
+    }
+  ]
+}

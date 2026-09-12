@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "id": "kcex",
+  "name": "KCEX",
+  "base_url": "https://api.kkcex.com",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "query"
+      ],
+      "headers": {
+        "accesskey": "{key}",
+        "nonce": "{expires}",
+        "signature": "{sig}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "_",
+    "case": "lower",
+    "quote_suffixes": [
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/data/api/v1/getKLine",
+      "params": {
+        "market": "{symbol}",
+        "type": "{tf}",
+        "since": "{since}"
+      },
+      "result_format": "arrays",
+      "result_path": "datas",
+      "field_map": {
+        "ts": "0",
+        "open": "1",
+        "high": "2",
+        "low": "3",
+        "close": "4",
+        "volume": "5"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/data/api/v1/getTickers",
+      "params": {},
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "key",
+        "price": "price"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/data/api/v1/getTicker",
+      "params": {
+        "market": "{symbol}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "price": "price",
+        "high": "high",
+        "low": "low",
+        "bid": "bid",
+        "ask": "ask",
+        "volume": "coinVol"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/data/api/v1/getDepth",
+      "params": {
+        "market": "{symbol}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "asks": "asks",
+        "bids": "bids"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15min",
+    "60": "1hour",
+    "1D": "1day"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "1D": "1D",
+    "240": "240"
+  },
+  "min_gap_sec": 0.1,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.1,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://www.kcex.com/support/articles/35512971659801",
+      "https://github.com/kkcex/api-docs",
+      "https://github.com/kkcex/api-docs/blob/master/rest-api-v1.md",
+      "https://www.kcex.com/support"
+    ],
+    "researched_at": 1788959611,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "docs_unreadable",
+      "detail": "Corpus mixes KCEX (kcex.com) announcements with KKCex (api.kkcex.com) REST v1 docs; adapter built from KKCex API docs only",
+      "ts": 1788959611
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "accesskey/nonce/signature are query parameters, not headers; signature=HmacSHA256(secret, ASCII-sorted params joined by '&'); nonce=13-digit ms epoch; headers field used as pseudo-mapping",
+      "ts": 1788959611
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "batchOrder/batchCancel/getBatchOrders sign the Base64-decoded data string, not the JSON itself; Content-Type=application/x-www-form-urlencoded required",
+      "ts": 1788959611
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle timestamps are Unix seconds; trade timestamps are ms; kline uses incremental 'since' pagination (0 first, then response's since value)",
+      "ts": 1788959611
+    },
+    {
+      "category": "response_shape",
+      "detail": "markets result is a JSON object keyed by market name, not a list; no base/quote fields",
+      "ts": 1788959611
+    },
+    {
+      "category": "order_type",
+      "detail": "entrustType 1=market defined but error 109 says market orders unsupported; stop-loss/take-profit unsupported (error 110)",
+      "ts": 1788959611
+    },
+    {
+      "category": "margin_model",
+      "detail": "No margin/futures trading API documented â margin=null",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented in USDT (per-market minAmount in base coin only) â using conservative default 10.0",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "Price protection band exists (error 111) but value not documented â using conservative default 5.0",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "qty precision varies per market (coinPoint 4-6 in examples) â using conservative default 8",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "fee 0.1%/side from getMarketConfig examples; site advertises 0-fee promos â actual fee may differ",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "collateral/leverage/interest not documented â defaults kept",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "Rate limits: assets 3/s, other methods 10/s per user, 1000/min per IP; 10-min lock on breach",
+      "ts": 1788959611
+    },
+    {
+      "category": "response_shape",
+      "detail": "No 4h kline interval; supported: 1min,5min,15min,30min,1hour,6hour,1day,7day,30day",
+      "ts": 1788959611
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Signature is a request param, not a header: signature=hex(HmacSHA256(secret, ASCII-sorted 'k=v' request params joined by '&')); params accesskey + nonce(13-digit ms timestamp) + signature sent in query (GET) or form body (POST); no expires/passphrase",
+      "ts": 1788959611
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle timestamps are SECONDS; response {datas:[[ts,o,h,l,c,v,quoteVol],...],since:N}; incremental pagination only via 'since' cursor (first call 0, then echo response 'since'); no limit/to params",
+      "ts": 1788959611
+    },
+    {
+      "category": "response_shape",
+      "detail": "No 4h interval documented; supported: 1min,5min,15min,30min,1hour,6hour,1day,7day,30day â 240m left unmapped",
+      "ts": 1788959611
+    },
+    {
+      "category": "response_shape",
+      "detail": "getTickers/getMarketConfig return top-level maps keyed by 'base_quote' (e.g. btc_usdt); base/quote must be parsed from the key",
+      "ts": 1788959611
+    },
+    {
+      "category": "order_type",
+      "detail": "Market orders may be rejected (error 109 'market orders not supported'); stop-loss/take-profit unsupported (error 110); batchOrder/batchCancel data must be Base64-encoded JSON array, max 100 items",
+      "ts": 1788959611
+    },
+    {
+      "category": "margin_model",
+      "detail": "No margin or futures trading API documented â spot only",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented (getMarketConfig gives per-market minAmount in base-coin qty) â using conservative default 10.0",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not documented â using conservative default 3.0",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "System protection price exists (order error 111) but band percentage not documented â using default 5.0",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "Precision is per-market via getMarketConfig: coinPoint qty decimals (examples 4-6), pricePoint price decimals (2) â qty_step default 8 used",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct 0.1 taken from documented example (maker=taker=0.001); actual fees are per-market via getMarketConfig",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using conservative default 0.05",
+      "ts": 1788959611
+    },
+    {
+      "category": "rules",
+      "detail": "Rate limits: balance endpoints 3 req/s, other methods 10 req/s per user, 1000 req/min per IP; exceeding locks account 10 min â min_gap_sec 0.1 derived from 10 req/s",
+      "ts": 1788959611
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "kcex.com pages contain no API reference; REST docs sourced from github.com/kkcex/api-docs (api.kkcex.com) â may not reflect the current kcex.com API",
+      "ts": 1788959611
+    }
+  ],
+  "_warnings": [
+    "true_res_map missing '240' (defaults to identity)"
+  ],
+  "last_probe": {
+    "checked_at": 1788980024,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "KCEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "KCEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "KCEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "KCEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "KCEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "KCEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "KCEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      }
+    ]
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "id": "okx",
+  "name": "OKX",
+  "base_url": "https://openapi.okx.com",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "expires",
+        "method",
+        "path",
+        "query",
+        "body"
+      ],
+      "headers": {
+        "OK-ACCESS-KEY": "{key}",
+        "OK-ACCESS-SIGN": "{sig}",
+        "OK-ACCESS-TIMESTAMP": "{expires}",
+        "OK-ACCESS-PASSPHRASE": "{passphrase}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "-",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "USDC",
+      "BTC"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/api/v5/market/candles",
+      "params": {
+        "instId": "{symbol}",
+        "bar": "{tf}",
+        "after": "{to_ms}",
+        "limit": "{limit}"
+      },
+      "result_format": "arrays",
+      "result_path": "data"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/api/v5/market/tickers",
+      "params": {
+        "instType": "SPOT"
+      },
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "instId",
+        "base": "baseCcy",
+        "price": "last"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/api/v5/market/ticker",
+      "params": {
+        "instId": "{symbol}"
+      },
+      "result_format": "objects",
+      "result_path": "data",
+      "field_map": {
+        "symbol": "instId",
+        "price": "last"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/api/v5/market/books",
+      "params": {
+        "instId": "{symbol}",
+        "sz": "{limit}"
+      },
+      "result_format": "arrays",
+      "result_path": "data"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15m",
+    "60": "1H",
+    "240": "4H",
+    "1D": "1Dutc"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.1,
+  "quotes": [
+    "USDT",
+    "USDC",
+    "BTC"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 3.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://www.okx.com/docs-v5/en/"
+    ],
+    "researched_at": 1788965047,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "HMAC-SHA256 signature is Base64-encoded; prehash = ISO8601-ms UTC timestamp + METHOD + requestPath(incl query) + JSON body; timestamp must be within 30s of server time (GET /api/v5/public/time)",
+      "ts": 1788965047
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Regional domains required: us.okx.com (US/AU), eea.okx.com (EU); demo trading needs x-simulated-trading: 1 header",
+      "ts": 1788965047
+    },
+    {
+      "category": "response_shape",
+      "detail": "All responses wrapped as {code,data,msg}; success code='0'; batch endpoints return per-item sCode/sMsg instead",
+      "ts": 1788965047
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candlestick response field order not shown in provided corpus; arrays format assumed [ts,o,h,l,c,vol,...] with millisecond timestamps â verify live",
+      "ts": 1788965047
+    },
+    {
+      "category": "margin_model",
+      "detail": "OKX supports isolated/cross margin (MARGIN instType, tdMode isolated, borrow/repay endpoints listed) but margin endpoint paths/shapes absent from corpus â margin disabled (null)",
+      "ts": 1788965047
+    },
+    {
+      "category": "order_type",
+      "detail": "Orders via POST /api/v5/trade/order (tdMode cash/isolated/cross; ordType limit/market/post_only/FOK/IOC); algo orders (TP/SL, trigger, trailing, iceberg, TWAP) on separate algo endpoints â not configured",
+      "ts": 1788965047
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2; actual rates via Get fee rates endpoint (instType+groupId dependent)",
+      "ts": 1788965047
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not stated â using default 10.0; per-instrument minSz/lotSz/maxLmtAmt available from instruments endpoint",
+      "ts": 1788965047
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not stated â using default 3.0; per-instrument max leverage exposed via 'lever' field (not applicable to SPOT)",
+      "ts": 1788965047
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt/max_collateral_usdt not documented â using defaults 10.0/100000.0",
+      "ts": 1788965047
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using default 0.05; interest rate endpoints exist (Get interest rate) but values not in corpus",
+      "ts": 1788965047
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step per-instrument via lotSz (example shows 0.00000001 = 8dp); price precision via tickSz also per-instrument",
+      "ts": 1788965047
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct=3.0 taken from floatPxLmtPct example (0.03 = 3% floating band); per-instrument, computed limits via GET /api/v5/public/price-limit",
+      "ts": 1788965047
+    },
+    {
+      "category": "rules",
+      "detail": "min_gap_sec=0.1 derived from stated 20 requests per 2 seconds (Get instruments); per-endpoint limits vary, public limits are per-IP",
+      "ts": 1788965047
+    }
+  ],
+  "margin_style": "isolated_margin",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788965068,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "1416 markets; sample: ['XASTSUSDT', 'PEOPLEEUR', 'BOMEUSDC', 'CHZUSD', 'MASKUSD']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "300 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "300 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "300 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "300 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 79043.4, 'symbol': 'BTCUSDT', 'raw': {'instType': 'SPOT', 'instId': 'BTC-USDT', 'last': '79043.4', 'lastSz': '"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "{}"
+      }
+    ]
+  }
+}

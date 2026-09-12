@@ -1,0 +1,481 @@
+{
+  "schema_version": 1,
+  "id": "edgex",
+  "name": "edgeX",
+  "base_url": "https://edgex-prod-v2.edgex.exchange",
+  "auth": {
+    "scheme": "header",
+    "header_name": "X-EDGEX-SIGNATURE"
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDC"
+    ]
+  },
+  "endpoints": {
+    "markets": {
+      "method": "GET",
+      "path": "/api/v2/public/meta/getMetaData",
+      "result_path": "data.contractList",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "contractId",
+        "base": "contractName"
+      }
+    },
+    "candles": {
+      "method": "GET",
+      "path": "/api/v2/public/quote/getKline",
+      "params": {
+        "contractId": "{symbol}",
+        "klineType": "{tf}",
+        "priceType": "LAST_PRICE",
+        "size": "{limit}"
+      },
+      "result_path": "data.dataList",
+      "result_format": "objects",
+      "field_map": {
+        "ts": "klineTime",
+        "open": "open",
+        "high": "high",
+        "low": "low",
+        "close": "close",
+        "volume": "size"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/api/v2/public/quote/getTicker",
+      "params": {
+        "contractId": "{symbol}"
+      },
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "contractId",
+        "price": "close"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/api/v2/public/quote/getDepth",
+      "params": {
+        "contractId": "{symbol}",
+        "limit": "50"
+      },
+      "result_path": "data"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "MINUTE_15",
+    "60": "HOUR_1",
+    "240": "HOUR_4",
+    "1D": "DAY_1"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://edgexhelp.zendesk.com/hc/en-001/articles/16565803708303-API-Docs",
+      "https://edgexhelp.zendesk.com/hc/en-001/articles/16565803708303-API-Docs-V2",
+      "https://docs.edgexfoundry.org/3.1/microservices/device/services/device-rest/ApiReference/",
+      "https://docs.edgexfoundry.org/3.1/api/Ch-APIIntroduction/",
+      "https://fuji-docs.edgexfoundry.org/Ch-APIReference.html",
+      "https://edgex-foundry.readthedocs.io/"
+    ],
+    "researched_at": 1788958591,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Private REST auth is signature-based HTTP headers plus EIP-712 L2 signature for trading operations; not expressible as hmac template; full header set per official edgeX Authentication/L2 Signature docs, not in provided corpus",
+      "ts": 1788958591
+    },
+    {
+      "category": "response_shape",
+      "detail": "All responses wrapped in {code,data,msg,errorParam,requestTime,responseTime,traceId}; all numeric values returned as strings; timestamps in milliseconds",
+      "ts": 1788958591
+    },
+    {
+      "category": "response_shape",
+      "detail": "Paginated endpoints return lists under data.dataList with nextPageOffsetData cursor token (empty string = last page)",
+      "ts": 1788958591
+    },
+    {
+      "category": "response_shape",
+      "detail": "Contracts identified by numeric contractId; contractName format (e.g. BTC-USDT) inferred from official docs, not stated in provided corpus",
+      "ts": 1788958591
+    },
+    {
+      "category": "response_shape",
+      "detail": "Asset API uses separate base https://spot.edgex.exchange; WebSocket at wss://edgex-quote-prod-v2.edgex.exchange",
+      "ts": 1788958591
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Provided corpus contained only the V2 overview page (plus unrelated EdgeX Foundry IoT docs); kline/ticker/depth/contract-list paths and params taken from official edgeX V2 docs consistent with the stated /api/v2/public/... convention and /api/v2/public/meta/getServerTime",
+      "ts": 1788958591
+    },
+    {
+      "category": "margin_model",
+      "detail": "USDT-margined perpetual futures DEX with funding rates; leverage and collateral are per-contract; template margin object not applicable",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not documented â using conservative default 3.0",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â set 0 (no local price-band check)",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â perp funding-rate model instead; using default 0.05",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "Exact rate-limit numbers not documented (public tier only described as higher limits, 429 on exceed) â min_gap_sec conservative 1.0",
+      "ts": 1788958591
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Private REST uses signature-based HTTP header auth plus EIP-712 L2 signatures for trading; header names/signature construction not stated in corpus â public market data needs no auth, so adapter is public-only",
+      "ts": 1788958591
+    },
+    {
+      "category": "response_shape",
+      "detail": "All responses wrapped in {code,data,msg,errorParam,requestTime,responseTime,traceId}; numeric values returned as strings; pagination via data.dataList + nextPageOffsetData",
+      "ts": 1788958591
+    },
+    {
+      "category": "response_shape",
+      "detail": "Only /api/v2/public/meta/getServerTime path confirmed in provided corpus; quote/meta endpoint paths follow edgeX V2 SDK conventions and need live verification",
+      "ts": 1788958591
+    },
+    {
+      "category": "response_shape",
+      "detail": "API addresses contracts by numeric contractId, not symbol string; kline field names (time/priceOpen/priceHigh/priceLow/priceClose/size) need live verification",
+      "ts": 1788958591
+    },
+    {
+      "category": "response_shape",
+      "detail": "Timestamps in milliseconds; kline from/to range params unverified â only limit-based fetch assumed",
+      "ts": 1788958591
+    },
+    {
+      "category": "margin_model",
+      "detail": "Perp DEX with Order/Account/leverage APIs exists but order/position endpoint shapes not in provided corpus â margin set to null",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef (leverage cap) not documented â using conservative default 3.0",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â 0 (no local check)",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using default 8",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using default 0.2",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â funding rates exist but are dynamic; using default 0.05",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "Rate limits stated only qualitatively (public higher, HTTP 429 on exceed) â min_gap_sec default 1.0",
+      "ts": 1788958591
+    },
+    {
+      "category": "rules",
+      "detail": "Quote currencies not explicitly listed; USDT perps assumed from platform description",
+      "ts": 1788958591
+    },
+    {
+      "category": "symbol_id",
+      "ts": 1788980000,
+      "detail": "EdgeX candles/ticker require the NUMERIC contractId (kline-by-name returns empty). Profile symbols are contractIds (e.g. 30000001 = BTCUSDC); markets stats carry contractName for display."
+    }
+  ],
+  "margin_style": "dex_perp",
+  "_warnings": [],
+  "_note_prev_probe": "پروفایل قبلاً probe شده — پس از ذخیره، تست زنده دوباره اجرا شود",
+  "last_probe": {
+    "checked_at": 1788979247,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "171 markets; sample: ['30000001', '30000002', '30000003', '30000004', '30000005']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "722 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "120 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 78510.6, 'symbol': '30000001', 'raw': {'contractId': '30000001', 'contractName': 'BTCUSDC', 'priceChange': '50"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "edgeX API error 400: {\"code\":\"INVALID_DEPTH_LEVEL\",\"data\":null,\"msg\":\"depth level only support 15 and 200\",\"errorParam\":{},\"requestTime\":\"1788979248075\",\"responseTime\":\"1788979248077\",\"traceId\":\"659f9"
+      }
+    ]
+  },
+  "symbol_map": {
+    "BTCUSDC": "30000001",
+    "ETHUSDC": "30000002",
+    "SOLUSDC": "30000003",
+    "EDGEUSDC": "30000004",
+    "XAUUSDC": "30000005",
+    "XAGUSDC": "30000006",
+    "COPPERUSDC": "30000007",
+    "CLUSDC": "30000008",
+    "NATGASUSDC": "30000009",
+    "SPYUSDC": "30000010",
+    "QQQUSDC": "30000011",
+    "AAPLUSDC": "30000012",
+    "AMZNUSDC": "30000013",
+    "MSTRUSDC": "30000014",
+    "XPDUSDC": "30000015",
+    "XPTUSDC": "30000016",
+    "BZUSDC": "30000017",
+    "EWYUSDC": "30000018",
+    "EWJUSDC": "30000019",
+    "NVDAUSDC": "30000020",
+    "AMDUSDC": "30000021",
+    "GOOGLUSDC": "30000022",
+    "TSLAUSDC": "30000023",
+    "AVGOUSDC": "30000024",
+    "COINUSDC": "30000025",
+    "CRCLUSDC": "30000026",
+    "HOODUSDC": "30000027",
+    "METAUSDC": "30000028",
+    "MSFTUSDC": "30000029",
+    "PLTRUSDC": "30000030",
+    "CRWVUSDC": "30000031",
+    "INTCUSDC": "30000032",
+    "LITEUSDC": "30000033",
+    "SNDKUSDC": "30000034",
+    "MUUSDC": "30000035",
+    "RKLBUSDC": "30000036",
+    "ORCLUSDC": "30000037",
+    "TSMUSDC": "30000038",
+    "SKHYNIXUSDC": "30000039",
+    "DRAMUSDC": "30000040",
+    "HYPEUSDC": "30000041",
+    "LITUSDC": "30000042",
+    "TRUMPUSDC": "30000043",
+    "WLDUSDC": "30000044",
+    "ADAUSDC": "30000045",
+    "1000PEPEUSDC": "30000046",
+    "CRVUSDC": "30000047",
+    "TRXUSDC": "30000048",
+    "OPUSDC": "30000049",
+    "BNBUSDC": "30000050",
+    "XRPUSDC": "30000051",
+    "ZECUSDC": "30000052",
+    "DOGEUSDC": "30000053",
+    "SUIUSDC": "30000054",
+    "LINKUSDC": "30000055",
+    "UNIUSDC": "30000056",
+    "LTCUSDC": "30000057",
+    "ENAUSDC": "30000058",
+    "AAVEUSDC": "30000059",
+    "BCHUSDC": "30000060",
+    "GRAMUSDC": "30000061",
+    "ONDOUSDC": "30000062",
+    "PUMPUSDC": "30000063",
+    "DOTUSDC": "30000064",
+    "ARBUSDC": "30000065",
+    "XMRUSDC": "30000066",
+    "XLMUSDC": "30000067",
+    "ASTERUSDC": "30000068",
+    "FILUSDC": "30000069",
+    "TAOUSDC": "30000070",
+    "ICPUSDC": "30000071",
+    "ATOMUSDC": "30000072",
+    "MONUSDC": "30000073",
+    "PENDLEUSDC": "30000074",
+    "VIRTUALUSDC": "30000075",
+    "SPCXUSDC": "30000076",
+    "MRVLUSDC": "30000077",
+    "CBRSUSDC": "30000078",
+    "SAMSUNGUSDC": "30000079",
+    "REUSDC": "30000080",
+    "LABUSDC": "30000081",
+    "UBUSDC": "30000082",
+    "BTWUSDC": "30000083",
+    "ZHIPUUSDC": "30000084",
+    "VELVETUSDC": "30000085",
+    "BEATUSDC": "30000086",
+    "SKHYUSDC": "30000087",
+    "SOXLUSDC": "30000088",
+    "KORUUSDC": "30000089",
+    "SOXSUSDC": "30000090",
+    "XLEUSDC": "30000091",
+    "ALLOUSDC": "30000092",
+    "TZAUSDC": "30000093",
+    "MINIMAXUSDC": "30000094",
+    "CASHCATUSDC": "30000095",
+    "BANKUSDC": "30000096",
+    "TLMUSDC": "30000097",
+    "1000AKEUSDC": "30000098",
+    "APLDUSDC": "30000099",
+    "NEARUSDC": "30000100",
+    "KAITOUSDC": "30000101",
+    "BUSDC": "30000102",
+    "TENCENTUSDC": "30000103",
+    "XIAOMIUSDC": "30000104",
+    "POPMARTUSDC": "30000105",
+    "SOFIUSDC": "30000106",
+    "PENGUSDC": "30000107",
+    "SHAZUSDC": "30000108",
+    "EULUSDC": "30000109",
+    "ZAMAUSDC": "30000110",
+    "ESPUSDC": "30000111",
+    "PIEVERSEUSDC": "30000112",
+    "CXMTUSDC": "30000113",
+    "QCOMUSDC": "30000114",
+    "BITOUSDC": "30000115",
+    "TMFUSDC": "30000116",
+    "TBTUSDC": "30000117",
+    "XLVUSDC": "30000118",
+    "SNXXUSDC": "30000119",
+    "ONUSDC": "30000120",
+    "GSUSDC": "30000121",
+    "PYPLUSDC": "30000122",
+    "CRMUSDC": "30000123",
+    "GRVTUSDC": "30000124",
+    "VUSDC": "30000125",
+    "BRKBUSDC": "30000126",
+    "WMTUSDC": "30000127",
+    "JPMUSDC": "30000128",
+    "KOUSDC": "30000129",
+    "1000RATSUSDC": "30000130",
+    "UAIUSDC": "30000131",
+    "GIGADEVUSDC": "30000132",
+    "CYSUSDC": "30000133",
+    "RDDTUSDC": "30000134",
+    "HEIUSDC": "30000135",
+    "UNITREEUSDC": "30000136",
+    "MEITUANUSDC": "30000137",
+    "KUAISHOUUSDC": "30000138",
+    "AAOIUSDC": "30000139",
+    "SKDDUSDC": "30000140",
+    "SKUUUSDC": "30000141",
+    "NBISUSDC": "30000142",
+    "OUSTUSDC": "30000143",
+    "NETUSDC": "30000144",
+    "NAVERUSDC": "30000145",
+    "LGELUSDC": "30000146",
+    "HANMIUSDC": "30000147",
+    "SAMSUNGEMUSDC": "30000148",
+    "KODEX200USDC": "30000149",
+    "WDCUSDC": "30000150",
+    "ZHONGJIUSDC": "30000151",
+    "GDXUSDC": "30000152",
+    "LYTEUSDC": "30000153",
+    "VSTUSDC": "30000154",
+    "SHOPUSDC": "30000155",
+    "ARMUSDC": "30000156",
+    "DELLUSDC": "30000157",
+    "ZROUSDC": "30000158",
+    "MRNAUSDC": "30000159",
+    "DJTUSDC": "30000160",
+    "JPYUSDC": "30000161",
+    "EURUSDC": "30000162",
+    "PDDUSDC": "30000163",
+    "IONQUSDC": "30000164",
+    "MRKUSDC": "30000165",
+    "MARAUSDC": "30000166",
+    "PONSUSDC": "30000167",
+    "BYDUSDC": "30000168",
+    "哈基米USDC": "30000169",
+    "USELESSUSDC": "30000170",
+    "VVVUSDC": "30000171"
+  },
+  "symbol_map_updated": 1788997583
+}

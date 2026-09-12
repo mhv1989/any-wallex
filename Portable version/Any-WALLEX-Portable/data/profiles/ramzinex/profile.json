@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "id": "ramzinex",
+  "name": "Ramzinex (رمزینکس)",
+  "base_url": "https://api.ramzinex.com/exchange/api/v1.0",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "IRR",
+      "IRT",
+      "BTC",
+      "ETH"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/exchange/candles/{pair_id}",
+      "params": {
+        "resolution": "{tf}",
+        "from": "{from}",
+        "to": "{to}"
+      },
+      "result_format": "arrays",
+      "result_path": "data",
+      "field_map": {
+        "ts": "t",
+        "open": "o",
+        "high": "h",
+        "low": "l",
+        "close": "c",
+        "volume": "v"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/exchange/pairs",
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "base_currency_symbol.en+quote_currency_symbol.en",
+        "base": "base_currency_symbol.en",
+        "quote": "quote_currency_symbol.en"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.06,
+  "quotes": [
+    "USDT",
+    "IRR"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.095,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.ramzinex.ir/",
+      "https://ramzinex.ir/products/ramzinex-api/",
+      "https://documenter.getpostman.com/view/15475713/UyxnD4dH",
+      "https://github.com/ramzinex/php-sdk",
+      "https://ramzinex.ir/",
+      "https://github.com/ramzinex/php-sdk/blob/main/README.md"
+    ],
+    "researched_at": 1788959193,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Private API requires rotating bearer token (regenerated every 10 min from API key) sent via headers 'Authorization2: Bearer {token}' and 'x-api-key' (per official php-sdk) â not expressible in template; public endpoints unauthenticated.",
+      "ts": 1788959193
+    },
+    {
+      "category": "response_shape",
+      "detail": "Docs portal renders via JS (unreadable); endpoint paths taken from official Ramzinex Postman collection and ramzinex/php-sdk sample output; only url_name, buy, sell, pair_id, base/quote_currency_symbol verified as response fields.",
+      "ts": 1788959193
+    },
+    {
+      "category": "response_shape",
+      "detail": "Markets identified by numeric pair_id (e.g. 272), not symbol strings â adapter must resolve symbol->pair_id via markets endpoint; price mapped to best-ask 'sell' since last-price field unverified.",
+      "ts": 1788959193
+    },
+    {
+      "category": "response_shape",
+      "detail": "Full supported candle-resolution list not documented; using UDF-standard values (15/60/240/1D); candles use unix seconds for from/to.",
+      "ts": 1788959193
+    },
+    {
+      "category": "order_type",
+      "detail": "Order placement/cancel endpoints, params and response shapes not present in provided corpus â only public market data configured.",
+      "ts": 1788959193
+    },
+    {
+      "category": "margin_model",
+      "detail": "Leverage products (easy/floating leverage) advertised on site but no margin API documented â margin disabled.",
+      "ts": 1788959193
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788959193
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef / collateral limits not documented â using defaults 3.0 / 10.0 / 100000.0",
+      "ts": 1788959193
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â set 0 (no local price-band check)",
+      "ts": 1788959193
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not stated globally; per-pair base_precision/amount_step returned in pair metadata â using default 8",
+      "ts": 1788959193
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct 0.095 is starting tier for USDT markets; IRR markets start at 0.2%, tiered by monthly volume; interest_per_4h_pct not documented â default 0.05",
+      "ts": 1788959193
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "docs.ramzinex.ir is JS-rendered; endpoint paths sourced from official Postman collection and ramzinex/php-sdk â verify at runtime",
+      "ts": 1788959194
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Private calls also require 'Authorization2: Bearer {token}' header; token derived from API key/secret and rotates every 10 min â derivation algorithm not documented",
+      "ts": 1788959194
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle array column order and pairs/state field names not fully verifiable from provided corpus",
+      "ts": 1788959194
+    },
+    {
+      "category": "response_shape",
+      "detail": "Markets identified by numeric pair_id (e.g. 272); lowercase url_name 'base-quote' used as symbol string",
+      "ts": 1788959194
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle from/to are unix seconds (TradingView-style resolution param), not milliseconds",
+      "ts": 1788959194
+    },
+    {
+      "category": "order_type",
+      "detail": "Order placement/cancel endpoint paths absent from corpus â adapter limited to market data and paper trading",
+      "ts": 1788959194
+    },
+    {
+      "category": "margin_model",
+      "detail": "Leverage products exist on platform (easy/floating leverage, long/short) but margin API undocumented â margin disabled",
+      "ts": 1788959194
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788959194
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788959194
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788959194
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not documented â using conservative default 3.0",
+      "ts": 1788959194
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â set to 0 (no local check)",
+      "ts": 1788959194
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented globally; per-pair base_precision/price_step available via pairs endpoint â using default 8",
+      "ts": 1788959194
+    },
+    {
+      "category": "rules",
+      "detail": "Fees tiered maker/taker: USDT markets start 0.095%, IRR markets 0.2% â using 0.095 taker start",
+      "ts": 1788959194
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using conservative default 0.05",
+      "ts": 1788959194
+    }
+  ],
+  "_warnings": [],
+  "_note_prev_probe": "پروفایل قبلاً probe شده — پس از ذخیره، تست زنده دوباره اجرا شود",
+  "last_probe": {
+    "checked_at": 1788979901,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "619 markets; sample: ['BTCIRR', 'USDTIRR', 'XAUTGOLDMILIGRAMIRR', 'USDDIRR', 'RFXIRR']"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "Ramzinex (رمزینکس) API returned HTTP 404 with a non-JSON body for GET /exchange/candles/{pair_id} (body[:120]='<!DOCTYPE html>\\n<html lang=\"en\">\\n\\n<head>\\n    <!-- Global site tag (gtag.js) - Google Analytics -->\\n    <meta charset=\"ut'). Endpoint p"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "Ramzinex (رمزینکس) API returned HTTP 404 with a non-JSON body for GET /exchange/candles/{pair_id} (body[:120]='<!DOCTYPE html>\\n<html lang=\"en\">\\n\\n<head>\\n    <!-- Global site tag (gtag.js) - Google Analytics -->\\n    <meta charset=\"ut'). Endpoint p"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "Ramzinex (رمزینکس) API returned HTTP 404 with a non-JSON body for GET /exchange/candles/{pair_id} (body[:120]='<!DOCTYPE html>\\n<html lang=\"en\">\\n\\n<head>\\n    <!-- Global site tag (gtag.js) - Google Analytics -->\\n    <meta charset=\"ut'). Endpoint p"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "Ramzinex (رمزینکس) API returned HTTP 404 with a non-JSON body for GET /exchange/candles/{pair_id} (body[:120]='<!DOCTYPE html>\\n<html lang=\"en\">\\n\\n<head>\\n    <!-- Global site tag (gtag.js) - Google Analytics -->\\n    <meta charset=\"ut'). Endpoint p"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 0, 'symbol': 'BTCUSDT'}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'ramzinex'"
+      }
+    ]
+  }
+}

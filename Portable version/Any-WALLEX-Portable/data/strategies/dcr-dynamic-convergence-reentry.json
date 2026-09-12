@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.1",
+  "strategy_id": "dcr-dynamic-convergence-reentry",
+  "name": "Dynamic Convergence Reentry (DCR)",
+  "description": "استراتژی همگرایی پویا با ورود مجدد هوشمند بر اساس دونچیان، بولینگر، کلتنر و پوشش درصدی در تایم فریم 4 ساعته.",
+  "source": "external_ai",
+  "provider": "wallex_ai",
+  "model": "v1.0",
+  "timeframe": "240",
+  "execution_mode": "auto",
+  "min_confirmations": 3,
+  "cooldown_bars": 3,
+  "min_confidence": 0.55,
+  "entry_conditions": [
+    {
+      "indicator": "donchian",
+      "operator": "cross_above",
+      "compare": "price",
+      "period": 20,
+      "value": 0
+    },
+    {
+      "indicator": "donchian",
+      "operator": ">",
+      "compare": "price",
+      "period": 20,
+      "value": 0
+    },
+    {
+      "indicator": "sma",
+      "operator": ">",
+      "compare": "price",
+      "period": 20,
+      "value": 1.05
+    }
+  ],
+  "exit_conditions": [
+    {
+      "indicator": "keltner",
+      "operator": "<",
+      "compare": "price",
+      "period": 20,
+      "value": 0
+    },
+    {
+      "indicator": "sma",
+      "operator": "<",
+      "compare": "price",
+      "period": 20,
+      "value": 1.05
+    },
+    {
+      "indicator": "donchian",
+      "operator": "<",
+      "compare": "price",
+      "period": 20,
+      "value": 0
+    }
+  ],
+  "risk": {
+    "max_positions": 1,
+    "risk_per_trade_pct": 1.0,
+    "stop_atr_mult": 1.5,
+    "target_atr_mult": 3.0,
+    "dollar_tp": 0.0,
+    "dollar_stop": 0.0,
+    "tmn_tp": 0.0,
+    "tmn_stop": 0.0,
+    "grid_mode": "none",
+    "grid_step_pct": 1.0,
+    "grid_max_steps": 5
+  },
+  "parameters": {
+    "bollinger_period": 20,
+    "keltner_period": 20,
+    "keltner_atr_mult": 1.5,
+    "donchian_period": 20,
+    "sma_period": 20,
+    "sma_offset_pct": 5
+  },
+  "enabled": true,
+  "created_ts": 1788436393,
+  "updated_ts": 1788436393
+}

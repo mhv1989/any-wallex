@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "id": "kraken",
+  "name": "Kraken",
+  "base_url": "https://api.kraken.com",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "path",
+        "nonce",
+        "body"
+      ],
+      "headers": {
+        "API-Key": "{key}",
+        "API-Sign": "{sig}"
+      },
+      "algo": "sha512"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USD"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/0/public/OHLC",
+      "params": {
+        "pair": "{symbol}",
+        "interval": "{tf}"
+      },
+      "result_path": "result",
+      "result_format": "arrays",
+      "field_map": {
+        "ts": "0",
+        "open": "1",
+        "close": "2",
+        "high": "3",
+        "low": "4",
+        "volume": "6"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/0/public/AssetPairs",
+      "params": {},
+      "result_format": "objects",
+      "result_path": "result",
+      "field_map": {
+        "symbol": "altname",
+        "base": "base",
+        "quote": "quote"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/0/public/Ticker",
+      "params": {
+        "pair": "{symbol}"
+      },
+      "result_format": "objects",
+      "result_path": "result",
+      "field_map": {
+        "price": "c[0]",
+        "bid": "b[0]",
+        "ask": "a[0]",
+        "volume": "v[1]"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/0/public/Depth",
+      "params": {
+        "pair": "{symbol}",
+        "count": "{limit}"
+      },
+      "result_format": "objects",
+      "result_path": "result"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1440"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USD",
+    "USDT",
+    "EUR",
+    "GBP"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.kraken.com/"
+    ],
+    "researched_at": 1788956126,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Signature is HMAC-SHA512 of URI path + SHA256(nonce+POST body), base64-encoded with base64-decoded secret; template hmac fields cannot fully express this",
+      "ts": 1788956126
+    },
+    {
+      "category": "response_shape",
+      "detail": "OHLC/Ticker/Depth results are keyed by dynamic pair name under result (e.g. result.XXBTZUSD); result_path cannot express dynamic key",
+      "ts": 1788956126
+    },
+    {
+      "category": "response_shape",
+      "detail": "OHLC rows are [time,open,high,low,close,vwap,volume,count]; vwap at index 5 skipped; timestamps in unix seconds, not ms",
+      "ts": 1788956126
+    },
+    {
+      "category": "response_shape",
+      "detail": "Kraken uses XBT for Bitcoin (e.g. XBTUSD/XXBTZUSD); symbol normalization to BTC required",
+      "ts": 1788956126
+    },
+    {
+      "category": "order_type",
+      "detail": "Only limit order flow (AddOrder, ordertype=limit, POST /0/private/AddOrder) shown in provided docs",
+      "ts": 1788956126
+    },
+    {
+      "category": "margin_model",
+      "detail": "Kraken offers margin trading but it is not documented in provided corpus; margin disabled",
+      "ts": 1788956126
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented in provided corpus â using conservative default 0.2",
+      "ts": 1788956126
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788956126
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using default 5.0",
+      "ts": 1788956126
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using default 8",
+      "ts": 1788956126
+    },
+    {
+      "category": "rules",
+      "detail": "rate limit not stated in provided docs â using default min_gap_sec 1.0",
+      "ts": 1788956126
+    }
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788964647,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "1449 markets; sample: ['0GEUR', '0GUSD', '1INCHEUR', '1INCHUSD', '2ZEUR']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "721 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "721 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "721 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "353 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 0.0, 'symbol': '0GEUR', 'raw': {'0GEUR': {'a': ['0.1730000', '5414', '5414.000'], 'b': ['0.1720000', '10564', "
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'0GEUR': {'asks': [['0.1730000', '5413.496', 1788964611], ['0.1740000', '4816.685', 1788964539], ['0.1750000', '8240.89"
+      }
+    ]
+  }
+}

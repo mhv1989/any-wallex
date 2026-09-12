@@ -1,0 +1,3366 @@
+{
+  "nobitex": {
+    "name": "Nobitex (نوبیتکس)",
+    "base_url": "",
+    "docs_url": "https://apidocs.nobitex.ir/",
+    "region": "Iran",
+    "trading_types": [
+      "Spot",
+      "Margin"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "auth_scheme": "ed25519",
+    "min_order_usdt": 0.59,
+    "min_collateral_usdt": 0.59,
+    "max_risk_coef": 5.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8,
+    "fee_pct": 0.15,
+    "interest_per_4h_pct": 0.008307,
+    "notes": "size check = order notional (qty×limit_price), per-market (BTCUSDT ~0.6, ETHUSDT ~0.5 USDT); probe at near-market price with qty=notional/price. maxLeverage=5 all markets. positionFeeRate DAILY 0.05%→0.0083%/4h. fee_pct conservative (spot fee table not public). price_band wide (98% off-market accepted).",
+    "calibrated_at": 1788804662,
+    "udf_support": "Native",
+    "rest_api_trading": true,
+    "api_notes": "Public UDF endpoint: /market/udf/history (no token needed). Rate limit: 60 req/min. Official Python wrapper available."
+  },
+  "_updated": 1788980169,
+  "mexc": {
+    "name": "MEXC",
+    "base_url": "",
+    "docs_url": "https://mexcdevelop.github.io/apidocs/spot_v3_en/",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "auth_scheme": "hmac",
+    "calibrated_at": 1788900628,
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "No-KYC access is available but with strict withdrawal and trading limits for unverified users.",
+    "docs_note": "spot_v3_en = LIVE api.mexc.com/api/v3 (verified 2026-09-09: 2080 markets, klines, ticker, depth). spot_v2_en describes the DEPRECATED /open/api/v2/* API (404 on live) — do not use; it made the AI extract dead endpoints (2026-09-09 MEXC wizard bug)."
+  },
+  "bitmex": {
+    "name": "BitMEX",
+    "base_url": "https://www.bitmex.com/api/v1",
+    "docs_url": "https://www.bitmex.com/app/apiOverview",
+    "region": "Global",
+    "trading_types": [
+      "Perpetual Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Native",
+    "rest_api_trading": true,
+    "api_notes": "API Key + HMAC Signature authentication. Full REST and WebSocket support. Offers a testnet environment for safe testing.",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "1",
+      "240": "60",
+      "60": "60",
+      "1D": "1D"
+    },
+    "probed_at": 1788964754,
+    "history": [
+      {
+        "ts": 1788957344,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://www.bitmex.com/api/v1"
+          }
+        }
+      },
+      {
+        "ts": 1788957475,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957344,
+            "new": 1788957475
+          }
+        }
+      },
+      {
+        "ts": 1788962429,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957475,
+            "new": 1788962429
+          }
+        }
+      },
+      {
+        "ts": 1788964638,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962429,
+            "new": 1788964638
+          }
+        }
+      },
+      {
+        "ts": 1788964754,
+        "source": "probe",
+        "changed": {
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "true_res_map": {
+            "old": {
+              "15": "15",
+              "60": "60",
+              "240": "240",
+              "1D": "1D"
+            },
+            "new": {
+              "15": "1",
+              "240": "60",
+              "60": "60",
+              "1D": "1D"
+            }
+          },
+          "probed_at": {
+            "old": 1788964638,
+            "new": 1788964754
+          }
+        }
+      },
+      {
+        "ts": 1788964756,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788964756
+  },
+  "binance": {
+    "name": "Binance",
+    "base_url": "https://api.binance.com",
+    "docs_url": "https://developers.binance.com",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Margin",
+      "Futures",
+      "Options"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Community implementations",
+    "rest_api_trading": true,
+    "api_notes": "API Key + HMAC Signature + IP whitelisting. Extensive SDK support in multiple languages. Testnet available.",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788962444,
+    "history": [
+      {
+        "ts": 1788955965,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.binance.com"
+          }
+        }
+      },
+      {
+        "ts": 1788957434,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788955965,
+            "new": 1788957434
+          }
+        }
+      },
+      {
+        "ts": 1788957565,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957434,
+            "new": 1788957565
+          }
+        }
+      },
+      {
+        "ts": 1788962444,
+        "source": "probe",
+        "changed": {
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788957565,
+            "new": 1788962444
+          }
+        }
+      },
+      {
+        "ts": 1788962444,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788962444
+  },
+  "kucoin": {
+    "name": "KuCoin",
+    "base_url": "https://api.kucoin.com",
+    "docs_url": "https://www.kucoin.com/docs",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Margin",
+      "Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Via SDKs",
+    "rest_api_trading": true,
+    "api_notes": "API Key + HMAC Signature + API Passphrase. Unified account trading supported.",
+    "_source": "activate",
+    "auth_scheme": "none",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788955565,
+    "history": [
+      {
+        "ts": 1788955430,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.kucoin.com"
+          }
+        }
+      },
+      {
+        "ts": 1788955565,
+        "source": "probe",
+        "changed": {
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788955430,
+            "new": 1788955565
+          }
+        }
+      },
+      {
+        "ts": 1788955567,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788955567
+  },
+  "okx": {
+    "name": "OKX",
+    "base_url": "https://openapi.okx.com",
+    "docs_url": "https://www.okx.com/docs-v5/en/",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Margin",
+      "Futures",
+      "Perpetuals"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Unified V5 API. REST + WebSocket support. Highly structured documentation.",
+    "docs_note": "previous URL (https://www.okx.com/docs-v5) was 404/dead — corrected 2026-09-07",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788965068,
+    "history": [
+      {
+        "ts": 1788965068,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://openapi.okx.com"
+          }
+        }
+      },
+      {
+        "ts": 1788965069,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788965069
+  },
+  "bybit": {
+    "name": "Bybit",
+    "base_url": "https://api.bybit.com",
+    "docs_url": "https://bybit-exchange.github.io/docs/",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Futures",
+      "Perpetuals"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "REST + WebSocket. USDT and USDC perpetuals supported.",
+    "docs_note": "previous URL (https://bybit-exchange.github.io/docs/v5/) was 404/dead — corrected 2026-09-07",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788972222,
+    "history": [
+      {
+        "ts": 1788956045,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.bybit.com"
+          }
+        }
+      },
+      {
+        "ts": 1788957468,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788956045,
+            "new": 1788957468
+          }
+        }
+      },
+      {
+        "ts": 1788957577,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957468,
+            "new": 1788957577
+          }
+        }
+      },
+      {
+        "ts": 1788962740,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957577,
+            "new": 1788962740
+          }
+        }
+      },
+      {
+        "ts": 1788965081,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962740,
+            "new": 1788965081
+          }
+        }
+      },
+      {
+        "ts": 1788970955,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965081,
+            "new": 1788970955
+          }
+        }
+      },
+      {
+        "ts": 1788972222,
+        "source": "probe",
+        "changed": {
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788970955,
+            "new": 1788972222
+          }
+        }
+      },
+      {
+        "ts": 1788972223,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788972223
+  },
+  "kraken": {
+    "name": "Kraken",
+    "base_url": "https://api.kraken.com",
+    "docs_url": "https://docs.kraken.com/",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Margin",
+      "Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "API Key + HMAC Signature. FIX protocol support available for institutional traders.",
+    "docs_note": "previous URL (https://docs.kraken.com/rest/) was 404/dead — corrected 2026-09-07",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788964647,
+    "history": [
+      {
+        "ts": 1788956133,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.kraken.com"
+          }
+        }
+      },
+      {
+        "ts": 1788957476,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788956133,
+            "new": 1788957476
+          }
+        }
+      },
+      {
+        "ts": 1788957585,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957476,
+            "new": 1788957585
+          }
+        }
+      },
+      {
+        "ts": 1788962749,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957585,
+            "new": 1788962749
+          }
+        }
+      },
+      {
+        "ts": 1788964647,
+        "source": "probe",
+        "changed": {
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788962749,
+            "new": 1788964647
+          }
+        }
+      },
+      {
+        "ts": 1788964649,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788964649
+  },
+  "coinex": {
+    "name": "CoinEx",
+    "base_url": "https://api.coinex.com/v2",
+    "docs_url": "https://docs.coinex.com/",
+    "region": "Global",
+    "trading_types": [
+      "Spot"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Client library available for both REST and WebSocket integration.",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788971765,
+    "history": [
+      {
+        "ts": 1788955294,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.coinex.com/v1"
+          }
+        }
+      },
+      {
+        "ts": 1788956180,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788955294,
+            "new": 1788956180
+          }
+        }
+      },
+      {
+        "ts": 1788957523,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788956180,
+            "new": 1788957523
+          }
+        }
+      },
+      {
+        "ts": 1788957632,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957523,
+            "new": 1788957632
+          }
+        }
+      },
+      {
+        "ts": 1788962761,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957632,
+            "new": 1788962761
+          }
+        }
+      },
+      {
+        "ts": 1788965094,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962761,
+            "new": 1788965094
+          }
+        }
+      },
+      {
+        "ts": 1788970962,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965094,
+            "new": 1788970962
+          }
+        }
+      },
+      {
+        "ts": 1788971765,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "https://api.coinex.com/v1",
+            "new": "https://api.coinex.com/v2"
+          },
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788970962,
+            "new": 1788971765
+          }
+        }
+      },
+      {
+        "ts": 1788971766,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788971766
+  },
+  "digifinex": {
+    "name": "DigiFinex",
+    "base_url": "https://openapi.digifinex.com/v3",
+    "docs_url": "https://docs.digifinex.com/",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Margin",
+      "Derivatives"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Open API access with a tiered VIP system affecting rate limits.",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788972229,
+    "history": [
+      {
+        "ts": 1788957570,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://openapi.digifinex.com"
+          }
+        }
+      },
+      {
+        "ts": 1788957721,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957570,
+            "new": 1788957721
+          }
+        }
+      },
+      {
+        "ts": 1788962773,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957721,
+            "new": 1788962773
+          }
+        }
+      },
+      {
+        "ts": 1788965106,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962773,
+            "new": 1788965106
+          }
+        }
+      },
+      {
+        "ts": 1788970969,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965106,
+            "new": 1788970969
+          }
+        }
+      },
+      {
+        "ts": 1788972229,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "https://openapi.digifinex.com",
+            "new": "https://openapi.digifinex.com/v3"
+          },
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788970969,
+            "new": 1788972229
+          }
+        }
+      },
+      {
+        "ts": 1788972229,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788972229
+  },
+  "ethereal": {
+    "name": "Ethereal",
+    "base_url": "https://api.ethereal.trade/v1",
+    "docs_url": "",
+    "region": "Global",
+    "trading_types": [
+      "Perpetual Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "not_live",
+    "udf_support": "Native",
+    "rest_api_trading": true,
+    "api_notes": "Built-in TradingView UDF-compatible API for OHLCV data. Fully on-chain and permissionless.",
+    "_source": "probe",
+    "auth_scheme": "none",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788979663,
+    "history": [
+      {
+        "ts": 1788957726,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.ethereal.trade/v1"
+          }
+        }
+      },
+      {
+        "ts": 1788957728,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957726,
+            "new": 1788957728
+          }
+        }
+      },
+      {
+        "ts": 1788962788,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957728,
+            "new": 1788962788
+          }
+        }
+      },
+      {
+        "ts": 1788965117,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962788,
+            "new": 1788965117
+          }
+        }
+      },
+      {
+        "ts": 1788970977,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965117,
+            "new": 1788970977
+          }
+        }
+      },
+      {
+        "ts": 1788973631,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788970977,
+            "new": 1788973631
+          }
+        }
+      },
+      {
+        "ts": 1788975590,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788973631,
+            "new": 1788975590
+          }
+        }
+      },
+      {
+        "ts": 1788976299,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975590,
+            "new": 1788976299
+          }
+        }
+      },
+      {
+        "ts": 1788979612,
+        "source": "batch_sweep",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "not_live"
+          }
+        }
+      },
+      {
+        "ts": 1788979663,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976299,
+            "new": 1788979663
+          }
+        }
+      }
+    ],
+    "markets_status": "all 18 products DELISTED",
+    "endpoint_markets": "/v1/product (openapi.json at api.ethereal.trade/openapi.json)"
+  },
+  "hyperliquid": {
+    "name": "Hyperliquid",
+    "base_url": "https://api.hyperliquid.xyz",
+    "docs_url": "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api",
+    "region": "Global",
+    "trading_types": [
+      "Perpetual Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "No account creation needed (connect wallet). No withdrawal limits. Handles ~44% of all DEX perpetual volume.",
+    "_source": "activate",
+    "auth_scheme": "none",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788973584,
+    "history": [
+      {
+        "ts": 1788957826,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.hyperliquid.xyz"
+          }
+        }
+      },
+      {
+        "ts": 1788957829,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957826,
+            "new": 1788957829
+          }
+        }
+      },
+      {
+        "ts": 1788962802,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957829,
+            "new": 1788962802
+          }
+        }
+      },
+      {
+        "ts": 1788965128,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962802,
+            "new": 1788965128
+          }
+        }
+      },
+      {
+        "ts": 1788970985,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965128,
+            "new": 1788970985
+          }
+        }
+      },
+      {
+        "ts": 1788973584,
+        "source": "probe",
+        "changed": {
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788970985,
+            "new": 1788973584
+          }
+        }
+      },
+      {
+        "ts": 1788973585,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788973585
+  },
+  "apex-omni": {
+    "name": "Apex Omni",
+    "base_url": "https://omni.apex.exchange",
+    "docs_url": "",
+    "region": "Global",
+    "trading_types": [
+      "Futures",
+      "RWA",
+      "Copy Trading"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "CEX-like trading speed combined with on-chain settlement. Offers copy trading via API.",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788975534,
+    "history": [
+      {
+        "ts": 1788957925,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://omni.apex.exchange/api"
+          }
+        }
+      },
+      {
+        "ts": 1788962813,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788957925,
+            "new": 1788962813
+          }
+        }
+      },
+      {
+        "ts": 1788965139,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962813,
+            "new": 1788965139
+          }
+        }
+      },
+      {
+        "ts": 1788970992,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965139,
+            "new": 1788970992
+          }
+        }
+      },
+      {
+        "ts": 1788973637,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788970992,
+            "new": 1788973637
+          }
+        }
+      },
+      {
+        "ts": 1788975534,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "https://omni.apex.exchange/api",
+            "new": "https://omni.apex.exchange"
+          },
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788973637,
+            "new": 1788975534
+          }
+        }
+      },
+      {
+        "ts": 1788975535,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788975535
+  },
+  "asterdex": {
+    "name": "AsterDEX",
+    "base_url": "https://fapi.asterdex.com",
+    "docs_url": "",
+    "region": "Global",
+    "trading_types": [
+      "Futures",
+      "RWA",
+      "Copy Trading"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Supports extremely high leverage. Multichain DEX architecture.",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788958230,
+    "history": [
+      {
+        "ts": 1788958005,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://fapi.asterdex.com"
+          }
+        }
+      },
+      {
+        "ts": 1788958182,
+        "source": "probe",
+        "changed": {
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788958005,
+            "new": 1788958182
+          }
+        }
+      },
+      {
+        "ts": 1788958183,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      },
+      {
+        "ts": 1788958230,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788958182,
+            "new": 1788958230
+          }
+        }
+      }
+    ],
+    "activated_at": 1788958231
+  },
+  "dydx": {
+    "name": "dYdX",
+    "base_url": "https://indexer.dydx.trade/v4",
+    "docs_url": "https://docs.dydx.exchange/",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Low fees and moderate liquidity. Operates on an on-chain order book with off-chain matching.",
+    "_source": "activate",
+    "auth_scheme": "none",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788970908,
+    "history": [
+      {
+        "ts": 1788958105,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://indexer.dydx.trade/v4"
+          }
+        }
+      },
+      {
+        "ts": 1788958236,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788958105,
+            "new": 1788958236
+          }
+        }
+      },
+      {
+        "ts": 1788962821,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788958236,
+            "new": 1788962821
+          }
+        }
+      },
+      {
+        "ts": 1788965150,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962821,
+            "new": 1788965150
+          }
+        }
+      },
+      {
+        "ts": 1788970908,
+        "source": "probe",
+        "changed": {
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788965150,
+            "new": 1788970908
+          }
+        }
+      },
+      {
+        "ts": 1788970910,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788970910
+  },
+  "lighter": {
+    "name": "Lighter",
+    "base_url": "https://mainnet.zklighter.elliot.ai",
+    "docs_url": "",
+    "region": "Global",
+    "trading_types": [
+      "Perpetual Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Focuses on permissionless trading volume.",
+    "_source": "probe",
+    "auth_scheme": "none",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788979671,
+    "history": [
+      {
+        "ts": 1788958302,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://mainnet.zklighter.elliot.ai"
+          }
+        }
+      },
+      {
+        "ts": 1788958407,
+        "source": "probe",
+        "changed": {
+          "auth_scheme": {
+            "old": "header",
+            "new": "none"
+          },
+          "probed_at": {
+            "old": 1788958302,
+            "new": 1788958407
+          }
+        }
+      },
+      {
+        "ts": 1788962833,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788958407,
+            "new": 1788962833
+          }
+        }
+      },
+      {
+        "ts": 1788965162,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962833,
+            "new": 1788965162
+          }
+        }
+      },
+      {
+        "ts": 1788971000,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965162,
+            "new": 1788971000
+          }
+        }
+      },
+      {
+        "ts": 1788973645,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971000,
+            "new": 1788973645
+          }
+        }
+      },
+      {
+        "ts": 1788975599,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788973645,
+            "new": 1788975599
+          }
+        }
+      },
+      {
+        "ts": 1788976307,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975599,
+            "new": 1788976307
+          }
+        }
+      },
+      {
+        "ts": 1788979671,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976307,
+            "new": 1788979671
+          }
+        }
+      }
+    ],
+    "api_host": "403 wall (mainnet.zklighter.elliot.ai)"
+  },
+  "edgex": {
+    "name": "edgeX",
+    "base_url": "https://edgex-prod-v2.edgex.exchange",
+    "docs_url": "",
+    "region": "Global",
+    "trading_types": [
+      "Perpetual Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Designed for permissionless, high-volume perpetual trading.",
+    "_source": "activate",
+    "auth_scheme": "ed25519",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788979247,
+    "history": [
+      {
+        "ts": 1788958479,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://edgex-prod-v2.edgex.exchange"
+          }
+        }
+      },
+      {
+        "ts": 1788958598,
+        "source": "probe",
+        "changed": {
+          "auth_scheme": {
+            "old": "none",
+            "new": "header"
+          },
+          "probed_at": {
+            "old": 1788958479,
+            "new": 1788958598
+          }
+        }
+      },
+      {
+        "ts": 1788962846,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788958598,
+            "new": 1788962846
+          }
+        }
+      },
+      {
+        "ts": 1788965174,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788962846,
+            "new": 1788965174
+          }
+        }
+      },
+      {
+        "ts": 1788971008,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965174,
+            "new": 1788971008
+          }
+        }
+      },
+      {
+        "ts": 1788973654,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971008,
+            "new": 1788973654
+          }
+        }
+      },
+      {
+        "ts": 1788975609,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788973654,
+            "new": 1788975609
+          }
+        }
+      },
+      {
+        "ts": 1788976315,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975609,
+            "new": 1788976315
+          }
+        }
+      },
+      {
+        "ts": 1788979247,
+        "source": "probe",
+        "changed": {
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788976315,
+            "new": 1788979247
+          }
+        }
+      },
+      {
+        "ts": 1788979248,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      },
+      {
+        "ts": 1788979612,
+        "source": "batch_sweep",
+        "changed": {
+          "auth_scheme": {
+            "old": "header",
+            "new": "ed25519"
+          }
+        }
+      }
+    ],
+    "activated_at": 1788979248,
+    "endpoint_markets": "/api/v2/public/meta/getMetaData (contractList)",
+    "endpoint_candles": "/api/v2/public/quote/getKline (contractId numeric, klineType HOUR_1..., priceType LAST_PRICE)",
+    "endpoint_ticker": "/api/v2/public/quote/getTicker",
+    "note": "candles/ticker require NUMERIC contractId; symbols are contractIds"
+  },
+  "wallex": {
+    "name": "Wallex (والکس)",
+    "base_url": "",
+    "docs_url": "https://developers.wallex.ir",
+    "region": "Iran",
+    "trading_types": [
+      "Spot"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Native",
+    "rest_api_trading": true,
+    "api_notes": "Official UDF endpoint: /v1/udf/history for OHLCV. Python, .NET, and Go SDKs available."
+  },
+  "exir": {
+    "name": "Exir (اکسیر)",
+    "base_url": "https://api.exir.io/v2",
+    "docs_url": "https://apidocs.exir.io/",
+    "region": "Iran",
+    "trading_types": [
+      "Spot"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not documented",
+    "rest_api_trading": true,
+    "api_notes": "Uses HMAC-SHA256 authentication with headers: api-key, api-signature, api-expires. Node.js and Python libs available.",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788958605,
+    "history": [
+      {
+        "ts": 1788958529,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.exir.io/v2"
+          }
+        }
+      },
+      {
+        "ts": 1788958530,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      },
+      {
+        "ts": 1788958605,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788958529,
+            "new": 1788958605
+          }
+        }
+      }
+    ],
+    "activated_at": 1788958607
+  },
+  "tabdeal": {
+    "name": "Tabdeal (تبدیل)",
+    "base_url": "",
+    "docs_url": "https://docs.tabdeal.org/",
+    "region": "Iran",
+    "trading_types": [
+      "Spot"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not documented",
+    "rest_api_trading": true,
+    "api_notes": "Official Python and Go SDKs provided. Unofficial Python wrapper also available.",
+    "api": "docs unreachable — research could not build profile"
+  },
+  "bitpin": {
+    "name": "Bitpin (بیت‌پین)",
+    "base_url": "https://api.bitpin.ir",
+    "docs_url": "https://api.bitpin.market",
+    "region": "Iran",
+    "trading_types": [
+      "Spot"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not documented",
+    "rest_api_trading": true,
+    "api_notes": "Base URL: https://api.bitpin.market. Community-developed Go SDK exists.",
+    "_source": "probe",
+    "auth_scheme": "header",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788979895,
+    "history": [
+      {
+        "ts": 1788958901,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.bitpin.ir"
+          }
+        }
+      },
+      {
+        "ts": 1788958998,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788958901,
+            "new": 1788958998
+          }
+        }
+      },
+      {
+        "ts": 1788963187,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788958998,
+            "new": 1788963187
+          }
+        }
+      },
+      {
+        "ts": 1788965456,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963187,
+            "new": 1788965456
+          }
+        }
+      },
+      {
+        "ts": 1788971282,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965456,
+            "new": 1788971282
+          }
+        }
+      },
+      {
+        "ts": 1788973924,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971282,
+            "new": 1788973924
+          }
+        }
+      },
+      {
+        "ts": 1788975834,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788973924,
+            "new": 1788975834
+          }
+        }
+      },
+      {
+        "ts": 1788976515,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975834,
+            "new": 1788976515
+          }
+        }
+      },
+      {
+        "ts": 1788979895,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976515,
+            "new": 1788979895
+          }
+        }
+      }
+    ],
+    "candles": "NOT AVAILABLE in public v1 API (chart is TradingView-WS only)"
+  },
+  "ramzinex": {
+    "name": "Ramzinex (رمزینکس)",
+    "base_url": "https://api.ramzinex.com/exchange/api/v1.0",
+    "docs_url": "https://ramzinex.com/exchange/apidocs",
+    "region": "Iran",
+    "trading_types": [
+      "Spot"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not documented",
+    "rest_api_trading": true,
+    "api_notes": "Two API bases: publicapi.ramzinex.com (public) and ramzinex.com (authenticated with headers). Python implementation available.",
+    "_source": "probe",
+    "auth_scheme": "none",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788979901,
+    "history": [
+      {
+        "ts": 1788959088,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.ramzinex.com/exchange/api/v1.0"
+          }
+        }
+      },
+      {
+        "ts": 1788959196,
+        "source": "probe",
+        "changed": {
+          "auth_scheme": {
+            "old": "header",
+            "new": "none"
+          },
+          "probed_at": {
+            "old": 1788959088,
+            "new": 1788959196
+          }
+        }
+      },
+      {
+        "ts": 1788963198,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788959196,
+            "new": 1788963198
+          }
+        }
+      },
+      {
+        "ts": 1788965466,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963198,
+            "new": 1788965466
+          }
+        }
+      },
+      {
+        "ts": 1788971288,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965466,
+            "new": 1788971288
+          }
+        }
+      },
+      {
+        "ts": 1788973929,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971288,
+            "new": 1788973929
+          }
+        }
+      },
+      {
+        "ts": 1788975841,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788973929,
+            "new": 1788975841
+          }
+        }
+      },
+      {
+        "ts": 1788976522,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975841,
+            "new": 1788976522
+          }
+        }
+      },
+      {
+        "ts": 1788979901,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976522,
+            "new": 1788979901
+          }
+        }
+      }
+    ],
+    "candles": "no documented OHLCV endpoint (pairs only verified)"
+  },
+  "ok-exchange-iran": {
+    "name": "OK Exchange (اوکی اکسچنج)",
+    "base_url": "https://www.okex.com",
+    "docs_url": "",
+    "region": "Iran",
+    "trading_types": [
+      "Spot"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not documented",
+    "rest_api_trading": true,
+    "api_notes": "Iranian CEX founded in 2017. Offers REST API and WebSocket data feeds. Supports 700+ cryptocurrencies.",
+    "_source": "probe",
+    "auth_scheme": "none",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788979951,
+    "history": [
+      {
+        "ts": 1788959329,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://www.okex.com"
+          }
+        }
+      },
+      {
+        "ts": 1788963247,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788959329,
+            "new": 1788963247
+          }
+        }
+      },
+      {
+        "ts": 1788965517,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963247,
+            "new": 1788965517
+          }
+        }
+      },
+      {
+        "ts": 1788971337,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965517,
+            "new": 1788971337
+          }
+        }
+      },
+      {
+        "ts": 1788973979,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971337,
+            "new": 1788973979
+          }
+        }
+      },
+      {
+        "ts": 1788975890,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788973979,
+            "new": 1788975890
+          }
+        }
+      },
+      {
+        "ts": 1788976571,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975890,
+            "new": 1788976571
+          }
+        }
+      },
+      {
+        "ts": 1788979951,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976571,
+            "new": 1788979951
+          }
+        }
+      }
+    ],
+    "api_host": "unreachable"
+  },
+  "blofin": {
+    "name": "BloFin",
+    "base_url": "https://api.blofin.com",
+    "docs_url": "https://blofin.com/docs",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Futures",
+      "Copy Trading"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "No-KYC with a daily withdrawal limit of 20,000 USDT.",
+    "_source": "probe",
+    "auth_scheme": "none",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788979959,
+    "history": [
+      {
+        "ts": 1788959455,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.blofin.com"
+          }
+        }
+      },
+      {
+        "ts": 1788963260,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788959455,
+            "new": 1788963260
+          }
+        }
+      },
+      {
+        "ts": 1788965527,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963260,
+            "new": 1788965527
+          }
+        }
+      },
+      {
+        "ts": 1788971345,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965527,
+            "new": 1788971345
+          }
+        }
+      },
+      {
+        "ts": 1788973988,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971345,
+            "new": 1788973988
+          }
+        }
+      },
+      {
+        "ts": 1788975898,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788973988,
+            "new": 1788975898
+          }
+        }
+      },
+      {
+        "ts": 1788976579,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975898,
+            "new": 1788976579
+          }
+        }
+      },
+      {
+        "ts": 1788979959,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976579,
+            "new": 1788979959
+          }
+        }
+      }
+    ],
+    "api_host": "403 wall (openapi.blofin.com)"
+  },
+  "bydfi": {
+    "name": "BYDFi",
+    "base_url": "https://api.bydfi.com/api",
+    "docs_url": "https://www.bydfi.com/api",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Futures",
+      "Copy Trading",
+      "RWA"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "No-KYC with a daily withdrawal limit of 50,000 USDT.",
+    "_source": "probe",
+    "auth_scheme": "hmac",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788979966,
+    "history": [
+      {
+        "ts": 1788959350,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.bydfi.com/api"
+          }
+        }
+      },
+      {
+        "ts": 1788959459,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788959350,
+            "new": 1788959459
+          }
+        }
+      },
+      {
+        "ts": 1788963270,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788959459,
+            "new": 1788963270
+          }
+        }
+      },
+      {
+        "ts": 1788965535,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963270,
+            "new": 1788965535
+          }
+        }
+      },
+      {
+        "ts": 1788971353,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965535,
+            "new": 1788971353
+          }
+        }
+      },
+      {
+        "ts": 1788973994,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971353,
+            "new": 1788973994
+          }
+        }
+      },
+      {
+        "ts": 1788975907,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788973994,
+            "new": 1788975907
+          }
+        }
+      },
+      {
+        "ts": 1788976585,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975907,
+            "new": 1788976585
+          }
+        }
+      },
+      {
+        "ts": 1788979966,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976585,
+            "new": 1788979966
+          }
+        }
+      }
+    ],
+    "api_docs": "developers.bydfi.com Docusaurus; REST host not discoverable from docs"
+  },
+  "weex": {
+    "name": "WEEX",
+    "base_url": "https://sapi.wexex.io",
+    "docs_url": "https://weex.com/api",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Futures",
+      "Copy Trading"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "No-KYC with a daily withdrawal limit of 50,000 USDT.",
+    "_source": "probe",
+    "auth_scheme": "hmac",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788979973,
+    "history": [
+      {
+        "ts": 1788959436,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://sapi.wexex.io"
+          }
+        }
+      },
+      {
+        "ts": 1788959464,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788959436,
+            "new": 1788959464
+          }
+        }
+      },
+      {
+        "ts": 1788963281,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788959464,
+            "new": 1788963281
+          }
+        }
+      },
+      {
+        "ts": 1788965547,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963281,
+            "new": 1788965547
+          }
+        }
+      },
+      {
+        "ts": 1788971361,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965547,
+            "new": 1788971361
+          }
+        }
+      },
+      {
+        "ts": 1788974002,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971361,
+            "new": 1788974002
+          }
+        }
+      },
+      {
+        "ts": 1788975915,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788974002,
+            "new": 1788975915
+          }
+        }
+      },
+      {
+        "ts": 1788976595,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975915,
+            "new": 1788976595
+          }
+        }
+      },
+      {
+        "ts": 1788979973,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976595,
+            "new": 1788979973
+          }
+        }
+      }
+    ],
+    "api_host": "unreachable/blocked"
+  },
+  "bitunix": {
+    "name": "Bitunix",
+    "base_url": "https://fapi.bitunix.com",
+    "docs_url": "https://bitunix.com/api",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Futures",
+      "Copy Trading"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "activated",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "High no-KYC limit: daily withdrawal up to 500,000 USDT.",
+    "_source": "activate",
+    "auth_scheme": "hmac",
+    "last_probe_ok": true,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788953475,
+    "history": [
+      {
+        "ts": 1788951289,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://openapi.bitunix.com"
+          }
+        }
+      },
+      {
+        "ts": 1788952779,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "https://openapi.bitunix.com",
+            "new": "https://fapi.bitunix.com"
+          },
+          "last_probe_ok": {
+            "old": false,
+            "new": true
+          },
+          "probed_at": {
+            "old": 1788951289,
+            "new": 1788952779
+          }
+        }
+      },
+      {
+        "ts": 1788953071,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788952779,
+            "new": 1788953071
+          }
+        }
+      },
+      {
+        "ts": 1788953329,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788953071,
+            "new": 1788953329
+          }
+        }
+      },
+      {
+        "ts": 1788953329,
+        "source": "activate",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "activated"
+          }
+        }
+      },
+      {
+        "ts": 1788953475,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788953329,
+            "new": 1788953475
+          }
+        }
+      }
+    ],
+    "activated_at": 1788966209
+  },
+  "kcex": {
+    "name": "KCEX",
+    "base_url": "https://api.kkcex.com",
+    "docs_url": "https://www.kcex.com/api",
+    "region": "Global",
+    "trading_types": [
+      "Spot",
+      "Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "No-KYC with a daily withdrawal limit of 15 BTC.",
+    "_source": "probe",
+    "auth_scheme": "hmac",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "1D": "1D",
+      "240": "240"
+    },
+    "probed_at": 1788980024,
+    "history": [
+      {
+        "ts": 1788960513,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.kkcex.com"
+          }
+        }
+      },
+      {
+        "ts": 1788960540,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788960513,
+            "new": 1788960540
+          }
+        }
+      },
+      {
+        "ts": 1788963342,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788960540,
+            "new": 1788963342
+          }
+        }
+      },
+      {
+        "ts": 1788965608,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963342,
+            "new": 1788965608
+          }
+        }
+      },
+      {
+        "ts": 1788971414,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965608,
+            "new": 1788971414
+          }
+        }
+      },
+      {
+        "ts": 1788974052,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971414,
+            "new": 1788974052
+          }
+        }
+      },
+      {
+        "ts": 1788975966,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788974052,
+            "new": 1788975966
+          }
+        }
+      },
+      {
+        "ts": 1788976647,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975966,
+            "new": 1788976647
+          }
+        }
+      },
+      {
+        "ts": 1788980024,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976647,
+            "new": 1788980024
+          }
+        }
+      }
+    ],
+    "api_host": "403 wall"
+  },
+  "indoex": {
+    "name": "IndoEx",
+    "base_url": "",
+    "docs_url": "https://www.indoex.io/api",
+    "region": "Global",
+    "trading_types": [
+      "Spot"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "under maintenance (serverTime returned 'Under Maintanance')",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "No-KYC for spot trading. Withdrawal limit: 100 BTC daily. Supports 160+ cryptocurrencies.",
+    "history": [
+      {
+        "ts": 1788979612,
+        "source": "batch_sweep",
+        "changed": {
+          "status": {
+            "old": "catalog",
+            "new": "under maintenance (serverTime returned 'Under Maintanance')"
+          }
+        }
+      }
+    ]
+  },
+  "houdini-swap": {
+    "name": "Houdini Swap",
+    "base_url": "https://api-partner.houdiniswap.com",
+    "docs_url": "https://docs.houdiniswap.com/api",
+    "region": "Global",
+    "trading_types": [
+      "Cross-chain Swaps"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Privacy-enhanced swaps. Supports 100+ chains with no blockchain trace.",
+    "_source": "probe",
+    "auth_scheme": "header",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788980037,
+    "history": [
+      {
+        "ts": 1788960712,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api-partner.houdiniswap.com"
+          }
+        }
+      },
+      {
+        "ts": 1788963359,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788960712,
+            "new": 1788963359
+          }
+        }
+      },
+      {
+        "ts": 1788965625,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963359,
+            "new": 1788965625
+          }
+        }
+      },
+      {
+        "ts": 1788971427,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965625,
+            "new": 1788971427
+          }
+        }
+      },
+      {
+        "ts": 1788974065,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971427,
+            "new": 1788974065
+          }
+        }
+      },
+      {
+        "ts": 1788975979,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788974065,
+            "new": 1788975979
+          }
+        }
+      },
+      {
+        "ts": 1788976658,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975979,
+            "new": 1788976658
+          }
+        }
+      },
+      {
+        "ts": 1788980037,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976658,
+            "new": 1788980037
+          }
+        }
+      }
+    ],
+    "api": "bridge API, no candle endpoints documented"
+  },
+  "0x-swap-api": {
+    "name": "0x Swap API",
+    "base_url": "https://api.0x.org",
+    "docs_url": "https://0x.org/api",
+    "region": "Global",
+    "trading_types": [
+      "On-chain Swaps"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Accesses 9M+ tokens across 16 EVM-compatible chains and 130+ exchanges.",
+    "_source": "probe",
+    "auth_scheme": "header",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788980044,
+    "history": [
+      {
+        "ts": 1788960836,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.0x.org"
+          }
+        }
+      },
+      {
+        "ts": 1788960944,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788960836,
+            "new": 1788960944
+          }
+        }
+      },
+      {
+        "ts": 1788963369,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788960944,
+            "new": 1788963369
+          }
+        }
+      },
+      {
+        "ts": 1788965633,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963369,
+            "new": 1788965633
+          }
+        }
+      },
+      {
+        "ts": 1788971435,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965633,
+            "new": 1788971435
+          }
+        }
+      },
+      {
+        "ts": 1788974071,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971435,
+            "new": 1788974071
+          }
+        }
+      },
+      {
+        "ts": 1788975987,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788974071,
+            "new": 1788975987
+          }
+        }
+      },
+      {
+        "ts": 1788976664,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975987,
+            "new": 1788976664
+          }
+        }
+      },
+      {
+        "ts": 1788980044,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976664,
+            "new": 1788980044
+          }
+        }
+      }
+    ],
+    "api": "0x swap API v1 retired; v2 needs auth headers"
+  },
+  "quickex": {
+    "name": "Quickex",
+    "base_url": "https://quickex.io/api/v1",
+    "docs_url": "https://quickex.io/api",
+    "region": "Global",
+    "trading_types": [
+      "Crypto Swaps"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Supports 200+ cryptocurrencies. No registration required.",
+    "_source": "probe",
+    "auth_scheme": "hmac",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788980050,
+    "history": [
+      {
+        "ts": 1788960968,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://quickex.io/api/v1"
+          }
+        }
+      },
+      {
+        "ts": 1788963379,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788960968,
+            "new": 1788963379
+          }
+        }
+      },
+      {
+        "ts": 1788965641,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963379,
+            "new": 1788965641
+          }
+        }
+      },
+      {
+        "ts": 1788971443,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965641,
+            "new": 1788971443
+          }
+        }
+      },
+      {
+        "ts": 1788974077,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971443,
+            "new": 1788974077
+          }
+        }
+      },
+      {
+        "ts": 1788975993,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788974077,
+            "new": 1788975993
+          }
+        }
+      },
+      {
+        "ts": 1788976672,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788975993,
+            "new": 1788976672
+          }
+        }
+      },
+      {
+        "ts": 1788980050,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976672,
+            "new": 1788980050
+          }
+        }
+      }
+    ],
+    "api": "404/403 on public endpoints"
+  },
+  "godex": {
+    "name": "Godex",
+    "base_url": "https://app.godex.ai",
+    "docs_url": "https://godex.io/api",
+    "region": "Global",
+    "trading_types": [
+      "Crypto Swaps"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Supports 929+ cryptocurrencies. Non-custodial swap service.",
+    "_source": "probe",
+    "auth_scheme": "none",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788980058,
+    "history": [
+      {
+        "ts": 1788961192,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://app.godex.ai"
+          }
+        }
+      },
+      {
+        "ts": 1788961337,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788961192,
+            "new": 1788961337
+          }
+        }
+      },
+      {
+        "ts": 1788963389,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788961337,
+            "new": 1788963389
+          }
+        }
+      },
+      {
+        "ts": 1788965649,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963389,
+            "new": 1788965649
+          }
+        }
+      },
+      {
+        "ts": 1788971452,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965649,
+            "new": 1788971452
+          }
+        }
+      },
+      {
+        "ts": 1788974083,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971452,
+            "new": 1788974083
+          }
+        }
+      },
+      {
+        "ts": 1788976000,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788974083,
+            "new": 1788976000
+          }
+        }
+      },
+      {
+        "ts": 1788976678,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976000,
+            "new": 1788976678
+          }
+        }
+      },
+      {
+        "ts": 1788980058,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976678,
+            "new": 1788980058
+          }
+        }
+      }
+    ],
+    "api": "404 on guessed paths; docs unreachable"
+  },
+  "eterna-mcp": {
+    "name": "Eterna MCP",
+    "base_url": "https://eterna.exchange",
+    "docs_url": "",
+    "region": "Global",
+    "trading_types": [
+      "Perpetual Futures"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Built specifically for AI agents. Sandboxed TypeScript SDK with isolated sub-accounts.",
+    "_source": "probe",
+    "auth_scheme": "header",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788980064,
+    "history": [
+      {
+        "ts": 1788961360,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://eterna.exchange"
+          }
+        }
+      },
+      {
+        "ts": 1788963399,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788961360,
+            "new": 1788963399
+          }
+        }
+      },
+      {
+        "ts": 1788965657,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963399,
+            "new": 1788965657
+          }
+        }
+      },
+      {
+        "ts": 1788971459,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965657,
+            "new": 1788971459
+          }
+        }
+      },
+      {
+        "ts": 1788974091,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971459,
+            "new": 1788974091
+          }
+        }
+      },
+      {
+        "ts": 1788976007,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788974091,
+            "new": 1788976007
+          }
+        }
+      },
+      {
+        "ts": 1788976686,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976007,
+            "new": 1788976686
+          }
+        }
+      },
+      {
+        "ts": 1788980064,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976686,
+            "new": 1788980064
+          }
+        }
+      }
+    ],
+    "api": "MCP-based; no REST candle endpoints found"
+  },
+  "southxchange": {
+    "name": "Southxchange",
+    "base_url": "https://www.southxchange.com/api",
+    "docs_url": "",
+    "region": "Global",
+    "trading_types": [
+      "Crypto Trading"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Cryptocurrency broker that does not require KYC. Accepts Lightning payments.",
+    "_source": "probe",
+    "auth_scheme": "hmac",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788980114,
+    "history": [
+      {
+        "ts": 1788961634,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://www.southxchange.com"
+          }
+        }
+      },
+      {
+        "ts": 1788961710,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "https://www.southxchange.com",
+            "new": "https://www.southxchange.com/api"
+          },
+          "probed_at": {
+            "old": 1788961634,
+            "new": 1788961710
+          }
+        }
+      },
+      {
+        "ts": 1788963454,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788961710,
+            "new": 1788963454
+          }
+        }
+      },
+      {
+        "ts": 1788965712,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963454,
+            "new": 1788965712
+          }
+        }
+      },
+      {
+        "ts": 1788971508,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965712,
+            "new": 1788971508
+          }
+        }
+      },
+      {
+        "ts": 1788974140,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971508,
+            "new": 1788974140
+          }
+        }
+      },
+      {
+        "ts": 1788976057,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788974140,
+            "new": 1788976057
+          }
+        }
+      },
+      {
+        "ts": 1788976738,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976057,
+            "new": 1788976738
+          }
+        }
+      },
+      {
+        "ts": 1788980114,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976738,
+            "new": 1788980114
+          }
+        }
+      }
+    ],
+    "api_host": "connection refused"
+  },
+  "vdex": {
+    "name": "VDEX",
+    "base_url": "https://api.vdex.com",
+    "docs_url": "",
+    "region": "Global",
+    "trading_types": [
+      "Stocks",
+      "Commodities",
+      "FX"
+    ],
+    "catalog_seeded_at": 1788950493,
+    "status": "catalog",
+    "udf_support": "Not native",
+    "rest_api_trading": true,
+    "api_notes": "Omnichain hybrid exchange. Features a darkpool and full self-custody.",
+    "_source": "probe",
+    "auth_scheme": "header",
+    "last_probe_ok": false,
+    "true_res_map": {
+      "15": "15",
+      "60": "60",
+      "240": "240",
+      "1D": "1D"
+    },
+    "probed_at": 1788980169,
+    "history": [
+      {
+        "ts": 1788961969,
+        "source": "probe",
+        "changed": {
+          "base_url": {
+            "old": "",
+            "new": "https://api.vdex.com"
+          }
+        }
+      },
+      {
+        "ts": 1788963526,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788961969,
+            "new": 1788963526
+          }
+        }
+      },
+      {
+        "ts": 1788965782,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788963526,
+            "new": 1788965782
+          }
+        }
+      },
+      {
+        "ts": 1788971563,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788965782,
+            "new": 1788971563
+          }
+        }
+      },
+      {
+        "ts": 1788974182,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788971563,
+            "new": 1788974182
+          }
+        }
+      },
+      {
+        "ts": 1788976113,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788974182,
+            "new": 1788976113
+          }
+        }
+      },
+      {
+        "ts": 1788976795,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976113,
+            "new": 1788976795
+          }
+        }
+      },
+      {
+        "ts": 1788980169,
+        "source": "probe",
+        "changed": {
+          "probed_at": {
+            "old": 1788976795,
+            "new": 1788980169
+          }
+        }
+      }
+    ],
+    "api_host": "unreachable"
+  },
+  "_seed_note": "catalog pre-seed: metadata only; live probe/calibrate/activate entries carry verified values + history"
+}

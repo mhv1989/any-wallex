@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "id": "blofin",
+  "name": "BloFin",
+  "base_url": "https://api.blofin.com",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "-",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/api/v1/market/candles",
+      "params": {
+        "instId": "{symbol}",
+        "bar": "{tf}",
+        "after": "{to_ms}",
+        "limit": "{limit}"
+      },
+      "result_format": "arrays",
+      "result_path": "data"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/uapi/v1/market/symbol/all",
+      "params": {},
+      "result_format": "objects",
+      "result_path": "data",
+      "field_map": {
+        "symbol": "symbol",
+        "price": "close"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/api/v1/market/tickers",
+      "params": {
+        "instId": "{symbol}"
+      },
+      "result_format": "objects",
+      "result_path": "data",
+      "field_map": {
+        "symbol": "instId",
+        "price": "last",
+        "open": "open24h",
+        "high": "high24h",
+        "low": "low24h",
+        "volume": "volCcy"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/api/v1/market/depth",
+      "params": {
+        "instId": "{symbol}",
+        "limit": "{limit}"
+      },
+      "result_format": "objects",
+      "result_path": "data"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15m",
+    "60": "1H",
+    "240": "4H",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://blofin.readme.io/reference/basic-setup",
+      "https://github.com/blofin/blofin-sdk-python"
+    ],
+    "researched_at": 1788959447,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Public APIs require no auth; private endpoints use apiKey+apiSecret+passphrase per official SDK but signature algorithm not documented in corpus",
+      "ts": 1788959447
+    },
+    {
+      "category": "response_shape",
+      "detail": "All responses wrapped in {code,msg,data}; candle rows are arrays [ts,open,high,low,close,vol,volCcy] with millisecond timestamps",
+      "ts": 1788959447
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle/ticker/depth paths sourced from official blofin.readme.io OpenAPI index; provided corpus only documented /uapi/v1/market/symbol/all",
+      "ts": 1788959447
+    },
+    {
+      "category": "order_type",
+      "detail": "Order placement endpoints not documented in provided corpus â market data only",
+      "ts": 1788959447
+    },
+    {
+      "category": "margin_model",
+      "detail": "Docs list futures (perpetual contract) quotation APIs only; margin trading/order API details absent from corpus",
+      "ts": 1788959447
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788959447
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788959447
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788959447
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not documented â using conservative default 3.0",
+      "ts": 1788959447
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using conservative default 5.0",
+      "ts": 1788959447
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788959447
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2",
+      "ts": 1788959447
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using conservative default 0.05",
+      "ts": 1788959447
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Rate limits not stated in corpus â min_gap_sec kept at conservative default 1.0",
+      "ts": 1788959447
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788979959,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "BloFin API returned HTTP 403 with a non-JSON body for GET /uapi/v1/market/symbol/all (body[:120]='<!DOCTYPE html>\\n<html>\\n  <head>\\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\\n    <link rel=\"s'). Endpoint path or base_ur"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "BloFin API returned HTTP 403 with a non-JSON body for GET /api/v1/market/candles (body[:120]='<!DOCTYPE html>\\n<html>\\n  <head>\\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\\n    <link rel=\"s'). Endpoint path or base_url is"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "BloFin API returned HTTP 403 with a non-JSON body for GET /api/v1/market/candles (body[:120]='<!DOCTYPE html>\\n<html>\\n  <head>\\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\\n    <link rel=\"s'). Endpoint path or base_url is"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "BloFin API returned HTTP 403 with a non-JSON body for GET /api/v1/market/candles (body[:120]='<!DOCTYPE html>\\n<html>\\n  <head>\\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\\n    <link rel=\"s'). Endpoint path or base_url is"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "BloFin API returned HTTP 403 with a non-JSON body for GET /api/v1/market/candles (body[:120]='<!DOCTYPE html>\\n<html>\\n  <head>\\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\\n    <link rel=\"s'). Endpoint path or base_url is"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "BloFin API returned HTTP 403 with a non-JSON body for GET /api/v1/market/tickers (body[:120]='<!DOCTYPE html>\\n<html>\\n  <head>\\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "BloFin API returned HTTP 403 with a non-JSON body for GET /api/v1/market/depth (body[:120]='<!DOCTYPE html>\\n<html>\\n  <head>\\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\\n"
+      }
+    ]
+  }
+}

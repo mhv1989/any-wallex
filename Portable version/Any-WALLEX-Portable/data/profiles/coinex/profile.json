@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "id": "coinex",
+  "name": "CoinEx",
+  "base_url": "https://api.coinex.com/v2",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "sorted_params",
+        "secret_key"
+      ],
+      "headers": {
+        "authorization": "{sig}"
+      },
+      "algo": "md5"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "USDC",
+      "BTC"
+    ]
+  },
+  "endpoints": {
+    "markets": {
+      "method": "GET",
+      "path": "/spot/market",
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "market",
+        "base": "base_ccy",
+        "quote": "quote_ccy",
+        "price": null
+      }
+    },
+    "candles": {
+      "method": "GET",
+      "path": "/spot/kline",
+      "params": {
+        "market": "{symbol}",
+        "period": "{tf}",
+        "limit": "{limit}"
+      },
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "ts": "created_at",
+        "open": "open",
+        "high": "high",
+        "low": "low",
+        "close": "close",
+        "volume": "volume"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/spot/ticker",
+      "params": {
+        "market": "{symbol}"
+      },
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "market",
+        "price": "last"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/spot/depth",
+      "params": {
+        "market": "{symbol}",
+        "limit": "20"
+      },
+      "result_path": "data"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15min",
+    "60": "1hour",
+    "240": "4hour",
+    "1D": "1day"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.0025,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 0.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://coinexcom.github.io/coinex_api_en_doc/",
+      "https://github.com/coinexcom/coinex_exchange_api",
+      "https://github.com/coinexcom/coinex_exchange_api/blob/master/README.md"
+    ],
+    "researched_at": 1788955205,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "v1 signature = MD5 of alphabetically-sorted request params + '&secret_key=<key>', uppercased, sent in header 'authorization' (not standard HMAC-SHA256); signed requests also carry access_id and tonce (ms timestamp, +/-60s skew)",
+      "ts": 1788955205
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "supplied corpus covers only General/Changelog pages; /market/kline, /market/list, /market/ticker, /market/depth paths and response shapes taken from CoinEx v1 public API docs",
+      "ts": 1788955205
+    },
+    {
+      "category": "response_shape",
+      "detail": "all responses wrapped in {code,data,message}, success code=0; kline rows are arrays [ts,open,close,high,low,vol,value] (close precedes high/low) with unix-SECOND timestamps",
+      "ts": 1788955205
+    },
+    {
+      "category": "response_shape",
+      "detail": "depth returns asks/bids as [price,amount] pairs under data; kline per-request limit cap not stated",
+      "ts": 1788955205
+    },
+    {
+      "category": "margin_model",
+      "detail": "perpetual futures live under /perpetual/v1/ (funding rates, positions, TP/SL, adjust_margin); spot margin via /margin/loan, /margin/flat, /margin/transfer; classified as futures funding-rate model but collateral/leverage limits not documented, so margin adapter left null",
+      "ts": 1788955205
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented (error 602 'below minimum buying/selling limit' exists) â using 0",
+      "ts": 1788955205
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented in supplied pages â using conservative default 0.2; per-user rates queryable via GET /account/market/fee",
+      "ts": 1788955205
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct: price-deviation rule exists (error 606 'order price deviates too much from latest transaction price') but threshold not documented â using default 5.0",
+      "ts": 1788955205
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788955205
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef, min_collateral_usdt, max_collateral_usdt, interest_per_4h_pct not documented â using defaults",
+      "ts": 1788955205
+    },
+    {
+      "category": "rules",
+      "detail": "quote-currency list not stated in supplied pages (signature example shows market BTCBCH) â USDT/USDC/BTC inferred from CoinEx v1 docs",
+      "ts": 1788955205
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788971765,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "863 markets; sample: ['USUSDT', 'RAREUSDT', 'NMCBTC', 'ELONUSDT', 'AVLUSDT']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 78837.0, 'symbol': 'BTCUSDT', 'raw': {'close': '78837', 'high': '79721', 'last': '78837', 'low': '78087', 'mar"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "{}"
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "strategy_id": "legacy",
+  "name": "Legacy Strategy",
+  "description": "Built-in strategy shipped with the app.",
+  "source": "legacy",
+  "provider": "builtin",
+  "model": "none",
+  "timeframe": "60",
+  "cooldown_bars": 3,
+  "min_confidence": 0.55,
+  "entry_conditions": [],
+  "exit_conditions": [],
+  "risk": {
+    "max_positions": 4,
+    "risk_per_trade_pct": 1.0,
+    "stop_atr_mult": 1.5,
+    "target_atr_mult": 3.0
+  },
+  "parameters": {},
+  "created_ts": 1788381105,
+  "updated_ts": 1788393931,
+  "vibe_prompt": "",
+  "enabled": true
+}

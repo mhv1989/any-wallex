@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "id": "eterna-mcp",
+  "name": "Eterna MCP",
+  "base_url": "https://eterna.exchange",
+  "auth": {
+    "scheme": "header",
+    "header_name": "Authorization"
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "POST",
+      "path": "/mcp",
+      "params": {},
+      "result_format": "objects"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/api/trading-pairs",
+      "params": {},
+      "result_format": "objects"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.035,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://github.com/EternaHybridExchange/eterna-mcp/tree/main/docs",
+      "https://eterna.exchange/api/docs",
+      "https://docs.eterna.exchange/category/api/",
+      "https://github.com/EternaHybridExchange/eterna-mcp/blob/main/QUICKSTART.md",
+      "https://openaisuite.com/mcp/io.github.EternaHybridExchange/eterna-mcp/",
+      "https://mcpservers.org/servers/eternahybridexchange/eterna-mcp"
+    ],
+    "researched_at": 1788961354,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "response_shape",
+      "detail": "No REST OHLCV endpoint documented; candles.path refers to MCP gateway https://mcp.eterna.exchange/mcp (execute_code tool); SDK market data is getTickers/getOrderbook/getInstruments only â no kline/candle method exists",
+      "ts": 1788961354
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Full REST endpoint reference is 'TODO: Redoc' at docs.eterna.exchange; only Authentication, Webhooks/Events, Error catalogue, Versioning pages published",
+      "ts": 1788961354
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Auth is OAuth2 (ai-auth.eterna.exchange, scope mcp:full) or legacy long-lived Bearer API key; no HMAC signature scheme documented â adapter uses Authorization: Bearer header",
+      "ts": 1788961354
+    },
+    {
+      "category": "response_shape",
+      "detail": "/api/trading-pairs response field names undocumented; field_map omitted",
+      "ts": 1788961354
+    },
+    {
+      "category": "order_type",
+      "detail": "Trading only via MCP SDK inside execute_code Deno sandbox (placeOrder Market with stopLoss, setLeverage, setTradingStop, closePosition, cancelOrder); no REST order endpoints documented",
+      "ts": 1788961354
+    },
+    {
+      "category": "margin_model",
+      "detail": "USDT-margined perpetual futures (200+ pairs) with isolated sub-account per agent; funding-rate values and leverage cap undocumented; spot is roadmap only",
+      "ts": 1788961354
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788961354
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788961354
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788961354
+    },
+    {
+      "category": "rules",
+      "detail": "max leverage not documented (docs example uses 2x via setLeverage) â using conservative default 3.0",
+      "ts": 1788961354
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â no local price-band check (0)",
+      "ts": 1788961354
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using default 8",
+      "ts": 1788961354
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct 0.035 is the documented futures taker fee (maker 0.014%); no spot fee table (spot not launched)",
+      "ts": 1788961354
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using default 0.05",
+      "ts": 1788961354
+    },
+    {
+      "category": "rules",
+      "detail": "rate limits not documented (only 'rate limiting handled by gateway') â min_gap_sec default 1.0",
+      "ts": 1788961354
+    },
+    {
+      "category": "response_shape",
+      "detail": "candle timeframe interval values not documented â identity tf_param_map used",
+      "ts": 1788961354
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788980064,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "7 markets; sample: ['', '', '', '', '']"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "Eterna MCP API returned HTTP 200 with a non-JSON body for POST /mcp (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-s'). Endpoint path or base_url is likely wrong — c"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "Eterna MCP API returned HTTP 200 with a non-JSON body for POST /mcp (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-s'). Endpoint path or base_url is likely wrong — c"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "Eterna MCP API returned HTTP 200 with a non-JSON body for POST /mcp (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-s'). Endpoint path or base_url is likely wrong — c"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "Eterna MCP API returned HTTP 200 with a non-JSON body for POST /mcp (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-s'). Endpoint path or base_url is likely wrong — c"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 0, 'symbol': ''}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'eterna-mcp'"
+      }
+    ]
+  }
+}

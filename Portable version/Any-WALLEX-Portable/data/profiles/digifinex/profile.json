@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "id": "digifinex",
+  "name": "DigiFinex",
+  "base_url": "https://openapi.digifinex.com/v3",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "api_key",
+        "query"
+      ],
+      "headers": {
+        "sign": "{sig}"
+      },
+      "algo": "md5"
+    }
+  },
+  "symbol_format": {
+    "separator": "_",
+    "case": "lower",
+    "quote_suffixes": [
+      "USDT",
+      "USDC",
+      "BTC",
+      "ETH"
+    ]
+  },
+  "endpoints": {
+    "markets": {
+      "method": "GET",
+      "path": "/markets",
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "market"
+      }
+    },
+    "candles": {
+      "method": "GET",
+      "path": "/kline",
+      "params": {
+        "symbol": "{symbol}",
+        "period": "{tf}",
+        "limit": "{limit}"
+      },
+      "result_path": "data",
+      "result_format": "arrays",
+      "field_map": {
+        "ts": "0",
+        "open": "1",
+        "close": "2",
+        "high": "3",
+        "low": "4",
+        "volume": "5"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/ticker",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_path": "ticker",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "symbol",
+        "price": "last"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/depth",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_path": "data"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.07,
+  "quotes": [
+    "USDT",
+    "BTC"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://github.com/DigiFinex/api",
+      "https://github.com/DigiFinex/api/blob/master/api_doc_v2_en.md"
+    ],
+    "researched_at": 1788956376,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Signature is MD5 hex of all request parameter values (apiKey, timestamp, business params, apiSecret) concatenated in ascending parameter-name order without separators; sent as 'sign' parameter, not a header â template cannot express this scheme",
+      "ts": 1788956376
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Even public market data endpoints require apiKey and sign; /v2/ticker example shows apiKey only though the general rule demands sign on every request",
+      "ts": 1788956376
+    },
+    {
+      "category": "response_shape",
+      "detail": "All responses wrapped in envelope; code=0 required for success",
+      "ts": 1788956376
+    },
+    {
+      "category": "response_shape",
+      "detail": "All timestamps are seconds (kline open ts; request timestamp is UTC+8 seconds), not milliseconds",
+      "ts": 1788956376
+    },
+    {
+      "category": "response_shape",
+      "detail": "/v2/kline has no limit/from/to params and no pagination documented â historical candle range queries not possible",
+      "ts": 1788956376
+    },
+    {
+      "category": "response_shape",
+      "detail": "Symbols are quote_base with quote asset first (e.g. usdt_btc), lowercase",
+      "ts": 1788956376
+    },
+    {
+      "category": "response_shape",
+      "detail": "/v2/trade_pairs returns object keyed by symbol with positional array [amount_precision, price_precision, min_amount, min_cash_amount] â field_map uses index notation",
+      "ts": 1788956376
+    },
+    {
+      "category": "response_shape",
+      "detail": "/v2/ticker returns object keyed by trading pair, not a list",
+      "ts": 1788956376
+    },
+    {
+      "category": "response_shape",
+      "detail": "/v2/depth asks and bids are [price, amount] pairs, both listed in price descending order",
+      "ts": 1788956376
+    },
+    {
+      "category": "order_type",
+      "detail": "Only limit order placement documented (/v2/trade price+amount, optional post_only); market types (buy_market/sell_market) appear in open_orders but no market-order placement endpoint is documented",
+      "ts": 1788956376
+    },
+    {
+      "category": "margin_model",
+      "detail": "No margin/leverage API in docs â margin=null; min_collateral_usdt, max_collateral_usdt, max_risk_coef, interest_per_4h_pct not documented â using conservative defaults",
+      "ts": 1788956376
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented (only that post_only pays maker fee) â using conservative default 0.2",
+      "ts": 1788956376
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step: amount precision is per-pair via trade_pairs index 0 (e.g. 4 for usdt_btc) â using default 8",
+      "ts": 1788956376
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt is per-pair minimum cash amount from trade_pairs index 3 (10 USDT for usdt_btc/usdt_eth examples) â using 10.0",
+      "ts": 1788956376
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â set 0 (no local band check)",
+      "ts": 1788956376
+    },
+    {
+      "category": "rules",
+      "detail": "Rate limits: 900 GET/min and 90 POST/min accumulated; anti-manipulation rules (FR<0.01, CR>0.95 over >299 orders/10min) trigger 30min API bans",
+      "ts": 1788956376
+    }
+  ],
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788972229,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "676 markets; sample: ['BTCUSDT', 'ETHUSDT', 'DFTUSDT', 'LTCUSDT', 'XRPUSDT']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "500 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "500 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "500 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "500 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 78755.09, 'symbol': 'BTCUSDT', 'raw': {'high': 79771.37, 'low': 78041.65, 'sell': 78755.1, 'symbol': 'btc_usdt"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "{}"
+      }
+    ]
+  }
+}

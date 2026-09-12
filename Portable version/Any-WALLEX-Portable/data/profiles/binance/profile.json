@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "id": "binance",
+  "name": "Binance",
+  "base_url": "https://api.binance.com",
+  "auth": {
+    "scheme": "hmac",
+    "header_name": "X-MBX-APIKEY",
+    "hmac": {
+      "param_order": [
+        "query"
+      ],
+      "headers": {
+        "X-MBX-APIKEY": "{key}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "USDC",
+      "BTC",
+      "ETH",
+      "BNB",
+      "FDUSD"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/api/v3/klines",
+      "params": {
+        "symbol": "{symbol}",
+        "interval": "{tf}",
+        "startTime": "{from_ms}",
+        "endTime": "{to_ms}",
+        "limit": "{limit}"
+      },
+      "result_format": "arrays",
+      "field_map": {
+        "ts": "0",
+        "open": "1",
+        "high": "2",
+        "low": "3",
+        "close": "4",
+        "volume": "5"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/api/v3/exchangeInfo",
+      "params": {},
+      "result_format": "objects",
+      "result_path": "symbols",
+      "field_map": {
+        "symbol": "symbol",
+        "base": "baseAsset",
+        "quote": "quoteAsset"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/api/v3/ticker/24hr",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "symbol",
+        "price": "lastPrice",
+        "bid": "bidPrice",
+        "ask": "askPrice",
+        "volume": "volume"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/api/v3/depth",
+      "params": {
+        "symbol": "{symbol}",
+        "limit": "{limit}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "bids": "bids",
+        "asks": "asks"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15m",
+    "60": "1h",
+    "240": "4h",
+    "1D": "1d"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.1,
+  "quotes": [
+    "USDT",
+    "USDC",
+    "BTC",
+    "ETH",
+    "BNB"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md",
+      "https://github.com/binance-exchange/binance-official-api-docs"
+    ],
+    "researched_at": 1788955876,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "docs_unreadable",
+      "detail": "Provided rest-api.md is a redirect stub (repo moved to binance/binance-spot-api-docs); endpoints reconstructed from Binance official v3 spot API conventions, not verbatim corpus",
+      "ts": 1788955876
+    },
+    {
+      "category": "response_shape",
+      "detail": "klines returns a top-level JSON array of arrays [openTime,open,high,low,close,volume,closeTime,...]; timestamps in milliseconds",
+      "ts": 1788955876
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Signed endpoints: HMAC SHA256 over query string sent as 'signature' query param with required 'timestamp' param; API key in X-MBX-APIKEY header â headers-only hmac template cannot express query-param signature",
+      "ts": 1788955876
+    },
+    {
+      "category": "order_type",
+      "detail": "Order placement (/api/v3/order) not configured; no order/fee table in provided corpus",
+      "ts": 1788955876
+    },
+    {
+      "category": "margin_model",
+      "detail": "margin-api.md exists in repo but content not provided; margin endpoints and collateral model unverified â margin set to null",
+      "ts": 1788955876
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0 (actual MIN_NOTIONAL filter is per-symbol)",
+      "ts": 1788955876
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2 (Binance standard spot taker is 0.1%)",
+      "ts": 1788955876
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using default 8 (actual LOT_SIZE stepSize is per-symbol)",
+      "ts": 1788955876
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using default 5.0 (actual PERCENT_PRICE filter is per-symbol)",
+      "ts": 1788955876
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using default 0.05",
+      "ts": 1788955876
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not documented â using default 3.0",
+      "ts": 1788955876
+    }
+  ],
+  "margin_style": "cross_margin",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788962444,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "3696 markets; sample: ['ETHBTC', 'LTCBTC', 'BNBBTC', 'NEOBTC', 'QTUMETH']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "288 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "72 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "18 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "12 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 79114.26, 'symbol': 'BTCUSDT', 'raw': {'symbol': 'BTCUSDT', 'priceChange': '1111.89000000', 'priceChangePercen"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'lastUpdateId': 99891043529, 'bids': [['79121.94000000', '4.03917000'], ['79121.93000000', '0.00076000'], ['79121.92000"
+      }
+    ]
+  }
+}

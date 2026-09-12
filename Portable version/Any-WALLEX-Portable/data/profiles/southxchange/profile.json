@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "id": "southxchange",
+  "name": "Southxchange",
+  "base_url": "https://www.southxchange.com/api",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "body"
+      ],
+      "headers": {
+        "Key": "{key}",
+        "Sign": "{sig}"
+      },
+      "algo": "sha512"
+    }
+  },
+  "symbol_format": {
+    "separator": "/",
+    "case": "upper",
+    "quote_suffixes": [
+      "BTC"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/history/{symbol}/{start}/{end}/{periods}",
+      "params": {
+        "start": "{from}",
+        "end": "{to}",
+        "periods": "{limit}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "ts": "Date",
+        "open": "PriceOpen",
+        "high": "PriceHigh",
+        "low": "PriceLow",
+        "close": "PriceClose",
+        "volume": "Volume"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/markets",
+      "result_format": "arrays",
+      "field_map": {
+        "base": "0",
+        "quote": "1",
+        "price_precision": "2"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/prices",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "Market",
+        "bid": "Bid",
+        "ask": "Ask",
+        "last": "Last",
+        "volume": "Volume24Hr"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/book/{symbol}",
+      "result_format": "objects",
+      "bids_path": "BuyOrders",
+      "asks_path": "SellOrders",
+      "field_map": {
+        "price": "Price",
+        "amount": "Amount"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "900",
+    "60": "3600",
+    "240": "14400",
+    "1D": "86400"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "BTC"
+  ],
+  "rules": {
+    "min_order_usdt": 0.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.3,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://github.com/southxchange/",
+      "https://github.com/amid-flice/sxc-api-client",
+      "https://pypi.org/project/Southxchange/",
+      "https://pypi.org/project/sxc-api-client/"
+    ],
+    "researched_at": 1788961659,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Corpus only states private endpoints require API access+secret keys; Key/Sign headers with HMAC-SHA512 over JSON body taken from official SouthXChange API v4 docs, not the provided corpus",
+      "ts": 1788961659
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle 'Date' is ISO datetime (UTC); history start/end params are unix SECONDS, not ms; periods capped at 500 (larger silently reset)",
+      "ts": 1788961659
+    },
+    {
+      "category": "response_shape",
+      "detail": "(end_ts - start_ts) / periods must equal an allowed granularity (MarketHistoryIntervals constants, in seconds) or unexpected data returned; full allowed-interval list not enumerated in corpus",
+      "ts": 1788961659
+    },
+    {
+      "category": "response_shape",
+      "detail": "Markets returned as array of arrays [listingCurrency, referenceCurrency, pricePrecision]; third element is price decimal precision, not qty step",
+      "ts": 1788961659
+    },
+    {
+      "category": "response_shape",
+      "detail": "{symbol} expands to two path segments LISTING/REFERENCE (e.g. /book/ETH/BTC); single-market price available at /price/{symbol}",
+      "ts": 1788961659
+    },
+    {
+      "category": "order_type",
+      "detail": "Only buy/sell orders via POST /{listing}/{reference}/buy|sell with amount and optional limit_price (market order if price omitted); no stop/advanced types documented; order endpoints not expressible in template",
+      "ts": 1788961659
+    },
+    {
+      "category": "rules",
+      "detail": "Fees vary per market (example ETH/BTC: maker 0.001=0.1%, taker 0.003=0.3%); fee_pct=0.3 uses example taker fee; query fees endpoint for per-market values",
+      "ts": 1788961659
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt: MinOrderListingCurrency reported as None in docs â no minimum order documented, set 0",
+      "ts": 1788961659
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788961659
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â no local price band check (0)",
+      "ts": 1788961659
+    },
+    {
+      "category": "rules",
+      "detail": "Rate limits not documented â using conservative default min_gap_sec 1.0",
+      "ts": 1788961659
+    },
+    {
+      "category": "margin_model",
+      "detail": "No margin/futures trading API documented â margin null; collateral/leverage/interest rule defaults unused",
+      "ts": 1788961659
+    },
+    {
+      "category": "rules",
+      "detail": "Only BTC reference currency observed in docs; full quote list should be confirmed via /markets",
+      "ts": 1788961659
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Provided corpus (GitHub/PyPI pages) contains no endpoint specs; paths/params sourced from SouthXchange public API conventions and must be verified at runtime",
+      "ts": 1788961659
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Corpus only shows API key+secret usage (go-southxchange); HMAC-SHA512 signature over path+params with Key/Sign headers taken from community libraries, not stated in official docs",
+      "ts": 1788961659
+    },
+    {
+      "category": "response_shape",
+      "detail": "No OHLCV kline endpoint documented; /api/index-levels returns historical price levels whose exact fields and timestamp units are undocumented - candles must be synthesized",
+      "ts": 1788961659
+    },
+    {
+      "category": "response_shape",
+      "detail": "Exact JSON field names of prices/book/market responses not documented in corpus; field_map values are best-effort",
+      "ts": 1788961659
+    },
+    {
+      "category": "order_type",
+      "detail": "Order placement/cancel/trading endpoints not described in provided corpus",
+      "ts": 1788961659
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct/min_order_usdt/qty_step/price_band_pct/rate limit not documented - using conservative defaults",
+      "ts": 1788961659
+    },
+    {
+      "category": "rules",
+      "detail": "Supported quote currencies not enumerated in corpus; USD/BTC/LTC/ETH from exchange conventions",
+      "ts": 1788961659
+    },
+    {
+      "category": "rules",
+      "detail": "tf/period semantics for index-levels undocumented - interval mapping is best-effort",
+      "ts": 1788961659
+    }
+  ],
+  "_warnings": [],
+  "_note_prev_probe": "پروفایل قبلاً probe شده — پس از ذخیره، تست زنده دوباره اجرا شود",
+  "last_probe": {
+    "checked_at": 1788980114,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "Southxchange network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "Southxchange network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "Southxchange network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "Southxchange network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "Southxchange network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "Southxchange network failure: [Errno 11001] getaddrinfo failed"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "Southxchange network failure: [Errno 11001] getaddrinfo failed"
+      }
+    ]
+  }
+}

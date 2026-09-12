@@ -1,0 +1,383 @@
+{
+  "schema_version": 1,
+  "id": "nobitex",
+  "name": "Nobitex (نوبیتکس)",
+  "base_url": "https://apiv2.nobitex.ir",
+  "auth": {
+    "scheme": "ed25519",
+    "ed25519": {
+      "key_header": "Nobitex-Key",
+      "signature_header": "Nobitex-Signature",
+      "timestamp_header": "Nobitex-Timestamp"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "IRT",
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/market/udf/history",
+      "params": {
+        "symbol": "{symbol}",
+        "resolution": "{tf}",
+        "from": "{from}",
+        "to": "{to}"
+      },
+      "result_format": "udf"
+    },
+    "markets": {
+      "method": "POST",
+      "path": "/market/stats",
+      "body_empty": true,
+      "result_path": "stats",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "key",
+        "price": "latest"
+      }
+    },
+    "ticker": {
+      "method": "POST",
+      "path": "/market/stats",
+      "body_empty": true,
+      "result_path": "stats",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "key",
+        "price": "latest"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/v2/orderbook/{symbol}",
+      "params": {},
+      "result_format": "arrays"
+    },
+    "balances": {
+      "method": "POST",
+      "path": "/v2/wallets",
+      "body_empty": true,
+      "result_path": "wallets"
+    },
+    "place_order": {
+      "method": "POST",
+      "path": "/market/orders/add",
+      "order_type_map": {
+        "MARKET": "market",
+        "LIMIT": "limit",
+        "STOP_MARKET": "stop_market",
+        "STOP_LIMIT": "stop_limit"
+      },
+      "strip_empty": true,
+      "body": {
+        "type": "{side_lower}",
+        "execution": "{execution}",
+        "srcCurrency": "{base_lc}",
+        "dstCurrency": "{quote_lc}",
+        "amount": "{qty}",
+        "price": "{price}",
+        "stopPrice": "{stop}",
+        "clientOrderId": "{client_id}"
+      },
+      "result_map": {
+        "state": "status",
+        "executedQty": "matchedAmount",
+        "executedPrice": "averagePrice"
+      }
+    },
+    "open_orders": {
+      "method": "GET",
+      "path": "/market/orders/list",
+      "params": {
+        "status": "open"
+      }
+    },
+    "order": {
+      "method": "POST",
+      "path": "/market/orders/status",
+      "body": {
+        "clientOrderId": "{client_id}"
+      },
+      "result_map": {
+        "state": "status",
+        "executedQty": "matchedAmount",
+        "executedPrice": "averagePrice"
+      }
+    },
+    "cancel_order": {
+      "method": "POST",
+      "path": "/market/orders/update-status",
+      "body": {
+        "clientOrderId": "{client_id}",
+        "status": "canceled"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "IRT",
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 0.59,
+    "min_collateral_usdt": 0.59,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 5.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8,
+    "fee_pct": 0.15,
+    "interest_per_4h_pct": 0.008307,
+    "market_overrides": {
+      "BTCUSDT": {
+        "min_order_usdt": 0.59
+      },
+      "ETHUSDT": {
+        "min_order_usdt": 0.5
+      }
+    }
+  },
+  "docs": {
+    "source_urls": [
+      "https://apidocs.nobitex.ir/",
+      "https://docs.snowflake.com/en/developer-guide/udf/python/udf-python-examples",
+      "https://docs.openbb.co/workspace/developers/widget-types/tradingview-charts",
+      "https://docs.snowflake.com/en/developer-guide/udf/python/udf-python-troubleshooting",
+      "https://github.com/fusedio/udfs"
+    ],
+    "researched_at": 1788729746,
+    "model": "wizard"
+  },
+  "capabilities_override": {
+    "spot": true,
+    "margin": true,
+    "futures": false,
+    "udf_native": true,
+    "notes": "Spot live trading (Ed25519) verified. Margin (معاملات تعهدی) is a real product (max 5x, 0.05%/day) — PAPER margin is enabled with Nobitex's own rules; LIVE margin is not wired (separate order-based API)."
+  },
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "docs_unreadable",
+      "detail": "The fetched https://apidocs.nobitex.ir page contained only the section index (اطلاعات بازار، اطلاعات کاربر، معاملات اسپات، معاملات تعهدی، وب‌سوکت، ...) with no endpoint specifications; the other fetched pages (Snowflake/OpenBB/Fused UDF documentation) are unrelated to Nobitex. Endpoint paths, parameters and response shapes below reflect the published Nobitex API structure and must be verified against the full docs pages before production use.",
+      "ts": 1788729746
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Auth section content was not fetched. Nobitex authenticates via an 'Authorization' HTTP header carrying a JWT obtained from the login endpoint or an API-key token; the exact value prefix (e.g. 'JWT <token>' vs 'Token <key>') is not expressible in this template and must be confirmed from the احراز هویت / کلید API docs pages.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candles use TradingView UDF: /market/udf/history takes 'from'/'to' as Unix SECONDS (not milliseconds) and returns {s,t,o,h,l,c,v} at the top level, so no result_path/field_map applies.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "/markets/list returns srcCurrency and dstCurrency as separate lowercase fields with no combined symbol field; the adapter must construct the trading symbol by concatenation (srcCurrency+dstCurrency, uppercased, e.g. btc+irt -> BTCIRT). Verify whether dstCurrency is reported as 'irt' (Toman) or 'rls' (Rial) and normalize before symbol construction.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "Ticker endpoint /market/stats is a POST with a JSON body (srcCurrency/dstCurrency, comma-separated lists allowed) and returns a 'stats' object keyed by 'src-dst' pair (e.g. 'btc-irt'); the template's query-param shape cannot express a POST body or the dynamic response key.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "Depth endpoint /v2/orderbook/{symbol} takes the symbol as a PATH segment (e.g. /v2/orderbook/BTCIRT) and returns top-level 'asks' and 'bids' arrays of [price, amount] pairs; the template cannot express both sides of the book in a single result_path.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "A WebSocket API exists (وب‌سوکت section, 8 items in the docs index) but its content was not fetched; only REST endpoints are described here.",
+      "ts": 1788729746
+    },
+    {
+      "category": "margin_model",
+      "detail": "Docs index lists a margin/futures section (معاملات تعهدی, 9 endpoints) but its content was not fetched, so no margin endpoints are configured (margin=null). Classified as isolated_margin (collateral/leverage model) per the Iranian-exchange convention; confirm whether the product is collateral-based or perpetual/funding-based.",
+      "ts": 1788729746
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Rate-limit numbers and the full list of supported candle resolutions were not present in the fetched pages; min_gap_sec=1.0 is a conservative placeholder and tf_param_map assumes standard TradingView UDF resolutions (1,5,15,30,60,D) — verify 240 support.",
+      "ts": 1788729746
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "The fetched documentation snapshot contained only the Nobitex docs landing page (Persian table of contents: market info, user info, spot trades, futures trades, withdrawals, rial withdrawals, address book, security, referrals, authentication, API keys, PnL, system settings, websocket) plus unrelated third-party pages; no endpoint specifications, parameters, or response examples were retrievable. Endpoint paths above follow the documented Nobitex API structure but could not be verified against the provided pages.",
+      "ts": 1788729746
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "The docs list authentication and API-key sections; Nobitex private endpoints use an Authorization header carrying an API token, but the exact token format and any signing scheme were not present in the fetched pages, so the hmac block cannot be populated.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "The markets endpoint /market/stats is a POST returning a stats object keyed by symbol; exact response field names could not be verified from the fetched pages, so field_map entries are best-effort.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "No ticker or orderbook endpoint could be verified from the fetched pages, so endpoints.ticker and endpoints.depth are omitted.",
+      "ts": 1788729746
+    },
+    {
+      "category": "margin_model",
+      "detail": "A futures/margin trading section (معاملات تعهدی) exists in the docs table of contents, so margin_style is classified as futures, but no futures endpoint details were fetched; margin is set to null.",
+      "ts": 1788729746
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "No rate-limit information was present in the fetched pages; min_gap_sec defaults to 1.0.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candles use TradingView UDF convention with from/to epoch timestamps in seconds (not milliseconds).",
+      "ts": 1788729746
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "The supplied https://apidocs.nobitex.ir content is only the Persian-language navigation index (section counts only: اطلاعات بازار, اطلاعات کاربر, معاملات اسپات, معاملات تعهدی, برداشت, وب‌سوکت, etc.). No endpoint paths, parameters, request/response schemas, or rate limits appear on any provided page, so all endpoint, parameter, and response details in this config are unverified against the supplied documentation.",
+      "ts": 1788729746
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "The index lists 'احراز هویت' (authentication, 4 items) and 'کلید API' (API key, 5 items) sections, but the actual scheme (JWT obtained from a login endpoint vs API-key/HMAC header construction) and the exact header value format are not stated in the supplied pages; scheme=header with 'Authorization' is a placeholder.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candles result_format 'udf' and the markets 'stats' result_path/field names could not be confirmed from the supplied pages; field_map uses 'key' because the stats response is an object keyed by lowercase 'base-quote' market names (e.g. btc-rls, btc-usdt), which differs from the uppercase no-separator candle symbol format (e.g. BTCIRT) and uses 'rls' instead of 'IRT' as the rial quote suffix.",
+      "ts": 1788729746
+    },
+    {
+      "category": "response_shape",
+      "detail": "The markets/stats request takes POST form fields (srcCurrency/dstCurrency) that cannot be expressed in the params template; the adapter must populate the request body itself. The depth endpoint's limit-type values could likewise not be verified.",
+      "ts": 1788729746
+    },
+    {
+      "category": "margin_model",
+      "detail": "A 'معاملات تعهدی' (margin/futures trading, 9 items) section exists in the index, but its collateral/leverage/funding model cannot be classified from the supplied pages, so margin is null and no margin_style is asserted.",
+      "ts": 1788729746
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "No rate-limit numbers are present anywhere in the supplied documentation; min_gap_sec=1.0 is a conservative placeholder, not a documented value. Timestamp units for candles (assumed unix seconds for the UDF from/to params) are also unconfirmed.",
+      "ts": 1788729746
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Auth = Ed25519 request signing (Nobitex v2). api_key is the PUBLIC key (Nobitex-Key); the API secret is the 32-byte url-safe-base64 Ed25519 SEED (signs timestamp+METHOD+full_path+raw_body -> Nobitex-Signature, unix-seconds Nobitex-Timestamp). Verified live 2026-09-07: POST /v2/wallets returned the real account wallets.",
+      "ts": 1788770000
+    },
+    {
+      "category": "response_shape",
+      "detail": "balances = POST /v2/wallets -> {status, wallets:{ASSET:{id,balance,blocked}}}; adapter normalizes balance->available, blocked->locked.",
+      "ts": 1788770000
+    },
+    {
+      "category": "response_shape",
+      "detail": "place_order = POST /market/orders/add, srcCurrency=base(lowercase), dstCurrency=quote(lowercase), amount in BASE units, type=buy/sell, execution=market|limit|stop_market|stop_limit. Verified: valid pair accepts; below-min order -> OverValueOrder (no fill).",
+      "ts": 1788770000
+    },
+    {
+      "category": "margin_model",
+      "detail": "Nobitex margin (معاملات تعهدی) is an ORDER-based product (POST /margin/orders/add) with src/dst/amount, NOT the collateral+risk_coef model this adapter exposes — so capabilities.margin=false. Spot only for live trading.",
+      "ts": 1788770000
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef=5 verified live: /margin/markets/list reports maxLeverage=5 for all 129 margin markets.",
+      "ts": 1788775000
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct=0 (disabled): a limit order at ~98% off-market (price=1000 vs ~79000) passed Nobitex's price validation, so no ±5%-style band like Wallex's exists; the local price-band check is disabled for this profile.",
+      "ts": 1788775000
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct=0.0208: /margin/fee-rates + /margin/markets/list report positionFeeRate=0.0005 per DAY (0.05%/day) for 128/129 markets (one at 0.0003) -> converted to per-4h (0.05%/6).",
+      "ts": 1788775000
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct=0.15 is a CONSERVATIVE taker estimate: Nobitex's spot fee table is not exposed via the public API/docs fetched (fee fields in order responses are 0 until fill detail level 2). Adjust in profile.json rules.fee_pct if your tier's published fee differs.",
+      "ts": 1788775000
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt=100000 not documented — conservative default (no per-position collateral cap found in docs).",
+      "ts": 1788775000
+    },
+    {
+      "category": "rules",
+      "detail": "min-order probes must use qty = notional/limit_price (checked notional == limit_price×qty) and a price near market — a far-below-market probe shrinks the checked notional proportionally (0.5x price → floor appears ~2x lower).",
+      "ts": 1788805000
+    }
+  ],
+  "margin_style": "isolated_margin",
+  "_warnings": [],
+  "_note_prev_probe": "پروفایل قبلاً probe شده — پس از ذخیره، تست زنده دوباره اجرا شود",
+  "last_probe": {
+    "checked_at": 1788804658,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "523 markets; sample: ['BTCRLS', 'BTCUSDT', 'ETHRLS', 'ETHUSDT', 'LTCRLS']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "288 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "72 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "18 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "12 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 79200.0, 'symbol': 'BTCUSDT', 'raw': {'btc-usdt': {'isClosed': False, 'bestSell': '79250', 'bestBuy': '79205',"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'status': 'ok', 'lastUpdate': 1788804658814, 'lastTradePrice': '79200', 'asks': [['79205', '0.000984'], ['79200.06', '0"
+      }
+    ]
+  },
+  "client_id_map": "dash"
+}

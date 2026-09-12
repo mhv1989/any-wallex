@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "id": "asterdex",
+  "name": "AsterDEX",
+  "base_url": "https://fapi.asterdex.com",
+  "auth": {
+    "scheme": "hmac",
+    "header_name": "X-MBX-APIKEY",
+    "hmac": {
+      "param_order": [
+        "query",
+        "body"
+      ],
+      "headers": {
+        "X-MBX-APIKEY": "{key}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/fapi/v1/klines",
+      "params": {
+        "symbol": "{symbol}",
+        "interval": "{tf}",
+        "startTime": "{from_ms}",
+        "endTime": "{to_ms}",
+        "limit": "{limit}"
+      },
+      "result_format": "arrays",
+      "field_map": {
+        "ts": "0",
+        "open": "1",
+        "high": "2",
+        "low": "3",
+        "close": "4",
+        "volume": "5"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/fapi/v1/exchangeInfo",
+      "params": {},
+      "result_format": "objects",
+      "result_path": "symbols"
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/fapi/v1/ticker/24hr",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects"
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/fapi/v1/depth",
+      "params": {
+        "symbol": "{symbol}",
+        "limit": "{limit}"
+      },
+      "result_format": "objects"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15m",
+    "60": "1h",
+    "240": "4h",
+    "1D": "1d"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.05,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 5.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 125.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.asterdex.com/for-developers/aster-api/api-documentation",
+      "https://docs.asterdex.com/for-developers/aster-api",
+      "https://github.com/asterdex/api-docs/",
+      "https://deepwiki.com/asterdex/api-docs",
+      "https://github.com/asterdex/api-docs/blob/master/README.md",
+      "https://asterdexhub.com/guides/connecting-to-aster-dex-api.html"
+    ],
+    "researched_at": 1788958001,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "SIGNED endpoints: HMAC SHA256 over totalParams (query string concatenated with request body), signature appended at end; requires timestamp (ms) param, optional recvWindow (default 5000); API key in X-MBX-APIKEY header",
+      "ts": 1788958001
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "V3 API (recommended) uses Web3 wallet/agent signing (user/signer/nonce/signature) not expressible here; V1 new API-key creation stopped after 2026-03-25, existing keys still work",
+      "ts": 1788958001
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Authenticated V3 endpoints require a main-wallet deposit after 2026-09-01 (error -5050); public market data unaffected",
+      "ts": 1788958001
+    },
+    {
+      "category": "response_shape",
+      "detail": "Kline response example not shown in provided docs; Binance-compatible columnar array assumed with ts=0,open=1,high=2,low=3,close=4,volume=5 â verify on first call",
+      "ts": 1788958001
+    },
+    {
+      "category": "response_shape",
+      "detail": "exchangeInfo / ticker/24hr / depth field names and nesting not documented in provided corpus; field_map omitted",
+      "ts": 1788958001
+    },
+    {
+      "category": "order_type",
+      "detail": "Futures only: LIMIT, MARKET, STOP, STOP_MARKET, TAKE_PROFIT, TAKE_PROFIT_MARKET, TRAILING_STOP_MARKET; GTC/IOC/FOK/GTX; hedge & one-way position modes; no spot endpoints documented at fapi base (spot on sapi.asterdex.com per third-party only)",
+      "ts": 1788958001
+    },
+    {
+      "category": "margin_model",
+      "detail": "Perpetual futures (contractType PERPETUAL), leverage 1-125 via POST /fapi/v1/leverage, marginType ISOLATED/CROSSED, funding-rate model; funding interval and rate not stated (see /fapi/v1/premiumIndex, /fapi/v1/fundingRate)",
+      "ts": 1788958001
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented (per-user via GET /fapi/v1/commissionRate) â using conservative default 0.2",
+      "ts": 1788958001
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not stated globally; per-symbol stepSize via exchangeInfo LOT_SIZE filter â using default 8",
+      "ts": 1788958001
+    },
+    {
+      "category": "rules",
+      "detail": "price band per-symbol via PERCENT_PRICE filter (markPrice * multiplierUp/Down), exact pct not stated â using default 5.0",
+      "ts": 1788958001
+    },
+    {
+      "category": "rules",
+      "detail": "min/max collateral per position not documented â using defaults 10.0/100000.0",
+      "ts": 1788958001
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct: funding fees per symbol, no fixed value documented â using default 0.05",
+      "ts": 1788958001
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt=5.0 taken from MIN_NOTIONAL error -4164 ('notional must be no smaller than 5.0 unless reduce only'); per-symbol MIN_NOTIONAL filter may differ",
+      "ts": 1788958001
+    },
+    {
+      "category": "response_shape",
+      "detail": "Rate limits are weight-based (REQUEST_WEIGHT/ORDERS per exchangeInfo rateLimits), enforced per IP; docs give no fixed req/sec â 0.05s gap assumed from 1200 weight/min cited in third-party guide; 429 then auto IP ban (HTTP 418, 2min-3days)",
+      "ts": 1788958001
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "HTTP 503 timeout responses have UNKNOWN execution status and must not be treated as failure; indexPriceKlines/markPriceKlines use 'pair'/'symbol' params respectively",
+      "ts": 1788958001
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788958230,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "590 markets; sample: ['ASTERUSDT', 'BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "288 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "72 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "18 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "12 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "AsterDEX API returned HTTP 403 with a non-JSON body for GET /fapi/v1/ticker/24hr (body[:120]='<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\\n<H"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'lastUpdateId': 534466463936, 'E': 1788958231331, 'T': 1788958231300, 'bids': [['79591.1', '0.075'], ['79588.5', '0.076"
+      }
+    ]
+  }
+}

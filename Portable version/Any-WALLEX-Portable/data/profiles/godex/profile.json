@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "id": "godex",
+  "name": "Godex",
+  "base_url": "https://app.godex.ai",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/undocumented",
+      "params": {}
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/undocumented",
+      "params": {}
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 0.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.godex.ai/",
+      "https://docs.godex.ai/getting-started/overview",
+      "https://godex.ahoo.me/",
+      "https://github.com/godex-ai/docs/blob/main/api-reference/introduction.mdx"
+    ],
+    "researched_at": 1788961330,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "response_shape",
+      "detail": "No public REST market-data API documented anywhere in the docs: no candles/markets/ticker/depth paths, params or response shapes stated; endpoint paths above are explicit placeholders â real data fetching is not possible",
+      "ts": 1788961330
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Corpus mixes unrelated projects named Godex/GodeX: godex.ai DEX copy-trading docs, godex.ahoo.me (OpenAI Responses API gateway for Codex CLI, not an exchange), and github godex-ai/docs (Mintlify starter template); the actual godex.ai API reference (llms.txt) is referenced but not included",
+      "ts": 1788961330
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "No Godex auth scheme documented; the only auth mention is the starter-template GitHub page stating Bearer tokens for example 'Plant Store' endpoints â placeholder content, not treated as real; scheme set to none",
+      "ts": 1788961330
+    },
+    {
+      "category": "order_type",
+      "detail": "No order placement/execution API documented; only conceptual DEX swaps via Smart Order Router, Moralis (price data) and Odos (quotes) third-party integrations are described",
+      "ts": 1788961330
+    },
+    {
+      "category": "margin_model",
+      "detail": "No margin/perpetual trading API documented â margin=null; collateral/leverage/interest rules are defaults and unused",
+      "ts": 1788961330
+    },
+    {
+      "category": "margin_model",
+      "detail": "On-chain DEX (BSC/ETH/Arbitrum/Optimism, Arbitrum Orbit stack) with derivatives mentioned conceptually; classified dex_perp without any API details",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using 0 (no stated minimum)",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented (Fees Structure page exists in nav but content not provided) â using default 0.2",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using default 8",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using default 5.0",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "rate limits not documented â min_gap_sec default 1.0",
+      "ts": 1788961330
+    },
+    {
+      "category": "response_shape",
+      "detail": "quotes and symbol_format not documented (on-chain ERC-20 tokens); USDT quote assumed solely for paper-trading normalization",
+      "ts": 1788961330
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Provided docs describe an on-chain DEX/copy-trading app; they contain no REST API reference â no endpoints, params or response shapes are documented",
+      "ts": 1788961330
+    },
+    {
+      "category": "response_shape",
+      "detail": "No candle/OHLCV endpoint documented â /api/candles is a placeholder path; OHLCV fetching is unverified",
+      "ts": 1788961330
+    },
+    {
+      "category": "response_shape",
+      "detail": "No markets/ticker/depth endpoints documented â /api/markets is a placeholder path; symbol list unavailable",
+      "ts": 1788961330
+    },
+    {
+      "category": "response_shape",
+      "detail": "No API base URL documented â mainnet app host https://app.godex.ai used as placeholder",
+      "ts": 1788961330
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "No API auth scheme documented; only a placeholder 'Bearer token' note in an unused Mintlify starter api-reference â treated as none for public data",
+      "ts": 1788961330
+    },
+    {
+      "category": "order_type",
+      "detail": "No order placement API documented; trading executes via on-chain smart contracts/wallet signing, not REST",
+      "ts": 1788961330
+    },
+    {
+      "category": "margin_model",
+      "detail": "No margin/futures trading API documented (on-chain DEX spot/swap engine only) â margin disabled",
+      "ts": 1788961330
+    },
+    {
+      "category": "response_shape",
+      "detail": "Symbols are on-chain token pairs (contract addresses); no separator/case/quote-suffix convention documented â USDT assumed",
+      "ts": 1788961330
+    },
+    {
+      "category": "response_shape",
+      "detail": "Rate limits not documented â min_gap_sec set to conservative 1.0",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented (Fees Structure page not included in corpus) â using conservative default 0.2",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using conservative default 5.0",
+      "ts": 1788961330
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef and interest_per_4h_pct not documented â using conservative defaults 3.0 / 0.05",
+      "ts": 1788961330
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Note: godex.ahoo.me page in corpus is an unrelated LLM gateway project (GodeX), not this exchange's API",
+      "ts": 1788961330
+    }
+  ],
+  "margin_style": "dex_perp",
+  "_warnings": [],
+  "_note_prev_probe": "پروفایل قبلاً probe شده — پس از ذخیره، تست زنده دوباره اجرا شود",
+  "last_probe": {
+    "checked_at": 1788980058,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "Godex API returned HTTP 200 with a non-JSON body for GET /undocumented (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><link rel=\"icon\" type=\"image/svg+xml\" href=\"/assets/logo512-d'). Endpoint path or base_url is likely wrong "
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "Godex API returned HTTP 200 with a non-JSON body for GET /undocumented (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><link rel=\"icon\" type=\"image/svg+xml\" href=\"/assets/logo512-d'). Endpoint path or base_url is likely wrong "
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "Godex API returned HTTP 200 with a non-JSON body for GET /undocumented (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><link rel=\"icon\" type=\"image/svg+xml\" href=\"/assets/logo512-d'). Endpoint path or base_url is likely wrong "
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "Godex API returned HTTP 200 with a non-JSON body for GET /undocumented (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><link rel=\"icon\" type=\"image/svg+xml\" href=\"/assets/logo512-d'). Endpoint path or base_url is likely wrong "
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "Godex API returned HTTP 200 with a non-JSON body for GET /undocumented (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><link rel=\"icon\" type=\"image/svg+xml\" href=\"/assets/logo512-d'). Endpoint path or base_url is likely wrong "
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "Godex API returned HTTP 200 with a non-JSON body for GET /undocumented (body[:120]='<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><link rel=\"icon\" type=\"image/svg+xml\" href=\"/assets/logo5"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'godex'"
+      }
+    ]
+  }
+}

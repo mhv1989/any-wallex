@@ -1,0 +1,8 @@
+# Pinned to the versions the platform is developed & tested against (108 tests green).
+# Compatible-release ranges (==X.Y.*) allow patch updates but block breaking majors.
+fastapi==0.133.*
+uvicorn[standard]==0.41.*
+httpx==0.28.*
+cryptography==50.0.*
+python-dotenv==1.2.*
+pytest==9.1.*

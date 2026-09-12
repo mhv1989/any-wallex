@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "id": "weex",
+  "name": "WEEX",
+  "base_url": "https://sapi.wexex.io",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "method",
+        "path",
+        "query",
+        "body",
+        "timestamp",
+        "appkey"
+      ],
+      "headers": {
+        "validate-algorithms": "HmacSHA256",
+        "validate-appkey": "{key}",
+        "validate-recvwindow": "5000",
+        "validate-timestamp": "{timestamp}",
+        "validate-signature": "{sig}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "_",
+    "case": "lower",
+    "quote_suffixes": [
+      "usdt"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/v4/public/kline",
+      "params": {
+        "symbol": "{symbol}",
+        "interval": "{tf}",
+        "startTime": "{from_ms}",
+        "endTime": "{to_ms}",
+        "limit": "{limit}"
+      },
+      "result_format": "objects",
+      "result_path": "result",
+      "field_map": {
+        "ts": "t",
+        "open": "o",
+        "high": "h",
+        "low": "l",
+        "close": "c",
+        "volume": "q"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/v4/public/symbol",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects",
+      "result_path": "result.symbols",
+      "field_map": {
+        "symbol": "symbol",
+        "base": "baseCurrency",
+        "quote": "quoteCurrency"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/v4/public/ticker",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects",
+      "result_path": "result",
+      "field_map": {
+        "symbol": "s",
+        "last": "c",
+        "open": "o",
+        "high": "h",
+        "low": "l",
+        "volume": "q"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/v4/public/depth",
+      "params": {
+        "symbol": "{symbol}",
+        "limit": "{limit}"
+      },
+      "result_format": "objects",
+      "result_path": "result",
+      "field_map": {
+        "bids": "bids",
+        "asks": "asks"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "1": "1m",
+    "5": "5m",
+    "15": "15m",
+    "60": "1h",
+    "240": "4h",
+    "1D": "1d"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.1,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 80.0,
+    "qty_step": 6.0,
+    "fee_pct": 0.1,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://www.weex.com/api-doc/spot/introduction/APIBriefIntroduction",
+      "https://www.weex.com/weex-API",
+      "http://doc.wexex.io/",
+      "https://stg-www.weex.tech/weex-API",
+      "https://weexapp.com/docs/modules/stream.html",
+      "https://github.com/wex-exchange/api-doc"
+    ],
+    "researched_at": 1788959431,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "docs_unreadable",
+      "detail": "WEEX (weex.com) pages in corpus are marketing/intro only, no endpoints/parameters; adapter built from doc.wexex.io (WEX) docs, the only complete API documentation present",
+      "ts": 1788959431
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "HMAC is unusual: signature=HmacSHA256(secret, X+Y) where X=sorted 'validate-algorithms=..&validate-appkey=..&validate-recvwindow=..&validate-timestamp=..' and Y='#METHOD#path#query#body' with mandatory leading # markers; all 5 validate-* headers required on non-/public requests; recvwindow default 5000ms",
+      "ts": 1788959431
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Supported signature algorithms: HmacMD5, HmacSHA1, HmacSHA224, HmacSHA256 (recommended), HmacSHA384, HmacSHA512; JSON body must be signed as raw string without key reordering",
+      "ts": 1788959431
+    },
+    {
+      "category": "response_shape",
+      "detail": "All responses wrapped in {rc,result,mc,ma}; success only when rc=0 and mc=SUCCESS",
+      "ts": 1788959431
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle timestamps and kline startTime/endTime are milliseconds; kline q=base quantity, v=quote volume; wsdl limit 1~1000",
+      "ts": 1788959431
+    },
+    {
+      "category": "margin_model",
+      "detail": "bizType LEVER (spot margin) and FUTURES_U futures endpoints exist but margin/futures request details not documented in corpus; margin disabled",
+      "ts": 1788959431
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0; QUOTE_QTY filter min may be null per symbol",
+      "ts": 1788959431
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788959431
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788959431
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not documented â using conservative default 3.0",
+      "ts": 1788959431
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using conservative default 0.05",
+      "ts": 1788959431
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct from sample takerFeeRate=0.001 (0.1%), maker 0.002; fees are per-symbol via /v4/public/symbol",
+      "ts": 1788959431
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step from sample quantityPrecision=6; price band from sample PROTECTION_LIMIT buy/sellMaxDeviation=0.8 (Â±80%); per-symbol filters PRICE/QUANTITY/QUOTE_QTY/PROTECTION_LIMIT via /v4/public/symbol",
+      "ts": 1788959431
+    },
+    {
+      "category": "order_type",
+      "detail": "Order types only LIMIT and MARKET; timeInForce required (GTC/IOC/FOK/GTX); market BUY needs quoteQty, market SELL needs quantity",
+      "ts": 1788959431
+    }
+  ],
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788979973,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "0 markets; sample: []"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "288 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "72 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "18 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "12 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "{}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'symbol': 'btc_usdt', 'timestamp': 1788979973832, 'lastUpdateId': 1786802268077, 'bids': [['78478.00', '18.71042'], ['7"
+      }
+    ]
+  }
+}

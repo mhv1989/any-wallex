@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "id": "lighter",
+  "name": "Lighter",
+  "base_url": "https://mainnet.zklighter.elliot.ai",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "-",
+    "case": "upper",
+    "quote_suffixes": [
+      "USD"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/api/v1/candlesticks",
+      "params": {
+        "market_id": "{symbol}",
+        "resolution": "{tf}",
+        "start_timestamp": "{from}",
+        "end_timestamp": "{to}",
+        "count_back": "{limit}"
+      },
+      "result_format": "objects",
+      "result_path": "candlesticks",
+      "field_map": {
+        "ts": "timestamp",
+        "open": "open",
+        "high": "high",
+        "low": "low",
+        "close": "close",
+        "volume": "volume"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/api/v1/fundamentalMarketInfo",
+      "params": {},
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "symbol",
+        "base": "base_asset_symbol",
+        "price": "last_price"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/api/v1/orderBookDetails",
+      "params": {
+        "market_id": "{symbol}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "symbol",
+        "price": "last_price"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/api/v1/orderBooks",
+      "params": {},
+      "result_format": "objects",
+      "field_map": {
+        "bids": "bids",
+        "asks": "asks"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15m",
+    "60": "1h",
+    "240": "4h",
+    "1D": "1d"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USD"
+  ],
+  "rules": {
+    "min_order_usdt": 0.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.lighter.xyz/trading/api",
+      "https://lighter.readthedocs.io/en/latest/",
+      "https://lighter.readthedocs.io/en/latest/concepts/lighter.html",
+      "https://apidocs.lighter.xyz/docs/api-keys",
+      "https://github.com/exacaster/lighter/blob/master/docs/rest.md",
+      "https://apidocs.lighter.xyz/docs/get-started"
+    ],
+    "researched_at": 1788958399,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Private endpoints require an Ed25519-signed auth token from API private key (structure {expiry_unix}:{account_index}:{api_key_index}:{random_hex}, max 8h expiry); transactions are signed via SignerClient with per-key nonce. Not expressible as header/hmac scheme; public market data needs no auth.",
+      "ts": 1788958399
+    },
+    {
+      "category": "response_shape",
+      "detail": "Only GET /api/v1/orderBookDetails is documented in provided corpus; candlestick, markets and orderbook field names taken from Lighter API OpenAPI (apidocs.lighter.xyz), not fully verifiable from corpus.",
+      "ts": 1788958399
+    },
+    {
+      "category": "response_shape",
+      "detail": "No TradingView UDF support; candlestick timestamps are unix seconds in start_timestamp/end_timestamp params.",
+      "ts": 1788958399
+    },
+    {
+      "category": "order_type",
+      "detail": "Orders are L2 signed transactions (create_order/cancel_order/modify_order via POST send_tx) using market_index and client_order_index, integer base_amount/price, time_in_force and order_expiry â no plain REST order endpoint expressible here.",
+      "ts": 1788958399
+    },
+    {
+      "category": "margin_model",
+      "detail": "Lighter is a perpetual DEX with funding rates and unified margin; trading requires signed transactions (account_index + market_index), not a margin REST API. margin_style=futures.",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "Rate Limits page exists but values not in corpus â min_gap_sec conservative default 1.0",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using 0 (none stated)",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2 (Trading Fees page not included in corpus)",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef (max leverage) not documented â using conservative default 3.0",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â precision is per-market, query /api/v1/orderBookDetails; using default 8",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct (funding) not documented â using conservative default 0.05",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "Symbols addressed by integer market_index (ETH perps = 0); ETH-USD-style symbol requires mapping via markets endpoint",
+      "ts": 1788958399
+    },
+    {
+      "category": "response_shape",
+      "detail": "lighter.readthedocs.io and github exacaster/lighter pages in corpus are unrelated projects (Java web framework / Spark); ignored as noise",
+      "ts": 1788958399
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Auth is not plain HMAC: transactions are signed via SDK SignerClient with per-API-key nonces; REST/WS auth uses a token {expiry_unix}:{account_index}:{api_key_index}:{random_hex} (max 8h expiry). Header name not stated in corpus â 'Authorization' assumed, confirm via SDK",
+      "ts": 1788958399
+    },
+    {
+      "category": "response_shape",
+      "detail": "Only /api/v1/orderBookDetails and /api/v1/orderBooks paths stated in corpus; candleSnapshots path/params from apidocs.lighter.xyz OpenAPI (llms.txt). Response field names for candles/markets/depth not shown â map at runtime",
+      "ts": 1788958399
+    },
+    {
+      "category": "response_shape",
+      "detail": "API addresses markets by integer market_index (examples use market_index=0 for ETH perp), not symbol strings; adapter must map symbol->market_index",
+      "ts": 1788958399
+    },
+    {
+      "category": "response_shape",
+      "detail": "Timestamp units (seconds vs milliseconds) not stated in corpus",
+      "ts": 1788958399
+    },
+    {
+      "category": "order_type",
+      "detail": "Orders are SDK-signed transactions (create_order: market/limit, IOC, post-only ALO, good-till-time with order_expiry, reduce_only, client_order_index unique per market); no plain REST order-JSON endpoint documented in corpus",
+      "ts": 1788958399
+    },
+    {
+      "category": "margin_model",
+      "detail": "Perpetuals DEX: unified trading accounts, multi-asset margin, funding payments, 28-day order expiry; leverage caps and collateral min/max not stated in corpus",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "price band not stated â using conservative default 5.0",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "qty precision is per-market integer scaling returned by /api/v1/orderBookDetails â using default qty_step 8",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "Fee table not included in provided corpus â using default 0.2% per side",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "Funding/interest rate not stated â using default 0.05% per 4h",
+      "ts": 1788958399
+    },
+    {
+      "category": "rules",
+      "detail": "Rate Limits page content not included in corpus â min_gap_sec conservative 1.0",
+      "ts": 1788958399
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Corpus mixed in unrelated projects (lighter.readthedocs.io Java web framework, github.com/exacaster/lighter Spark REST) â ignored; only docs.lighter.xyz and apidocs.lighter.xyz are the exchange",
+      "ts": 1788958399
+    }
+  ],
+  "margin_style": "futures",
+  "_warnings": [],
+  "_note_prev_probe": "پروفایل قبلاً probe شده — پس از ذخیره، تست زنده دوباره اجرا شود",
+  "last_probe": {
+    "checked_at": 1788979671,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "Lighter API returned HTTP 403 with a non-JSON body for GET /api/v1/fundamentalMarketInfo (body[:120]=''). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "Lighter API returned HTTP 403 with a non-JSON body for GET /api/v1/candlesticks (body[:120]=''). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "Lighter API returned HTTP 403 with a non-JSON body for GET /api/v1/candlesticks (body[:120]=''). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "Lighter API returned HTTP 403 with a non-JSON body for GET /api/v1/candlesticks (body[:120]=''). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "Lighter API returned HTTP 403 with a non-JSON body for GET /api/v1/candlesticks (body[:120]=''). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "Lighter API error 400: {\"code\":20001,\"message\":\"invalid param \"}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'code': 200, 'order_books': [{'symbol': 'ORCL', 'market_id': 165, 'market_type': 'perp', 'base_asset_id': 0, 'quote_ass"
+      }
+    ]
+  }
+}

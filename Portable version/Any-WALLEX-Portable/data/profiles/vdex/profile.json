@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "id": "vdex",
+  "name": "VDEX",
+  "base_url": "https://api.vdex.com",
+  "auth": {
+    "scheme": "header",
+    "header_name": "X-API-Key"
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USD",
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/v2/candles",
+      "params": {},
+      "result_format": "objects"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/v2/tokens/supported-pairs",
+      "params": {},
+      "result_format": "objects"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USD",
+    "USDT",
+    "USDC"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 50.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.vdex.trade/trading/api",
+      "https://docs.vdex.ai/",
+      "https://docs.vdex.ai/readme/introduction",
+      "https://pve.proxmox.com/pve-docs/api-viewer/index.html",
+      "https://www.vdex.trade/",
+      "https://docs.vdex.trade/"
+    ],
+    "researched_at": 1788961914,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Dual auth: X-API-Key header (server bots) or Bearer JWT (clients); only header scheme expressible. Key format vdex_<64hex>, issued via support (self-custodial generation pending)",
+      "ts": 1788961914
+    },
+    {
+      "category": "response_shape",
+      "detail": "OHLCV/candles endpoint not present in provided corpus; path /v2/candles is an unverified placeholder â full reference at https://d3p6ozwmy1xgo4.cloudfront.net/index.html#/ ; params/field_map omitted",
+      "ts": 1788961914
+    },
+    {
+      "category": "response_shape",
+      "detail": "/v2/tokens/supported-pairs response fields undocumented; field_map omitted. Ticker and depth endpoints not documented",
+      "ts": 1788961914
+    },
+    {
+      "category": "response_shape",
+      "detail": "Balance endpoint inconsistent in docs: GET /v1/user/balance (curl example) vs GET /v2/users/balances (SDK example)",
+      "ts": 1788961914
+    },
+    {
+      "category": "order_type",
+      "detail": "Orders via POST /v2/orders: order_type MarketOpen|LimitOpen, direction buy|sell, expiration_time_in_min, take_profit_price/amount, stop_loss_price/amount; amend/cancel endpoints not documented",
+      "ts": 1788961914
+    },
+    {
+      "category": "margin_model",
+      "detail": "Perp leverage orders: leverage_type cross|isolated, initial_margin + initial_margin_asset_id (USDT), leverage field; not expressible as template margin endpoints",
+      "ts": 1788961914
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788961914
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788961914
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788961914
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef: site states up to 50x for stocks/FX/commodities; crypto perp cap not documented â using 50.0",
+      "ts": 1788961914
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â set 0 (no local check)",
+      "ts": 1788961914
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using conservative default 8",
+      "ts": 1788961914
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2",
+      "ts": 1788961914
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using conservative default 0.05",
+      "ts": 1788961914
+    },
+    {
+      "category": "rules",
+      "detail": "rate limits not documented â min_gap_sec conservative default 1.0",
+      "ts": 1788961914
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Complete API reference (cloudfront Swagger) not included in corpus; candle timeframe/interval values unknown â tf_param_map empty",
+      "ts": 1788961914
+    }
+  ],
+  "margin_style": "dex_perp",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788980169,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "VDEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "VDEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "VDEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "VDEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "VDEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "VDEX network failure: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'vdex'"
+      }
+    ]
+  }
+}

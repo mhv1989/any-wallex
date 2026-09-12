@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "id": "exir",
+  "name": "Exir (اکسیر)",
+  "base_url": "https://api.exir.io/v2",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "method",
+        "path",
+        "expires",
+        "body"
+      ],
+      "headers": {
+        "api-key": "{key}",
+        "api-signature": "{sig}",
+        "api-expires": "{expires}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "-",
+    "case": "lower",
+    "quote_suffixes": [
+      "usdt",
+      "btc"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/udf/history",
+      "params": {
+        "symbol": "{symbol}",
+        "resolution": "{tf}",
+        "from": "{from}",
+        "to": "{to}"
+      },
+      "result_format": "udf"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/constants",
+      "params": {},
+      "result_path": "pairs",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "name",
+        "base": "pair_base",
+        "quote": "pair_2"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/ticker",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "last": "last",
+        "open": "open",
+        "high": "high",
+        "low": "low",
+        "close": "close",
+        "volume": "volume",
+        "time": "timestamp"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/orderbook",
+      "params": {
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects",
+      "field_map": {
+        "bids": "bids",
+        "asks": "asks"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT",
+    "BTC"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://apidocs.exir.io/"
+    ],
+    "researched_at": 1788958521,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "HMAC-SHA256 signature string is METHOD+PATH+api-expires(+JSON body for POST); PATH includes query string per DELETE example; headers api-key/api-signature/api-expires; no passphrase",
+      "ts": 1788958521
+    },
+    {
+      "category": "response_shape",
+      "detail": "/v2/orderbook, /v2/tickers, /v2/charts responses are keyed by dynamic symbol, not a list; depth bids/asks are [price,size] pairs",
+      "ts": 1788958521
+    },
+    {
+      "category": "response_shape",
+      "detail": "/v2/chart and ticker timestamps are ISO 8601 strings; /v2/udf/history from/to are UNIX seconds (not ms)",
+      "ts": 1788958521
+    },
+    {
+      "category": "response_shape",
+      "detail": "/v2/constants pairs contain no live price field (only static estimated_price); use /v2/ticker(s) for prices",
+      "ts": 1788958521
+    },
+    {
+      "category": "response_shape",
+      "detail": "udf/config lists supported_resolutions [60,1D] while chart docs state 15,60,240,1D,1W â 15/240/1W may not be served on UDF history",
+      "ts": 1788958521
+    },
+    {
+      "category": "order_type",
+      "detail": "order types: limit, market; optional stop price and meta.post_only; no margin/conditional order API documented",
+      "ts": 1788958521
+    },
+    {
+      "category": "margin_model",
+      "detail": "no margin or leverage API documented â margin=null; collateral/leverage/interest rules unused",
+      "ts": 1788958521
+    },
+    {
+      "category": "rules",
+      "detail": "rate limit not documented (only HTTP 429 code listed) â using conservative default min_gap_sec=1.0",
+      "ts": 1788958521
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0; per-pair min_size/min_price available in /v2/constants",
+      "ts": 1788958521
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented globally â per-pair increment_size/increment_price in /v2/constants; using default 8",
+      "ts": 1788958521
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not stated as a percentage â /v2/constants has per-pair min_price/max_price; no local band check (0)",
+      "ts": 1788958521
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct=0.2 taken from Base Trader (tier 1) taker fee; VIP tier is 0% â fees are tier-dependent",
+      "ts": 1788958521
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using default 0.05 (no margin product exists)",
+      "ts": 1788958521
+    }
+  ],
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788958605,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "56 markets; sample: ['BTCUSDT', 'ETHUSDT', 'XRPUSDT', 'BCHUSDT', 'ETHBTC']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "128 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "62 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "18 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "12 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 79452.3, 'symbol': 'BTCUSDT', 'raw': {'open': 78266.4, 'close': 79452.3, 'high': 79783.8, 'low': 77749.8, 'las"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'btc-usdt': {'bids': [[79620.9, 0.001825], [79526.9, 0.0017], [79502, 0.0051], [79482.9, 0.003], [79409.8, 0.111], [792"
+      }
+    ]
+  }
+}

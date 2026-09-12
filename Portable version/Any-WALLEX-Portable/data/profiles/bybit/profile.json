@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "id": "bybit",
+  "name": "Bybit",
+  "base_url": "https://api.bybit.com",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "expires",
+        "api_key",
+        "query",
+        "body"
+      ],
+      "headers": {
+        "X-BAPI-API-KEY": "{key}",
+        "X-BAPI-SIGN": "{sig}",
+        "X-BAPI-TIMESTAMP": "{expires}",
+        "X-BAPI-RECV-WINDOW": "5000"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "USDC",
+      "BTC",
+      "ETH"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/v5/market/kline",
+      "params": {
+        "category": "spot",
+        "symbol": "{symbol}",
+        "interval": "{tf}",
+        "start": "{from_ms}",
+        "end": "{to_ms}",
+        "limit": "{limit}"
+      },
+      "result_format": "arrays",
+      "result_path": "result.list",
+      "field_map": {
+        "ts": "[0]",
+        "open": "[1]",
+        "high": "[2]",
+        "low": "[3]",
+        "close": "[4]",
+        "volume": "[5]"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/v5/market/instruments-info",
+      "params": {
+        "category": "spot",
+        "limit": "1000"
+      },
+      "result_format": "objects",
+      "result_path": "result.list",
+      "field_map": {
+        "symbol": "symbol",
+        "base": "baseCoin",
+        "quote": "quoteCoin"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/v5/market/tickers",
+      "params": {
+        "category": "spot",
+        "symbol": "{symbol}"
+      },
+      "result_format": "objects",
+      "result_path": "result.list",
+      "field_map": {
+        "symbol": "symbol",
+        "price": "lastPrice"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/v5/market/orderbook",
+      "params": {
+        "category": "spot",
+        "symbol": "{symbol}",
+        "limit": "{limit}"
+      },
+      "result_format": "arrays",
+      "result_path": "result",
+      "field_map": {
+        "bids": "b",
+        "asks": "a",
+        "price": "[0]",
+        "qty": "[1]"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT",
+    "USDC",
+    "BTC",
+    "ETH"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://bybit-exchange.github.io/docs/"
+    ],
+    "researched_at": 1788956038,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "docs_unreadable",
+      "detail": "Provided corpus is only the docs landing page; endpoint paths/shapes taken from Bybit V5 API documentation, not verbatim from provided page",
+      "ts": 1788956038
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Signature=HMAC_SHA256(secret, timestamp+api_key+recv_window+queryString(GET)|rawBody(POST)); GET uses query only, POST uses body only",
+      "ts": 1788956038
+    },
+    {
+      "category": "response_shape",
+      "detail": "kline result.list is newest-first [startTimeMs,open,high,low,close,volume,turnover] string arrays; reverse for chronological",
+      "ts": 1788956038
+    },
+    {
+      "category": "response_shape",
+      "detail": "orderbook returns result.b/result.a as [price,qty] string arrays",
+      "ts": 1788956038
+    },
+    {
+      "category": "response_shape",
+      "detail": "instruments-info has no last price; fetch price via /v5/market/tickers",
+      "ts": 1788956038
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2 (published spot taker tier is lower)",
+      "ts": 1788956038
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using default 10.0",
+      "ts": 1788956038
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â per-instrument lotSizeFilter.qtyStep in instruments-info; using default 8",
+      "ts": 1788956038
+    },
+    {
+      "category": "rules",
+      "detail": "price band not documented â price_band_pct=0, no local check",
+      "ts": 1788956038
+    },
+    {
+      "category": "rules",
+      "detail": "rate limit not stated in corpus â min_gap_sec conservative 1.0s",
+      "ts": 1788956038
+    },
+    {
+      "category": "rules",
+      "detail": "min/max collateral and interest_per_4h_pct not documented â defaults used",
+      "ts": 1788956038
+    },
+    {
+      "category": "margin_model",
+      "detail": "Unified Trading Account offers spot margin and USDT perpetuals with funding; not configured here (margin=null)",
+      "ts": 1788956038
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788972222,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "538 markets; sample: ['BTCUSDT', 'ETHUSDT', 'XRPUSDT', 'ETHBTC', 'XRPBTC']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "289 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "73 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "19 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "13 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 78757.5, 'symbol': 'BTCUSDT', 'raw': {'symbol': 'BTCUSDT', 'bid1Price': '78757.5', 'bid1Size': '0.205036', 'as"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "{'s': 'BTCUSDT', 'a': [['78757.6', '0.515059'], ['78757.7', '0.053427'], ['78758.6', '0.000634'], ['78758.9', '0.001797'"
+      }
+    ]
+  }
+}

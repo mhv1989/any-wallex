@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "id": "bydfi",
+  "name": "BYDFi",
+  "base_url": "https://api.bydfi.com/api",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "method",
+        "path",
+        "query",
+        "expires"
+      ],
+      "headers": {
+        "X-API-KEY": "{{key}}",
+        "X-API-SIGNATURE": "{{sig}}",
+        "X-API-TIMESTAMP": "{{expires}}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/v1/futures/market/kline",
+      "params": {
+        "contract": "{symbol}",
+        "resolution": "{tf}",
+        "from": "{from}",
+        "to": "{to}"
+      },
+      "result_format": "udf",
+      "result_path": "data"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/v1/futures/market/contracts",
+      "params": {},
+      "result_format": "objects",
+      "result_path": "data",
+      "field_map": {
+        "symbol": "contract",
+        "price": "lastPrice"
+      }
+    },
+    "ticker": {
+      "method": "GET",
+      "path": "/v1/futures/market/ticker",
+      "params": {
+        "contract": "{symbol}"
+      },
+      "result_format": "objects",
+      "result_path": "data",
+      "field_map": {
+        "symbol": "contract",
+        "price": "lastPrice"
+      }
+    },
+    "depth": {
+      "method": "GET",
+      "path": "/v1/futures/market/depth",
+      "params": {
+        "contract": "{symbol}",
+        "limit": "{limit}"
+      },
+      "result_format": "objects",
+      "result_path": "data"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.05,
+  "quotes": [
+    "USDT"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://developers.bydfi.com/en/intro",
+      "https://developers.bydfi.com/en/started",
+      "https://www.bydfi.com/en/api-view",
+      "https://developers.bydfi.com/en/domainName",
+      "https://github.com/bydfi-official/api-docs/tree/main",
+      "https://developers.bydfi.com/en/requestInteraction"
+    ],
+    "researched_at": 1788959346,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "docs_unreadable",
+      "detail": "Public Interface/SPOT/FUTURES endpoint pages absent from corpus; paths inferred from BYDFi (ex-BitYard) /v1/futures/market/* convention â verify before live use",
+      "ts": 1788959346
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Parameter Signature page content missing; X-API-KEY/X-API-SIGNATURE/X-API-TIMESTAMP headers and param_order inferred; X-API-TIMESTAMP is ms and must be within 30s of server time",
+      "ts": 1788959346
+    },
+    {
+      "category": "response_shape",
+      "detail": "Responses wrapped in {code,data}; kline data expected as TradingView UDF arrays (s,t,o,h,l,c,v) per BitYard convention â unverified",
+      "ts": 1788959346
+    },
+    {
+      "category": "response_shape",
+      "detail": "kline from/to are unix seconds (not ms) per BitYard convention â unverified",
+      "ts": 1788959346
+    },
+    {
+      "category": "response_shape",
+      "detail": "Supported resolutions unverified; 1/5/15/30/60/1D/1W per BitYard convention, 240 (4H) unconfirmed",
+      "ts": 1788959346
+    },
+    {
+      "category": "order_type",
+      "detail": "Order placement/cancel endpoints not present in corpus; only 'Perpetual Trading Permission' documented",
+      "ts": 1788959346
+    },
+    {
+      "category": "margin_model",
+      "detail": "USDT-margined perpetual futures (WS channel wss://stream.bydfi.com/v1/public/fapi); funding rate, leverage tiers and position fees not documented in corpus",
+      "ts": 1788959346
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788959346
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt not documented â using conservative default 10.0",
+      "ts": 1788959346
+    },
+    {
+      "category": "rules",
+      "detail": "max_collateral_usdt not documented â using conservative default 100000.0",
+      "ts": 1788959346
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef not documented â using conservative default 3.0",
+      "ts": 1788959346
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â set 0 (no local price-band check)",
+      "ts": 1788959346
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using default 8",
+      "ts": 1788959346
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using default 0.2",
+      "ts": 1788959346
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using default 0.05",
+      "ts": 1788959346
+    }
+  ],
+  "margin_style": "futures",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788979966,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "'NoneType' object is not iterable"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "NOT IMPLEMENTABLE: candles failed for all symbol aliases: None",
+        "limitation": true
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "NOT IMPLEMENTABLE: candles failed for all symbol aliases: None",
+        "limitation": true
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "NOT IMPLEMENTABLE: candles failed for all symbol aliases: None",
+        "limitation": true
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "NOT IMPLEMENTABLE: candles failed for all symbol aliases: None",
+        "limitation": true
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "{}"
+      },
+      {
+        "check": "depth",
+        "ok": false,
+        "detail": "{}"
+      }
+    ]
+  }
+}

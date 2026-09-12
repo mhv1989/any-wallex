@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "id": "quickex",
+  "name": "Quickex",
+  "base_url": "https://quickex.io/api/v1",
+  "auth": {
+    "scheme": "hmac",
+    "hmac": {
+      "param_order": [
+        "method",
+        "path",
+        "query",
+        "body",
+        "expires",
+        "api_key"
+      ],
+      "headers": {
+        "X-Quickex-Key": "{key}",
+        "X-Quickex-Signature": "{sig}"
+      },
+      "algo": "sha256"
+    }
+  },
+  "symbol_format": {
+    "separator": "_",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "BTC",
+      "XMR"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/rates",
+      "params": {},
+      "result_format": "objects"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/pairs",
+      "params": {},
+      "result_format": "objects"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "",
+    "60": "",
+    "240": "",
+    "1D": ""
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USDT",
+    "BTC",
+    "XMR",
+    "TRX",
+    "SOL",
+    "LTC"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://quickex.io/docs/api-v2",
+      "https://github.com/QuickexExchange/quickex_api",
+      "https://gitlab.com/quickex_api/quickex-api-documentation",
+      "https://quickex.io/docs",
+      "https://quickex.io/docs/api-v1",
+      "https://quickex.io/docs/introduction-to-quickex-api"
+    ],
+    "researched_at": 1788960962,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "V2 signs ALL requests with HMAC-SHA256 using publicKey/secretKey; signature header names, signing-string composition and timestamp/expires handling not documented â header names above are placeholders",
+      "ts": 1788960962
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "V1 protected methods use JWT or browser-session tokens (session_id/access_token/refresh_token) â not expressible by adapter",
+      "ts": 1788960962
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "V2 uses IP whitelisting as additional protection",
+      "ts": 1788960962
+    },
+    {
+      "category": "response_shape",
+      "detail": "Exact REST sub-paths and response schemas not published in provided docs; /rates and /pairs derived only from documented section names (Rates, Pairs, Instruments) under stated base path https://quickex.io/api/v1/",
+      "ts": 1788960962
+    },
+    {
+      "category": "response_shape",
+      "detail": "No OHLCV/candle endpoint documented anywhere â Quickex is a crypto swap service exposing rates/pairs/instruments only; candle-based analysis unsupported",
+      "ts": 1788960962
+    },
+    {
+      "category": "response_shape",
+      "detail": "No ticker or order-book depth endpoints documented",
+      "ts": 1788960962
+    },
+    {
+      "category": "response_shape",
+      "detail": "Rate limits not documented â using conservative default min_gap_sec=1.0",
+      "ts": 1788960962
+    },
+    {
+      "category": "response_shape",
+      "detail": "Symbol/pair format not documented (site advertises pairs as 'ETH to USDT'); separator and case inferred",
+      "ts": 1788960962
+    },
+    {
+      "category": "response_shape",
+      "detail": "Timeframe parameter values and timestamp units not documented â tf_param_map left empty",
+      "ts": 1788960962
+    },
+    {
+      "category": "order_type",
+      "detail": "No order-book trading documented; orders are swap orders between instruments â limit/market order types unavailable",
+      "ts": 1788960962
+    },
+    {
+      "category": "margin_model",
+      "detail": "No margin or futures trading documented â Quickex performs asset swaps only; margin=null",
+      "ts": 1788960962
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using conservative default 0.2",
+      "ts": 1788960962
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788960962
+    },
+    {
+      "category": "rules",
+      "detail": "qty_step not documented â using default 8",
+      "ts": 1788960962
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt, max_collateral_usdt, max_risk_coef not documented â defaults used; no margin trading exists",
+      "ts": 1788960962
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using default 5.0",
+      "ts": 1788960962
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using default 0.05",
+      "ts": 1788960962
+    },
+    {
+      "category": "rules",
+      "detail": "quotes list inferred from advertised swap pairs (BTC/XMR/USDT/LTC/ETH/SOL/TRX/XRP/DASH), not from API docs",
+      "ts": 1788960962
+    }
+  ],
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788980050,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "Quickex API returned HTTP 403 with a non-JSON body for GET /pairs (body[:120]='Forbidden'). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "Quickex API returned HTTP 403 with a non-JSON body for GET /rates (body[:120]='Forbidden'). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "Quickex API returned HTTP 403 with a non-JSON body for GET /rates (body[:120]='Forbidden'). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "Quickex API returned HTTP 403 with a non-JSON body for GET /rates (body[:120]='Forbidden'). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "Quickex API returned HTTP 403 with a non-JSON body for GET /rates (body[:120]='Forbidden'). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "Quickex API returned HTTP 403 with a non-JSON body for GET /pairs (body[:120]='Forbidden'). Endpoint path or base_url is likely wrong — check the profile endpoints against the exchange's live API."
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'quickex'"
+      }
+    ]
+  }
+}

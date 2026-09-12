@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "id": "dydx",
+  "name": "dYdX",
+  "base_url": "https://indexer.dydx.trade/v4",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "-",
+    "case": "upper",
+    "quote_suffixes": [
+      "USD",
+      "USDT"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/candles/perpetualMarkets/{symbol}",
+      "params": {
+        "resolution": "{tf}",
+        "limit": "{limit}"
+      },
+      "result_path": "candles",
+      "result_format": "objects",
+      "field_map": {
+        "ts": "startedAt",
+        "open": "open",
+        "high": "high",
+        "low": "low",
+        "close": "close",
+        "volume": "baseTokenVolume"
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/perpetualMarkets",
+      "params": {},
+      "result_format": "objects",
+      "result_path": "markets",
+      "field_map": {
+        "symbol": "ticker",
+        "price": "oraclePrice"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15MINS",
+    "60": "1HOUR",
+    "240": "4HOURS",
+    "1D": "1DAY"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USD"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 0.0,
+    "qty_step": 8.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.dydx.exchange/"
+    ],
+    "researched_at": 1788958098,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "ready",
+  "limitations": [
+    {
+      "category": "response_shape",
+      "detail": "Provided corpus was only the docs landing page; endpoint paths verified against official dYdX Indexer HTTP API reference (docs.dydx.exchange)",
+      "ts": 1788958098
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candle timestamps are ISO 8601 strings (startedAt); fromISO/toISO accept ISO dates, not epoch ms",
+      "ts": 1788958098
+    },
+    {
+      "category": "response_shape",
+      "detail": "perpetualMarkets returns an object keyed by ticker inside 'markets' key, not a plain list",
+      "ts": 1788958098
+    },
+    {
+      "category": "auth_scheme",
+      "detail": "Private endpoints use API-key HMAC: DYDX-SIGNATURE/DYDX-ADDRESS/DYDX-TIMESTAMP/DYDX-EXPIRATION/DYDX-NONCE headers â not expressible in template; public market data needs no auth",
+      "ts": 1788958098
+    },
+    {
+      "category": "margin_model",
+      "detail": "dYdX v4 is a USDC-settled perpetual DEX (cross margin within a single perp account); no spot/margin API in template sense â margin set null",
+      "ts": 1788958098
+    },
+    {
+      "category": "order_type",
+      "detail": "Rate limits not stated in provided corpus â min_gap_sec default 1.0",
+      "ts": 1788958098
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788958098
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â taker fees are volume-tiered; using conservative default 0.2%",
+      "ts": 1788958098
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â no funding-rate field in template; using default 0.05%",
+      "ts": 1788958098
+    },
+    {
+      "category": "rules",
+      "detail": "min/max_collateral_usdt and max_risk_coef not documented â using defaults; per-market leverage limits come from perpetualMarkets response",
+      "ts": 1788958098
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct=0 â no limit-price band documented; qty_step=8 is default, use stepSize/risk fields from markets response",
+      "ts": 1788958098
+    },
+    {
+      "category": "order_type",
+      "detail": "Orderbook endpoint /orderbooks/perpetualMarket/{ticker} (bids/asks of {price,size}) and per-market stats embedded in perpetualMarkets not expressible in template endpoint shapes",
+      "ts": 1788958098
+    }
+  ],
+  "margin_style": "dex_perp",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788970908,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "296 markets; sample: ['BTCUSD', 'ETHUSD', 'LINKUSD', 'MATICUSD', 'CRVUSD']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "1000 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 78623.6, 'symbol': 'BTCUSD'}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'dydx'"
+      }
+    ]
+  }
+}

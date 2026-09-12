@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "id": "okxdemo",
+  "name": "OKX (demo profile)",
+  "base_url": "https://www.okx.com",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "-",
+    "case": "upper",
+    "quote_suffixes": [
+      "USDT",
+      "USDC",
+      "BTC"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/api/v5/market/candles",
+      "params": {
+        "instId": "{symbol}",
+        "bar": "{tf}",
+        "after": "{to_ms}",
+        "limit": "{limit}"
+      },
+      "result_format": "arrays",
+      "result_path": "data"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/api/v5/market/tickers",
+      "params": {
+        "instType": "SPOT"
+      },
+      "result_path": "data",
+      "result_format": "objects",
+      "field_map": {
+        "symbol": "instId",
+        "base": "baseCcy",
+        "price": "last"
+      }
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15m",
+    "60": "1H",
+    "240": "4H",
+    "1D": "1Dutc"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 0.3,
+  "quotes": [
+    "USDT",
+    "USDC",
+    "BTC"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 8
+  },
+  "docs": {
+    "source_urls": [
+      "https://www.okx.com/docs-v5"
+    ],
+    "researched_at": 0,
+    "model": "hand-written reference"
+  },
+  "capabilities_override": {
+    "margin": false,
+    "futures": false,
+    "udf_native": false,
+    "notes": "Reference only — spot data endpoints verified; trading/margin endpoints intentionally absent."
+  },
+  "status": "probed",
+  "limitations": [
+    {
+      "category": "response_shape",
+      "detail": "OKX returns newest-first rows; adapter normalizes ascending. Auth (OKX-ACCESS-SIGN) is hmac-sha256 with base64 signature — template emits hex; real OKX trading needs base64 variant.",
+      "ts": 0
+    }
+  ],
+  "last_probe": {
+    "checked_at": 1788735372,
+    "results": [
+      {
+        "check": "markets",
+        "ok": true,
+        "detail": "1388 markets; sample: ['XASTSUSDT', 'PEOPLEEUR', 'BOMEUSDC', 'CHZUSD', 'MASKUSD']"
+      },
+      {
+        "check": "candles_15",
+        "ok": true,
+        "detail": "300 bars; dominant spacing 900s (expected 900s)"
+      },
+      {
+        "check": "candles_60",
+        "ok": true,
+        "detail": "300 bars; dominant spacing 3600s (expected 3600s)"
+      },
+      {
+        "check": "candles_240",
+        "ok": true,
+        "detail": "300 bars; dominant spacing 14400s (expected 14400s)"
+      },
+      {
+        "check": "candles_1D",
+        "ok": true,
+        "detail": "300 bars; dominant spacing 86400s (expected 86400s)"
+      },
+      {
+        "check": "ticker",
+        "ok": true,
+        "detail": "{'price': 80064.5, 'symbol': 'BTCUSDT'}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'okxdemo'"
+      }
+    ]
+  }
+}

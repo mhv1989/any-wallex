@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "id": "ethereal",
+  "name": "Ethereal",
+  "base_url": "https://api.ethereal.trade/v1",
+  "auth": {
+    "scheme": "none"
+  },
+  "symbol_format": {
+    "separator": "",
+    "case": "upper",
+    "quote_suffixes": [
+      "USD"
+    ]
+  },
+  "endpoints": {
+    "candles": {
+      "method": "GET",
+      "path": "/history",
+      "params": {
+        "symbol": "{symbol}",
+        "resolution": "{tf}",
+        "from": "{from}",
+        "to": "{to}"
+      },
+      "result_format": "udf"
+    },
+    "markets": {
+      "method": "GET",
+      "path": "/products",
+      "params": {},
+      "result_format": "objects"
+    }
+  },
+  "margin": null,
+  "tf_param_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "D"
+  },
+  "true_res_map": {
+    "15": "15",
+    "60": "60",
+    "240": "240",
+    "1D": "1D"
+  },
+  "min_gap_sec": 1.0,
+  "quotes": [
+    "USD"
+  ],
+  "rules": {
+    "min_order_usdt": 10.0,
+    "min_collateral_usdt": 10.0,
+    "max_collateral_usdt": 100000.0,
+    "max_risk_coef": 3.0,
+    "price_band_pct": 5.0,
+    "qty_step": 9.0,
+    "fee_pct": 0.2,
+    "interest_per_4h_pct": 0.05
+  },
+  "docs": {
+    "source_urls": [
+      "https://docs.ethereal.trade/developer-guides/trading-api",
+      "https://docs.ethereal.trade/developer-guides/trading-api/message-signing",
+      "https://ethereal-os.org/docs/intro/"
+    ],
+    "researched_at": 1788957719,
+    "model": "wizard"
+  },
+  "capabilities_override": null,
+  "status": "error",
+  "limitations": [
+    {
+      "category": "auth_scheme",
+      "detail": "Mutating endpoints (POST /order, /order/cancel) use EIP-712 wallet-key signatures (TradeOrder/CancelOrder types, domain from GET /rpc/config) â not expressible as header/hmac; majority of endpoints are read-only public, so scheme=none applies to market data",
+      "ts": 1788957719
+    },
+    {
+      "category": "response_shape",
+      "detail": "Candles result path/fields and markets fields not verifiable from provided docs; docs reference a TradingView API (UDF assumed) and products listing ('listing products via the REST API') but those pages' content was not provided",
+      "ts": 1788957719
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "Only /rpc/config, /order, /order/cancel, /linked-signer/* paths documented in corpus; Products, System Limits, WebSockets, TradingView API, Token Transfers pages exist per nav but content unreadable",
+      "ts": 1788957719
+    },
+    {
+      "category": "response_shape",
+      "detail": "Products identified by numeric productId (sent as onchainId in request body), not symbol strings; price/quantity precision is 9 decimals (hence qty_step=9), strings not floats",
+      "ts": 1788957719
+    },
+    {
+      "category": "order_type",
+      "detail": "LIMIT/MARKET only, engineType=0 (perp) â spot engine not yet supported; market orders must sign price=0 and omit price in body; postOnly requires GTD; expiresAt max signedAt+6652800s (~77d); single cancel covers max 200 orders; close flag only on reduceOnly market orders with quantity \"0\"",
+      "ts": 1788957719
+    },
+    {
+      "category": "margin_model",
+      "detail": "Wallet-based DEX perpetual futures with onchain batched settlement; leverage caps and funding/fee schedule not documented in provided corpus",
+      "ts": 1788957719
+    },
+    {
+      "category": "docs_unreadable",
+      "detail": "tf_param_map follows TradingView UDF resolution convention (15/60/240/D) â unverified from corpus",
+      "ts": 1788957719
+    },
+    {
+      "category": "rules",
+      "detail": "min_order_usdt not documented â using conservative default 10.0",
+      "ts": 1788957719
+    },
+    {
+      "category": "rules",
+      "detail": "min_collateral_usdt/max_collateral_usdt not documented â using defaults 10.0/100000.0",
+      "ts": 1788957719
+    },
+    {
+      "category": "rules",
+      "detail": "max_risk_coef (max leverage) not documented â using default 3.0",
+      "ts": 1788957719
+    },
+    {
+      "category": "rules",
+      "detail": "price_band_pct not documented â using default 5.0",
+      "ts": 1788957719
+    },
+    {
+      "category": "rules",
+      "detail": "fee_pct not documented â using default 0.2",
+      "ts": 1788957719
+    },
+    {
+      "category": "rules",
+      "detail": "interest_per_4h_pct not documented â using default 0.05",
+      "ts": 1788957719
+    },
+    {
+      "category": "markets",
+      "ts": 1788979612,
+      "detail": "API reachable (openapi.json verified) but ALL 18 products are DELISTED — Ethereal mainnet has no active markets yet. Cannot pass probe until exchange lists markets."
+    }
+  ],
+  "margin_style": "dex_perp",
+  "_rules_from_ai": [
+    "min_order_usdt",
+    "min_collateral_usdt",
+    "max_collateral_usdt",
+    "max_risk_coef",
+    "price_band_pct",
+    "qty_step",
+    "fee_pct",
+    "interest_per_4h_pct"
+  ],
+  "_warnings": [],
+  "last_probe": {
+    "checked_at": 1788979663,
+    "results": [
+      {
+        "check": "markets",
+        "ok": false,
+        "detail": "Ethereal API error 404: {\"message\":\"Cannot GET /v1/products\",\"error\":\"Not Found\",\"statusCode\":404}"
+      },
+      {
+        "check": "candles_15",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "candles_60",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "candles_240",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "candles_1D",
+        "ok": false,
+        "detail": "only 0 bars returned"
+      },
+      {
+        "check": "ticker",
+        "ok": false,
+        "detail": "Ethereal API error 404: {\"message\":\"Cannot GET /v1/products\",\"error\":\"Not Found\",\"statusCode\":404}"
+      },
+      {
+        "check": "depth",
+        "ok": true,
+        "detail": "optional endpoint absent (OK): endpoint 'depth' not configured in profile 'ethereal'"
+      }
+    ]
+  }
+}

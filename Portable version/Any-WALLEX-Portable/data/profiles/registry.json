@@ -1,0 +1,217 @@
+{
+ "profiles": {
+  "okxdemo": {
+   "name": "OKX (demo profile)",
+   "port": 8788,
+   "exchange_ref": "",
+   "created": 1788716989
+  },
+  "nobitex": {
+   "name": "Nobitex (نوبیتکس)",
+   "port": 8789,
+   "exchange_ref": "",
+   "created": 1788724116
+  },
+  "mexc": {
+   "name": "MEXC",
+   "port": 8790,
+   "exchange_ref": "",
+   "created": 1788900535
+  },
+  "bitunix": {
+   "name": "Bitunix",
+   "port": 8791,
+   "exchange_ref": "",
+   "created": 1788951217
+  },
+  "coinex": {
+   "name": "CoinEx",
+   "port": 8792,
+   "exchange_ref": "",
+   "created": 1788955205
+  },
+  "kucoin": {
+   "name": "KuCoin",
+   "port": 8793,
+   "exchange_ref": "",
+   "created": 1788955423
+  },
+  "binance": {
+   "name": "Binance",
+   "port": 8794,
+   "exchange_ref": "",
+   "created": 1788955876
+  },
+  "bybit": {
+   "name": "Bybit",
+   "port": 8795,
+   "exchange_ref": "",
+   "created": 1788956038
+  },
+  "kraken": {
+   "name": "Kraken",
+   "port": 8796,
+   "exchange_ref": "",
+   "created": 1788956126
+  },
+  "digifinex": {
+   "name": "DigiFinex",
+   "port": 8797,
+   "exchange_ref": "",
+   "created": 1788956376
+  },
+  "bitmex": {
+   "name": "BitMEX",
+   "port": 8798,
+   "exchange_ref": "",
+   "created": 1788957336
+  },
+  "ethereal": {
+   "name": "Ethereal",
+   "port": 8799,
+   "exchange_ref": "",
+   "created": 1788957719
+  },
+  "hyperliquid": {
+   "name": "Hyperliquid",
+   "port": 8800,
+   "exchange_ref": "",
+   "created": 1788957821
+  },
+  "apex-omni": {
+   "name": "Apex Omni",
+   "port": 8801,
+   "exchange_ref": "",
+   "created": 1788957922
+  },
+  "asterdex": {
+   "name": "AsterDEX",
+   "port": 8802,
+   "exchange_ref": "",
+   "created": 1788958001
+  },
+  "dydx": {
+   "name": "dYdX",
+   "port": 8803,
+   "exchange_ref": "",
+   "created": 1788958098
+  },
+  "lighter": {
+   "name": "Lighter",
+   "port": 8804,
+   "exchange_ref": "",
+   "created": 1788958296
+  },
+  "edgex": {
+   "name": "edgeX",
+   "port": 8805,
+   "exchange_ref": "",
+   "created": 1788958472
+  },
+  "exir": {
+   "name": "Exir (اکسیر)",
+   "port": 8806,
+   "exchange_ref": "",
+   "created": 1788958521
+  },
+  "bitpin": {
+   "name": "Bitpin (بیت‌پین)",
+   "port": 8807,
+   "exchange_ref": "",
+   "created": 1788958896
+  },
+  "ramzinex": {
+   "name": "Ramzinex (رمزینکس)",
+   "port": 8808,
+   "exchange_ref": "",
+   "created": 1788959086
+  },
+  "ok-exchange-iran": {
+   "name": "OK Exchange (اوکی اکسچنج)",
+   "port": 8809,
+   "exchange_ref": "",
+   "created": 1788959279
+  },
+  "bydfi": {
+   "name": "BYDFi",
+   "port": 8810,
+   "exchange_ref": "",
+   "created": 1788959346
+  },
+  "weex": {
+   "name": "WEEX",
+   "port": 8811,
+   "exchange_ref": "",
+   "created": 1788959431
+  },
+  "blofin": {
+   "name": "BloFin",
+   "port": 8812,
+   "exchange_ref": "",
+   "created": 1788959447
+  },
+  "kcex": {
+   "name": "KCEX",
+   "port": 8813,
+   "exchange_ref": "",
+   "created": 1788959585
+  },
+  "houdini-swap": {
+   "name": "Houdini Swap",
+   "port": 8814,
+   "exchange_ref": "",
+   "created": 1788960707
+  },
+  "0x-swap-api": {
+   "name": "0x Swap API",
+   "port": 8815,
+   "exchange_ref": "",
+   "created": 1788960827
+  },
+  "quickex": {
+   "name": "Quickex",
+   "port": 8816,
+   "exchange_ref": "",
+   "created": 1788960962
+  },
+  "godex": {
+   "name": "Godex",
+   "port": 8817,
+   "exchange_ref": "",
+   "created": 1788961184
+  },
+  "eterna-mcp": {
+   "name": "Eterna MCP",
+   "port": 8818,
+   "exchange_ref": "",
+   "created": 1788961354
+  },
+  "southxchange": {
+   "name": "Southxchange",
+   "port": 8819,
+   "exchange_ref": "",
+   "created": 1788961581
+  },
+  "vdex": {
+   "name": "VDEX",
+   "port": 8820,
+   "exchange_ref": "",
+   "created": 1788961914
+  },
+  "okx": {
+   "name": "OKX",
+   "port": 8821,
+   "exchange_ref": "",
+   "created": 1788965047
+  },
+  "wallex": {
+   "name": "Wallex",
+   "port": 8787,
+   "exchange_ref": "",
+   "created": 1788712274
+  }
+ },
+ "active": "wallex",
+ "last_launched": "wallex",
+ "last_launched_at": 1789076171
+}
