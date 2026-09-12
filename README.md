@@ -10,6 +10,14 @@
 
 ---
 
+## Screenshot
+
+The end-user dashboard — watchlist, candlestick chart with grid levels and entry/exit markers, market depth, orders and positions, all in one RTL (Persian) view:
+
+![Any WALLEX dashboard](docs/screenshots/dashboard.png)
+
+---
+
 ## 1. The Executive Orbit (Vision & Metrics)
 
 **Elevator pitch.**
